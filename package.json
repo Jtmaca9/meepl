@@ -69,7 +69,9 @@
     "react": "18.2.0",
     "react-native": "0.72.4",
     "react-native-builder-bob": "^0.20.0",
+    "react-native-reanimated": "~3.3.0",
     "release-it": "^15.0.0",
+    "styled-components": "^5.3.11",
     "typescript": "^5.0.2"
   },
   "resolutions": {
@@ -77,12 +79,13 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-reanimated": "*",
+    "styled-components": "*"
   },
   "engines": {
     "node": ">= 16.0.0"
   },
-  "packageManager": "^yarn@1.22.15",
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
@@ -155,5 +158,10 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "boardgame.io": "^0.50.2",
+    "react-native-gesture-handler": "^2.12.1",
+    "react-native-reanimated-zoom": "^0.3.3"
   }
 }
