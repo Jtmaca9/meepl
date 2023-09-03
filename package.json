@@ -1,5 +1,5 @@
 {
-  "name": "meepl.io",
+  "name": "meepl",
   "version": "0.2.0",
   "description": "Cross platform components for board and card games",
   "main": "lib/commonjs/index",
@@ -40,13 +40,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/Jtmaca9/meepl.io",
+  "repository": "https://github.com/Jtmaca9/meepl",
   "author": "Jareth MacArthur <jtmaca@gmail.com> (https://github.com/Jtmaca9)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Jtmaca9/meepl.io/issues"
+    "url": "https://github.com/Jtmaca9/meepl/issues"
   },
-  "homepage": "https://github.com/Jtmaca9/meepl.io#readme",
+  "homepage": "https://github.com/Jtmaca9/meepl#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

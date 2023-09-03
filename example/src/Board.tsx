@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, GameBoard, Zone, UI, Piece } from 'meepl.io';
+import { Table, GameBoard, Zone, UI, Piece } from 'meepl';
 
 export default function Board({ ctx, G, moves }) {
   const activePlayer = G.players[ctx.currentPlayer];

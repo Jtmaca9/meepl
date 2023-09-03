@@ -1,17 +1,17 @@
-# meepl.io
+# meepl
 
 Cross platform components for board and card games
 
 ## Installation
 
 ```sh
-yarn add meepl.io
+yarn add meepl
 ```
 
 or
 
 ```sh
-npm install meepl.io
+npm install meepl
 ```
 
 ## Usage

@@ -1,5 +1,5 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
-import { createGridZones } from 'meepl.io';
+import { createGridZones } from 'meepl';
 
 const ChessPiece = {
   source: require('../assets/Rook.png'),
