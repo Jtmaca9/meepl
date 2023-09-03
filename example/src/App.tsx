@@ -1,5 +1,5 @@
 import React from 'react';
-import { Game } from 'meeplio-components';
+import { Game } from 'meepl.io';
 import { Chess } from './Game';
 import Board from './Board';
 

@@ -40,13 +40,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/Jtmaca9/meeplio-components",
+  "repository": "https://github.com/Jtmaca9/meepl.io",
   "author": "Jareth MacArthur <jtmaca@gmail.com> (https://github.com/Jtmaca9)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Jtmaca9/meeplio-components/issues"
+    "url": "https://github.com/Jtmaca9/meepl.io/issues"
   },
-  "homepage": "https://github.com/Jtmaca9/meeplio-components#readme",
+  "homepage": "https://github.com/Jtmaca9/meepl.io#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

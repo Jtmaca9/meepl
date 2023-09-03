@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "meeplio-components": ["./src/index"]
+      "meepl.io": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

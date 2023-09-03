@@ -1,4 +1,4 @@
-# meeplio-components
+# meepl.io
 
 Cross platform components for board and card games
 
