@@ -15,11 +15,14 @@ const Container = styled(GestureHandlerRootView)`
 type GameProps = {
   gameConfig: any;
   player: string;
+  multiplayer?: any;
   board: React.ReactNode | React.ReactNode[];
 };
 
-function Game({ gameConfig, board, player, ...props }: GameProps) {
-  const App = Client({ game: gameConfig, board });
+function Game({ gameConfig, board, player, multiplayer, ...props }: GameProps) {
+  const App = multiplayer
+    ? Client({ game: gameConfig, board, multiplayer })
+    : Client({ game: gameConfig, board });
   return (
     <Container {...props}>
       <App player={player} />
