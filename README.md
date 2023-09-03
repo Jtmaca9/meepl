@@ -5,17 +5,19 @@ Cross platform components for board and card games
 ## Installation
 
 ```sh
-npm install meeplio-components
+yarn add meepl.io
+```
+
+or
+
+```sh
+npm install meepl.io
 ```
 
 ## Usage
 
 ```js
-import { multiply } from 'meeplio-components';
-
-// ...
-
-const result = await multiply(3, 7);
+// Coming soon
 ```
 
 ## Contributing

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -43,15 +43,18 @@ function Piece({
   currZoneId,
   G,
 }: PieceType & { G: any }) {
-  let { x, y } = G.zones.find((zone) => zone.id === currZoneId);
-  const pX = useSharedValue(x);
-  const pY = useSharedValue(y);
+  let initPos = G.zones.find((zone) => zone.id === currZoneId);
+  const pX = useSharedValue(initPos.x);
+  const pY = useSharedValue(initPos.y);
 
   useEffect(() => {
     let { x, y } = G.zones.find((zone) => zone.id === currZoneId);
+
+    if (x === pX.value && y === pY.value) return;
+
     pX.value = x;
     pY.value = y;
-  }, [currZoneId]);
+  }, [currZoneId, G.zones, pX, pY]);
 
   const animatedStyles = useAnimatedStyle(() => ({
     transform: [

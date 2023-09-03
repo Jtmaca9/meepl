@@ -1,5 +1,5 @@
 {
-  "name": "meeplio-components",
+  "name": "meepl.io",
   "version": "0.1.0",
   "description": "Cross platform components for board and card games",
   "main": "lib/commonjs/index",

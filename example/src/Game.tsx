@@ -36,12 +36,14 @@ export const Chess = {
   }),
 
   moves: {
+    // @ts-ignore
     setActivePiece: ({ G, ctx }, pieceId) => {
       const player = G.players[ctx.currentPlayer];
       if (G.pieces.find((p) => p.id === pieceId).player !== ctx.currentPlayer)
         return INVALID_MOVE;
       player.activePiece = pieceId;
     },
+    // @ts-ignore
     movePiece: ({ G, ctx }, zoneId) => {
       const player = G.players[ctx.currentPlayer];
       const piece = G.pieces.find((p) => p.id === player.activePiece);

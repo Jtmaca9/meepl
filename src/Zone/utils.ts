@@ -27,7 +27,6 @@ export function createGridZones({
         y: y * gridSize + offsetY + y * gapY,
         width: gridSize,
         height: gridSize,
-        pieces: [],
         devMode,
         id: `${x}-${y}`,
       });
