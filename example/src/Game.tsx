@@ -1,11 +1,6 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
 import { createGridZones } from 'meepl';
-
-const ChessPiece = {
-  source: require('../assets/Rook.png'),
-  width: 45,
-  height: 45,
-};
+import { ChessPieceType } from './ChessPieces';
 
 export const Chess = {
   setup: () => ({
@@ -27,10 +22,10 @@ export const Chess = {
     pieces: [
       {
         id: 'white-rook',
+        type: ChessPieceType.rook,
         name: 'White Rook',
         currZoneId: '0-0',
-        player: '0',
-        ...ChessPiece,
+        owner: '0',
       },
     ],
   }),
@@ -39,7 +34,7 @@ export const Chess = {
     // @ts-ignore
     setActivePiece: ({ G, ctx }, pieceId) => {
       const player = G.players[ctx.currentPlayer];
-      if (G.pieces.find((p) => p.id === pieceId).player !== ctx.currentPlayer)
+      if (G.pieces.find((p) => p.id === pieceId).owner !== ctx.currentPlayer)
         return INVALID_MOVE;
       player.activePiece = pieceId;
     },
