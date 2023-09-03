@@ -25,7 +25,7 @@ function Game({ gameConfig, board, player, multiplayer, ...props }: GameProps) {
     : Client({ game: gameConfig, board });
   return (
     <Container {...props}>
-      <App player={player} />
+      <App playerID={player} />
     </Container>
   );
 }
