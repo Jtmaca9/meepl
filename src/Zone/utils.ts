@@ -1,4 +1,4 @@
-import type { ZoneType } from './index';
+import type { ZoneType } from './types';
 
 export function createGridZones({
   gridSize,

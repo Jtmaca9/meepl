@@ -1,15 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-
-export type ZoneType = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  devMode?: boolean;
-  onPress?: () => void;
-  id: string;
-};
+import type { ZoneType } from './types';
 
 const Container = styled.TouchableOpacity<Partial<ZoneType>>`
   position: absolute;
