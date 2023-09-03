@@ -92,7 +92,7 @@ function Table(props: TableProps) {
         { scale: scale.value },
       ],
     };
-  });
+  }, [translateX, translateY, scale]);
 
   return (
     <PanGestureHandler

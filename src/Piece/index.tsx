@@ -56,12 +56,15 @@ function Piece({
     pY.value = y;
   }, [currZoneId, G.zones, pX, pY]);
 
-  const animatedStyles = useAnimatedStyle(() => ({
-    transform: [
-      { translateX: withTiming(pX.value) },
-      { translateY: withTiming(pY.value) },
-    ],
-  }));
+  const animatedStyles = useAnimatedStyle(
+    () => ({
+      transform: [
+        { translateX: withTiming(pX.value) },
+        { translateY: withTiming(pY.value) },
+      ],
+    }),
+    [pX, pY]
+  );
 
   return (
     <AnimatedContainer
