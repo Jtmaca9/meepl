@@ -5,7 +5,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import styled from 'styled-components/native';
-import type { PieceType, Piece as PT } from './types';
+import type { PieceType, PieceBlueprintType } from './types';
 
 const AnimatedContainer = styled(Animated.View)`
   position: absolute;
@@ -26,8 +26,8 @@ const PieceImage = styled.Image`
   width: 100%;
 `;
 
-type PieceProps = PieceType &
-  PT & {
+type PieceProps = PieceBlueprintType &
+  PieceType & {
     G: any;
     onPress?: (id: string) => void;
     children?: React.ReactNode | React.ReactNode[];

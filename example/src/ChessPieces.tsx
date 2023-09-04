@@ -1,10 +1,10 @@
-import type { PieceType } from 'meepl';
+import type { PieceBlueprintType } from 'meepl';
 
 export enum ChessPieceType {
   rook = 'rook',
 }
 
-const ChessPieces: PieceType[] = [
+const ChessPieces: PieceBlueprintType[] = [
   {
     id: ChessPieceType.rook,
     source: require('../assets/Rook.png'),

@@ -1,6 +1,7 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
 import { createGridZones } from 'meepl';
 import { ChessPieceType } from './ChessPieces';
+import { ChessBoardZoneType } from './ChessBoardZones';
 
 export const Chess = {
   setup: () => ({
@@ -8,7 +9,7 @@ export const Chess = {
       rows: 8,
       columns: 8,
       gridSize: 45,
-      devMode: true,
+      type: ChessBoardZoneType.chessBoard,
       offsetX: 20,
       offsetY: 20,
     }),

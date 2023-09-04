@@ -1,12 +1,12 @@
 import React from 'react';
 import Piece from './Piece';
-import type { Piece as PT, PieceType } from './types';
+import type { PieceBlueprintType, PieceType } from './types';
 
 type PieceRendererProps = {
-  types: PieceType[];
+  types: PieceBlueprintType[];
   G: any;
-  pieces: PT[];
-  handlePiecePress?: (id: string) => void;
+  pieces: PieceType[];
+  onHandlePiecePress?: (id: string) => void;
 };
 
 function PieceRenderer(props: PieceRendererProps) {
@@ -14,7 +14,7 @@ function PieceRenderer(props: PieceRendererProps) {
     types,
     pieces,
     G,
-    handlePiecePress = () => console.log('Piece Pressed'),
+    onHandlePiecePress = (id) => console.log(`Piece ${id} pressed!`),
   } = props;
   return (
     <>
@@ -31,7 +31,7 @@ function PieceRenderer(props: PieceRendererProps) {
             currZoneId={currZoneId}
             type={type}
             G={G}
-            onPress={() => handlePiecePress(id)}
+            onPress={() => onHandlePiecePress(id)}
           />
         );
       })}
