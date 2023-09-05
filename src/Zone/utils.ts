@@ -7,7 +7,6 @@ export function createGridZones({
   offsetY = 0,
   gapX = 0,
   gapY = 0,
-  type,
   gridSize,
 }: {
   gridSize: number;
@@ -17,7 +16,6 @@ export function createGridZones({
   offsetY?: number;
   gapX?: number;
   gapY?: number;
-  type: string;
 }): ZoneType[] {
   const zones: ZoneType[] = [];
   for (let x = 0; x < rows; x++) {
@@ -25,10 +23,24 @@ export function createGridZones({
       zones.push({
         x: x * gridSize + offsetX + x * gapX,
         y: y * gridSize + offsetY + y * gapY,
-        type,
+        width: gridSize,
+        height: gridSize,
         id: `${x}-${y}`,
       });
     }
   }
   return zones;
+}
+
+export function findZoneByCoords(
+  zones: ZoneType[],
+  x: number,
+  y: number
+): string | undefined {
+  const zone = zones.find(
+    (z) => x >= z.x && x <= z.x + z.width && y >= z.y && y <= z.y + z.height
+  );
+
+  if (zone) return zone.id;
+  return undefined;
 }

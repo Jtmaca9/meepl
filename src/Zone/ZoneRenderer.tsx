@@ -1,10 +1,9 @@
 import React from 'react';
 import Zone from './Zone';
-import type { ZoneType, ZoneBlueprintType } from './types';
+import type { ZoneType } from './types';
 
 type ZoneRendererProps = {
   zones: ZoneType[];
-  types: ZoneBlueprintType[];
   devMode?: boolean;
   onHandleZonePress?: (id: string) => void;
 };
@@ -12,15 +11,13 @@ type ZoneRendererProps = {
 function ZoneRenderer(props: ZoneRendererProps) {
   const {
     zones,
-    types,
     devMode = false,
     onHandleZonePress = (id) => console.log(`Zone ${id} pressed!`),
   } = props;
   return (
     <>
       {zones.map((zone) => {
-        const { id, type, x, y } = zone;
-        const { width, height } = types.find((t) => t.id === type);
+        const { id, x, y, width, height } = zone;
         return (
           <Zone
             key={id}
@@ -30,7 +27,6 @@ function ZoneRenderer(props: ZoneRendererProps) {
             x={x}
             y={y}
             devMode={devMode}
-            type={type}
             onPress={() => onHandleZonePress(id)}
           />
         );

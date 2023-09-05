@@ -6,7 +6,8 @@ type PieceRendererProps = {
   types: PieceBlueprintType[];
   G: any;
   pieces: PieceType[];
-  onHandlePiecePress?: (id: string) => void;
+  setActive?: (id: string) => void;
+  movePiece?: (id: string) => void;
   isPieceActive?: (id: string) => boolean;
 };
 
@@ -16,7 +17,8 @@ function PieceRenderer(props: PieceRendererProps) {
     pieces,
     G,
     isPieceActive = () => false,
-    onHandlePiecePress = (id) => console.log(`Piece ${id} pressed!`),
+    setActive,
+    movePiece,
   } = props;
   return (
     <>
@@ -38,7 +40,8 @@ function PieceRenderer(props: PieceRendererProps) {
             G={G}
             active={active}
             activeStyle={activeStyle}
-            onPress={() => onHandlePiecePress(id)}
+            setActive={() => setActive(id)}
+            movePiece={(zoneId) => movePiece(zoneId)}
           />
         );
       })}

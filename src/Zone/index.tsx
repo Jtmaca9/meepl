@@ -1,6 +1,6 @@
 import Zone from './Zone';
 import ZoneRenderer from './ZoneRenderer';
-import type { ZoneBlueprintType, ZoneType } from './types';
+import type { ZoneType } from './types';
 
 export { Zone, ZoneRenderer };
-export type { ZoneBlueprintType, ZoneType };
+export type { ZoneType };

@@ -65,6 +65,7 @@ function Table(props: TableProps) {
       translateY.value = withSpring(translateY.value, { damping: 20 });
     }
   };
+
   const pinchGestureHandler = (p) => {
     'worklet';
     const event = p.nativeEvent;
@@ -94,6 +95,12 @@ function Table(props: TableProps) {
     };
   }, [translateX, translateY, scale]);
 
+  const tableStyle = {
+    width: props.tableWidth,
+    height: props.tableHeight,
+    overflow: 'hidden',
+  };
+
   return (
     <PanGestureHandler
       ref={panRef}
@@ -109,16 +116,7 @@ function Table(props: TableProps) {
           onHandlerStateChange={pinchGestureStateHandler}
         >
           <AnimatedBox>
-            <Animated.View
-              style={[
-                {
-                  width: props.tableWidth,
-                  height: props.tableHeight,
-                  overflow: 'hidden',
-                },
-                panStyle,
-              ]}
-            >
+            <Animated.View style={[tableStyle, panStyle]}>
               {props.children}
             </Animated.View>
           </AnimatedBox>

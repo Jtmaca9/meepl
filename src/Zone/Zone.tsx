@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import type { ZoneBlueprintType, ZoneType } from './types';
+import type { ZoneType } from './types';
 
 const Container = styled.TouchableOpacity<Partial<ZoneProps>>`
   position: absolute;
@@ -17,13 +17,13 @@ const Container = styled.TouchableOpacity<Partial<ZoneProps>>`
     `}
 `;
 
-type ZoneProps = ZoneType &
-  ZoneBlueprintType & {
-    devMode?: boolean;
-    onPress?: () => void;
-  };
+type ZoneProps = ZoneType & {
+  devMode?: boolean;
+  onPress?: () => void;
+};
 
-function Zone({ x, y, width, height, devMode, onPress }: ZoneProps) {
+function Zone(props: ZoneProps) {
+  const { x, y, width, height, devMode, onPress } = props;
   return (
     <Container
       x={x}

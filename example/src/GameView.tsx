@@ -1,7 +1,6 @@
 import React from 'react';
 import { Table, Board, UI, PieceRenderer, ZoneRenderer } from 'meepl';
 import ChessPieces from './ChessPieces';
-import ChessBoardZones from './ChessBoardZones';
 
 export default function GameView({ ctx, G, moves }) {
   const activePlayer = G.players[ctx.currentPlayer];
@@ -28,7 +27,6 @@ export default function GameView({ ctx, G, moves }) {
         <ZoneRenderer
           devMode
           zones={G.zones}
-          types={ChessBoardZones}
           onHandleZonePress={(id) => moves.movePiece(id)}
         />
         <PieceRenderer
@@ -36,7 +34,8 @@ export default function GameView({ ctx, G, moves }) {
           pieces={G.pieces}
           G={G}
           isPieceActive={(id) => id === activePlayer.activePiece}
-          onHandlePiecePress={(id) => moves.setActivePiece(id)}
+          setActive={(id) => moves.setActivePiece(id)}
+          movePiece={(id) => moves.movePiece(id)}
         />
       </Table>
       <UI>
