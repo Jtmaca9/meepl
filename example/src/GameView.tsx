@@ -2,8 +2,8 @@ import React from 'react';
 import { Table, Board, UI, PieceRenderer, ZoneRenderer } from 'meepl';
 import ChessPieces from './ChessPieces';
 
-export default function GameView({ ctx, G, moves }) {
-  const activePlayer = G.players[ctx.currentPlayer];
+export default function GameView({ G, ctx, plugins, moves }) {
+  const activePlayer = plugins.player.data.players[ctx.currentPlayer];
 
   const outerStyle = {
     backgroundColor: 'green',
