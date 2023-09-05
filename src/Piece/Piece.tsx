@@ -66,10 +66,9 @@ function Piece(props: PieceProps) {
   const pY = useSharedValue(initPos.y);
   const startX = useSharedValue(initPos.x);
   const startY = useSharedValue(initPos.y);
+  const dragging = useSharedValue(false);
 
   const panRef = useRef(null);
-
-  // const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     let { x, y } = G.zones.find((zone) => zone.id === currZoneId);
@@ -83,11 +82,19 @@ function Piece(props: PieceProps) {
   const animatedStyles = useAnimatedStyle(
     () => ({
       transform: [
-        { translateX: withTiming(pX.value, { duration: 50 }) },
-        { translateY: withTiming(pY.value, { duration: 50 }) },
+        {
+          translateX: dragging.value
+            ? pX.value
+            : withTiming(pX.value, { duration: 100 }),
+        },
+        {
+          translateY: dragging.value
+            ? pY.value
+            : withTiming(pY.value, { duration: 100 }),
+        },
       ],
     }),
-    [pX, pY]
+    [pX, pY, dragging]
   );
 
   const panGestureHandler = (p) => {
@@ -102,10 +109,14 @@ function Piece(props: PieceProps) {
   const panGestureStateHandler = ({ nativeEvent: event }) => {
     'worklet';
     if (event.state === State.BEGAN) {
-      // setIsDragging(true);
       setActive();
+      dragging.value = true;
       startX.value = pX.value;
       startY.value = pY.value;
+    }
+
+    if (event.state === State.FAILED || event.state === State.CANCELLED) {
+      dragging.value = false;
     }
 
     if (event.state === State.END) {
@@ -121,7 +132,7 @@ function Piece(props: PieceProps) {
       } else {
         movePiece(targetZoneId);
       }
-      // setIsDragging(false);
+      dragging.value = false;
     }
   };
 
