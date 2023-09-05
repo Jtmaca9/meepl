@@ -7,6 +7,7 @@ type PieceRendererProps = {
   G: any;
   pieces: PieceType[];
   onHandlePiecePress?: (id: string) => void;
+  isPieceActive?: (id: string) => boolean;
 };
 
 function PieceRenderer(props: PieceRendererProps) {
@@ -14,13 +15,17 @@ function PieceRenderer(props: PieceRendererProps) {
     types,
     pieces,
     G,
+    isPieceActive = () => false,
     onHandlePiecePress = (id) => console.log(`Piece ${id} pressed!`),
   } = props;
   return (
     <>
       {pieces.map((piece) => {
         const { id, type, currZoneId } = piece;
-        const { source, width, height } = types.find((t) => t.id === type);
+        const { source, width, height, activeStyle } = types.find(
+          (t) => t.id === type
+        );
+        const active = isPieceActive(id);
         return (
           <Piece
             key={id}
@@ -31,6 +36,8 @@ function PieceRenderer(props: PieceRendererProps) {
             currZoneId={currZoneId}
             type={type}
             G={G}
+            active={active}
+            activeStyle={activeStyle}
             onPress={() => onHandlePiecePress(id)}
           />
         );

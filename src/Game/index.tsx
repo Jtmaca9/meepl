@@ -16,13 +16,19 @@ type GameProps = {
   gameConfig: any;
   player: string;
   multiplayer?: any;
-  board: React.ReactNode | React.ReactNode[];
+  gameView: React.ReactNode | React.ReactNode[];
 };
 
-function Game({ gameConfig, board, player, multiplayer, ...props }: GameProps) {
+function Game({
+  gameConfig,
+  gameView,
+  player,
+  multiplayer,
+  ...props
+}: GameProps) {
   const App = multiplayer
-    ? Client({ game: gameConfig, board, multiplayer })
-    : Client({ game: gameConfig, board });
+    ? Client({ game: gameConfig, board: gameView, multiplayer })
+    : Client({ game: gameConfig, board: gameView });
   return (
     <Container {...props}>
       <App playerID={player} />

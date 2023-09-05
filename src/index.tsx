@@ -1,5 +1,5 @@
 import Table from './Table';
-import GameBoard from './GameBoard';
+import Board from './Board';
 import UI from './UI';
 import Game from './Game';
 // Zone
@@ -12,7 +12,7 @@ import type { PieceBlueprintType, PieceType } from './Piece';
 
 export {
   Table,
-  GameBoard,
+  Board,
   UI,
   Game,
   Zone,

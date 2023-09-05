@@ -1,16 +1,23 @@
 import React from 'react';
+import type { StyleProp } from 'react-native';
 import styled from 'styled-components/native';
 
 interface BoardProps {
-  source: any;
+  source?: any;
   width?: number;
   height?: number;
+  x?: number;
+  y?: number;
+  outerStyle?: StyleProp<any>;
   children?: React.ReactNode | React.ReactNode[];
 }
 
 const BoardContainer = styled.View<Partial<BoardProps>>`
   width: ${({ width }) => (width ? `${width}px` : '100%')};
   height: ${({ height }) => (height ? `${height}px` : '100%')};
+  position: absolute;
+  top: ${({ y }) => y}px;
+  left: ${({ x }) => x}px;
 `;
 
 const BoardImage = styled.Image<Partial<BoardProps>>`
@@ -18,10 +25,17 @@ const BoardImage = styled.Image<Partial<BoardProps>>`
   width: 100%;
 `;
 
-function Board({ source, width, height, children }: BoardProps) {
+function Board(props: BoardProps) {
+  const { source, width, height, children, outerStyle, x = 0, y = 0 } = props;
   return (
-    <BoardContainer width={width} height={height}>
-      <BoardImage source={source} />
+    <BoardContainer
+      style={outerStyle}
+      width={width}
+      height={height}
+      x={x}
+      y={y}
+    >
+      {source && <BoardImage source={source} />}
       {children}
     </BoardContainer>
   );

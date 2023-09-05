@@ -5,14 +5,22 @@ import { ChessBoardZoneType } from './ChessBoardZones';
 
 export const Chess = {
   setup: () => ({
-    zones: createGridZones({
-      rows: 8,
-      columns: 8,
-      gridSize: 45,
-      type: ChessBoardZoneType.chessBoard,
-      offsetX: 20,
-      offsetY: 20,
-    }),
+    zones: [
+      ...createGridZones({
+        rows: 8,
+        columns: 8,
+        gridSize: 45,
+        type: ChessBoardZoneType.chessBoard,
+        offsetX: 20,
+        offsetY: 20,
+      }),
+      {
+        type: ChessBoardZoneType.chessBoardMulti,
+        id: 'multi-zone',
+        x: 150,
+        y: 420,
+      },
+    ],
     players: {
       '0': {
         name: 'Jareth',
@@ -22,10 +30,17 @@ export const Chess = {
     },
     pieces: [
       {
-        id: 'white-rook',
+        id: 'white-rook-1',
         type: ChessPieceType.rook,
-        name: 'White Rook',
+        name: 'White Rook 1',
         currZoneId: '0-0',
+        owner: '0',
+      },
+      {
+        id: 'white-rook-2',
+        type: ChessPieceType.rook,
+        name: 'White Rook 2',
+        currZoneId: '0-1',
         owner: '0',
       },
     ],

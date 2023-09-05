@@ -6,6 +6,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import styled from 'styled-components/native';
 import type { PieceType, PieceBlueprintType } from './types';
+import type { StyleProp, View } from 'react-native';
 
 const AnimatedContainer = styled(Animated.View)`
   position: absolute;
@@ -14,6 +15,11 @@ const AnimatedContainer = styled(Animated.View)`
   z-index: 5;
   width: ${({ width }) => (width ? `${width}px` : '100px')};
   height: ${({ height }) => (height ? `${height}px` : '100px')};
+`;
+
+const PieceContainerPressable = styled.TouchableOpacity`
+  width: 100%;
+  height: 100%;
 `;
 
 const PieceContainer = styled.TouchableOpacity`
@@ -29,11 +35,29 @@ const PieceImage = styled.Image`
 type PieceProps = PieceBlueprintType &
   PieceType & {
     G: any;
-    onPress?: (id: string) => void;
+    active?: boolean;
+    activeStyle?: StyleProp<View>;
     children?: React.ReactNode | React.ReactNode[];
+    onPress?: (id: string) => void;
+    draggable?: boolean;
+    onDrag?: (id: string) => void;
   };
 
-function Piece({ source, width, height, onPress, currZoneId, G }: PieceProps) {
+function Piece(props: PieceProps) {
+  const {
+    source,
+    width,
+    height,
+    currZoneId,
+    G,
+    draggable = false,
+    onPress = (id) => console.log(`Piece ${id} pressed!`),
+    // onDrag = (id) => console.log(`Piece ${id} dragged!`),
+    active = false,
+    activeStyle = {},
+  } = props;
+
+  // Find and set initail piece position
   let initPos = G.zones.find((zone) => zone.id === currZoneId);
   const pX = useSharedValue(initPos.x);
   const pY = useSharedValue(initPos.y);
@@ -57,7 +81,7 @@ function Piece({ source, width, height, onPress, currZoneId, G }: PieceProps) {
     [pX, pY]
   );
 
-  return (
+  return draggable ? (
     <AnimatedContainer
       pX={pX}
       pY={pY}
@@ -65,9 +89,21 @@ function Piece({ source, width, height, onPress, currZoneId, G }: PieceProps) {
       height={height}
       style={animatedStyles}
     >
-      <PieceContainer onPress={onPress}>
+      <PieceContainer style={active && activeStyle}>
         <PieceImage source={source} />
       </PieceContainer>
+    </AnimatedContainer>
+  ) : (
+    <AnimatedContainer
+      pX={pX}
+      pY={pY}
+      width={width}
+      height={height}
+      style={animatedStyles}
+    >
+      <PieceContainerPressable style={active && activeStyle} onPress={onPress}>
+        <PieceImage source={source} />
+      </PieceContainerPressable>
     </AnimatedContainer>
   );
 }

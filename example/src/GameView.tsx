@@ -1,15 +1,30 @@
 import React from 'react';
-import { Table, GameBoard, UI, PieceRenderer, ZoneRenderer } from 'meepl';
+import { Table, Board, UI, PieceRenderer, ZoneRenderer } from 'meepl';
 import ChessPieces from './ChessPieces';
 import ChessBoardZones from './ChessBoardZones';
 
-export default function Board({ ctx, G, moves }) {
+export default function GameView({ ctx, G, moves }) {
   const activePlayer = G.players[ctx.currentPlayer];
+
+  const outerStyle = {
+    backgroundColor: 'green',
+  };
 
   return (
     <>
-      <Table tableWidth={400} tableHeight={400}>
-        <GameBoard source={require('../assets/Chessboard.jpeg')} />
+      <Table tableWidth={400} tableHeight={800}>
+        <Board
+          height={400}
+          width={400}
+          source={require('../assets/Chessboard.jpeg')}
+        />
+        <Board
+          outerStyle={outerStyle}
+          height={100}
+          width={100}
+          x={150}
+          y={420}
+        />
         <ZoneRenderer
           devMode
           zones={G.zones}
@@ -20,6 +35,7 @@ export default function Board({ ctx, G, moves }) {
           types={ChessPieces}
           pieces={G.pieces}
           G={G}
+          isPieceActive={(id) => id === activePlayer.activePiece}
           onHandlePiecePress={(id) => moves.setActivePiece(id)}
         />
       </Table>
