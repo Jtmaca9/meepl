@@ -6,21 +6,27 @@ type PieceRendererProps = {
   ctx?: any;
   moves?: any;
   assets?: any[];
-  setActive?: (id: string) => void;
   movePiece?: (id: string) => void;
-  isPieceActive?: (id: string) => boolean;
+  setActive?: (id: string) => void;
+  isActive?: (id: string) => boolean;
+  isAvailable?: (id: string) => boolean;
 };
 
 function PieceRenderer(props: PieceRendererProps) {
-  const { isPieceActive = () => false, setActive, movePiece } = props;
+  const {
+    isActive = () => false,
+    isAvailable = () => false,
+    setActive,
+    movePiece,
+  } = props;
   return (
     <>
       {props.G.pieces.map((piece) => {
         const { id, type, currZoneId } = piece;
-        const { asset, width, height, activeStyle } = props.G.pieceTypes.find(
-          (t) => t.id === type
-        );
-        const active = isPieceActive(id);
+        const { asset, width, height, activeStyle, availableStyle } =
+          props.G.pieceTypes.find((t) => t.id === type);
+        const active = isActive(id);
+        const available = isAvailable(id);
         return (
           <Piece
             key={id}
@@ -30,6 +36,8 @@ function PieceRenderer(props: PieceRendererProps) {
             height={height}
             currZoneId={currZoneId}
             type={type}
+            available={available}
+            availableStyle={availableStyle}
             active={active}
             activeStyle={activeStyle}
             setActive={() => setActive(id)}

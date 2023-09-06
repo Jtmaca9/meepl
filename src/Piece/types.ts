@@ -6,6 +6,7 @@ export type PieceBlueprintType = {
   width?: number;
   height?: number;
   activeStyle?: StyleProp<any>;
+  availableStyle?: StyleProp<any>;
 };
 
 export type PieceType = {

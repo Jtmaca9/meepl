@@ -10,7 +10,7 @@ import {
 import assets from './Assets';
 
 export default function Game(props) {
-  const { ctx, plugins, moves } = props;
+  const { G, ctx, plugins, moves } = props;
   const activePlayer = plugins.player.data.players[ctx.currentPlayer];
 
   return (
@@ -19,7 +19,10 @@ export default function Game(props) {
         <Board height={400} width={400} asset={'Chessboard'} />
         <ZoneRenderer devMode onHandleZonePress={(id) => moves.movePiece(id)} />
         <PieceRenderer
-          isPieceActive={(id) => id === activePlayer.activePiece}
+          isActive={(id) => id === activePlayer.activePiece}
+          isAvailable={(id) =>
+            ctx.currentPlayer === G.pieces.find((p) => p.id === id).owner
+          }
           setActive={(id) => moves.setActivePiece(id)}
           movePiece={(id) => moves.movePiece(id)}
         />

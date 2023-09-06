@@ -11,6 +11,13 @@ const activeStyle = {
   borderStyle: 'dashed',
 };
 
+const availableStyle = {
+  borderWidth: 2,
+  borderColor: 'green',
+  borderRadius: 5,
+  borderStyle: 'dashed',
+};
+
 const ChessPieces: PieceBlueprintType[] = [
   {
     id: ChessPieceType.rook,
@@ -18,6 +25,7 @@ const ChessPieces: PieceBlueprintType[] = [
     width: 45,
     height: 45,
     activeStyle,
+    availableStyle,
   },
 ];
 

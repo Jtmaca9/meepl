@@ -22,7 +22,7 @@ const pieces = [
     type: ChessPieceType.rook,
     name: 'White Rook 2',
     currZoneId: '0-1',
-    owner: '0',
+    owner: '1',
   },
 ];
 
