@@ -18,7 +18,7 @@ type CreateGameConfigArgs = {
   playerView?: (players: any, playerID: string) => any;
 };
 
-export function createGameConfig(args: CreateGameConfigArgs) {
+export function createGameConfig(args: CreateGameConfigArgs): any {
   const {
     minPlayers = 1,
     maxPlayers = 2,
