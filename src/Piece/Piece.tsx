@@ -37,18 +37,20 @@ const PieceImage = styled.Image`
 
 type PieceProps = PieceBlueprintType &
   PieceType & {
-    G: any;
-    active?: boolean;
     activeStyle?: StyleProp<View>;
     children?: React.ReactNode | React.ReactNode[];
     setActive?: (id: string) => void;
     movePiece?: (id: string) => void;
     draggable?: boolean;
+    active?: boolean;
+    G: any;
+    ctx: any;
+    moves: any;
+    assets: any[];
   };
 
 function Piece(props: PieceProps) {
   const {
-    source,
     width,
     height,
     currZoneId,
@@ -58,6 +60,8 @@ function Piece(props: PieceProps) {
     movePiece,
     active = false,
     activeStyle = {},
+    asset,
+    assets,
   } = props;
 
   // Find and set initail piece position
@@ -150,7 +154,7 @@ function Piece(props: PieceProps) {
         style={animatedStyles}
       >
         <PieceContainer style={active && activeStyle}>
-          <PieceImage source={source} />
+          <PieceImage source={assets[asset]} />
         </PieceContainer>
       </AnimatedContainer>
     </PanGestureHandler>
@@ -166,7 +170,7 @@ function Piece(props: PieceProps) {
         style={active && activeStyle}
         onPress={setActive}
       >
-        <PieceImage source={source} />
+        <PieceImage source={assets[asset]} />
       </PieceContainerPressable>
     </AnimatedContainer>
   );

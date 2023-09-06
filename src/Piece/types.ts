@@ -2,7 +2,7 @@ import type { StyleProp } from 'react-native';
 
 export type PieceBlueprintType = {
   id: string;
-  source: any;
+  asset: string;
   width?: number;
   height?: number;
   activeStyle?: StyleProp<any>;

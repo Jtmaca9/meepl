@@ -117,7 +117,15 @@ function Table(props: TableProps) {
         >
           <AnimatedBox>
             <Animated.View style={[tableStyle, panStyle]}>
-              {props.children}
+              {props.children.map((child: any) => (
+                <child.type
+                  {...child.props}
+                  G={props.G}
+                  ctx={props.ctx}
+                  moves={props.moves}
+                  assets={props.assets}
+                />
+              ))}
             </Animated.View>
           </AnimatedBox>
         </PinchGestureHandler>

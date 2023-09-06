@@ -20,6 +20,9 @@ const Container = styled.TouchableOpacity<Partial<ZoneProps>>`
 type ZoneProps = ZoneType & {
   devMode?: boolean;
   onPress?: () => void;
+  G: any;
+  ctx: any;
+  moves: any;
 };
 
 function Zone(props: ZoneProps) {

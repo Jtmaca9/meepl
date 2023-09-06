@@ -4,18 +4,20 @@ export enum ChessPieceType {
   rook = 'rook',
 }
 
+const activeStyle = {
+  borderWidth: 2,
+  borderColor: 'blue',
+  borderRadius: 5,
+  borderStyle: 'dashed',
+};
+
 const ChessPieces: PieceBlueprintType[] = [
   {
     id: ChessPieceType.rook,
-    source: require('../assets/Rook.png'),
+    asset: ChessPieceType.rook,
     width: 45,
     height: 45,
-    activeStyle: {
-      borderWidth: 2,
-      borderColor: 'blue',
-      borderRadius: 5,
-      borderStyle: 'dashed',
-    },
+    activeStyle,
   },
 ];
 

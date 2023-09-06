@@ -1,4 +1,4 @@
-import type { PieceType, ZoneType } from 'meepl';
+import type { PieceBlueprintType, PieceType, ZoneType } from 'meepl';
 import { PluginPlayer } from 'boardgame.io/plugins';
 
 const playerViewDefault = (players, playerID) => ({
@@ -9,8 +9,8 @@ type CreateGameConfigArgs = {
   name: string;
   zones?: ZoneType[];
   pieces?: PieceType[];
+  pieceTypes?: PieceBlueprintType[];
   moves: any;
-  players?: any;
   minPlayers?: number;
   maxPlayers?: number;
   undoAllowed?: boolean;
@@ -25,8 +25,8 @@ export function createGameConfig(args: CreateGameConfigArgs) {
     name,
     zones = [],
     pieces = [],
+    pieceTypes = [],
     moves = {},
-    players = {},
     undoAllowed = false,
     playerView = playerViewDefault,
     playerSetup = () => ({}),
@@ -36,12 +36,12 @@ export function createGameConfig(args: CreateGameConfigArgs) {
     setup: () => ({
       zones,
       pieces,
-      players,
+      pieceTypes,
     }),
     moves,
     minPlayers,
     maxPlayers,
-    undoAllowed,
+    disableUndo: !undoAllowed,
     plugins: [PluginPlayer({ setup: playerSetup, playerView })],
   };
 }

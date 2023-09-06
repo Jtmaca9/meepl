@@ -1,22 +1,22 @@
 import React from 'react';
 import Zone from './Zone';
-import type { ZoneType } from './types';
 
 type ZoneRendererProps = {
-  zones: ZoneType[];
   devMode?: boolean;
+  G?: any;
+  ctx?: any;
+  moves?: any;
   onHandleZonePress?: (id: string) => void;
 };
 
 function ZoneRenderer(props: ZoneRendererProps) {
   const {
-    zones,
     devMode = false,
     onHandleZonePress = (id) => console.log(`Zone ${id} pressed!`),
   } = props;
   return (
     <>
-      {zones.map((zone) => {
+      {props.G.zones.map((zone) => {
         const { id, x, y, width, height } = zone;
         return (
           <Zone
@@ -28,6 +28,9 @@ function ZoneRenderer(props: ZoneRendererProps) {
             y={y}
             devMode={devMode}
             onPress={() => onHandleZonePress(id)}
+            G={props.G}
+            ctx={props.ctx}
+            moves={props.moves}
           />
         );
       })}

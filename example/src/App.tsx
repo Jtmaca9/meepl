@@ -1,8 +1,8 @@
 import React from 'react';
-import { Game } from 'meepl';
-import ChessGame from './Game';
-import GameView from './GameView';
+import { GameWrapper } from 'meepl';
+import ChessGame from './gameConfig';
+import Game from './Game';
 
 export default function App() {
-  return <Game gameConfig={ChessGame} gameView={GameView} player={'0'} />;
+  return <GameWrapper gameConfig={ChessGame} gameView={Game} player={'0'} />;
 }

@@ -12,20 +12,20 @@ const Container = styled(GestureHandlerRootView)`
   background-color: whitesmoke;
 `;
 
-type GameProps = {
+type GameWrapperProps = {
   gameConfig: any;
   player: string;
   multiplayer?: any;
   gameView: React.ReactNode | React.ReactNode[];
 };
 
-function Game({
+function GameViewWrapper({
   gameConfig,
   gameView,
   player,
   multiplayer,
   ...props
-}: GameProps) {
+}: GameWrapperProps) {
   const App = multiplayer
     ? Client({ game: gameConfig, board: gameView, multiplayer })
     : Client({ game: gameConfig, board: gameView });
@@ -36,4 +36,4 @@ function Game({
   );
 }
 
-export default Game;
+export default GameViewWrapper;

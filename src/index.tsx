@@ -3,8 +3,9 @@ import Board from './Board';
 import UI from './UI';
 
 // Game
-import { Game } from './Game';
+import { GameWrapper, GameViewWrapper } from './Game';
 import { createGameConfig } from './Game/gameConfig';
+import { MOVE_ERROR } from './Game/actions';
 
 // Zone
 import { Zone, ZoneRenderer } from './Zone';
@@ -19,8 +20,10 @@ export {
   Table,
   Board,
   UI,
-  Game,
+  GameWrapper,
+  GameViewWrapper,
   createGameConfig,
+  MOVE_ERROR,
   Zone,
   ZoneRenderer,
   createGridZones,

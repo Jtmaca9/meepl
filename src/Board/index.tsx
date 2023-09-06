@@ -3,7 +3,8 @@ import type { StyleProp } from 'react-native';
 import styled from 'styled-components/native';
 
 interface BoardProps {
-  source?: any;
+  asset?: string;
+  assets?: any[];
   width?: number;
   height?: number;
   x?: number;
@@ -26,7 +27,7 @@ const BoardImage = styled.Image<Partial<BoardProps>>`
 `;
 
 function Board(props: BoardProps) {
-  const { source, width, height, children, outerStyle, x = 0, y = 0 } = props;
+  const { asset, width, height, children, outerStyle, x = 0, y = 0 } = props;
   return (
     <BoardContainer
       style={outerStyle}
@@ -35,7 +36,7 @@ function Board(props: BoardProps) {
       x={x}
       y={y}
     >
-      {source && <BoardImage source={source} />}
+      {asset && <BoardImage source={props.assets[asset]} />}
       {children}
     </BoardContainer>
   );
