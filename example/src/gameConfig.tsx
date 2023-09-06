@@ -32,7 +32,7 @@ const moves = {
     if (G.pieces.find((p) => p.id === pieceId).owner !== ctx.currentPlayer)
       return MOVE_ERROR.INVALID_MOVE;
     player.set({
-      ...player,
+      ...player.get(),
       activePiece: pieceId,
     });
   },
