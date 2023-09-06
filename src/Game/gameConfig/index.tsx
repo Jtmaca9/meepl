@@ -1,5 +1,6 @@
-import type { PieceBlueprintType, PieceType, ZoneType } from 'meepl';
 import { PluginPlayer } from 'boardgame.io/plugins';
+import type { ZoneType } from '../../Zone/types';
+import type { PieceBlueprintType, PieceType } from '../../Piece/types';
 
 const playerViewDefault = (players, playerID) => ({
   [playerID]: players[playerID],
