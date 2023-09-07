@@ -189,8 +189,8 @@ function Piece(props: PieceProps) {
         height={height}
         style={[animatedStyles, active && pieceOverStyle]}
       >
-        <PieceContainer style={componentStyle}>
-          <PieceImage source={assets[asset]} />
+        <PieceContainer>
+          <PieceImage style={componentStyle} source={assets[asset]} />
         </PieceContainer>
       </AnimatedContainer>
     </PanGestureHandler>
@@ -202,12 +202,8 @@ function Piece(props: PieceProps) {
       height={height}
       style={[animatedStyles, active && pieceOverStyle]}
     >
-      <PieceContainerPressable
-        style={componentStyle}
-        disabled={!available}
-        onPress={setActive}
-      >
-        <PieceImage source={assets[asset]} />
+      <PieceContainerPressable disabled={!available} onPress={setActive}>
+        <PieceImage style={componentStyle} source={assets[asset]} />
       </PieceContainerPressable>
     </AnimatedContainer>
   );
