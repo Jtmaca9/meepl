@@ -5,17 +5,16 @@ export enum ChessPieceType {
 }
 
 const activeStyle = {
-  borderWidth: 2,
-  borderColor: 'blue',
-  borderRadius: 5,
-  borderStyle: 'dashed',
+  shadowColor: 'black',
+  shadowOffset: { width: 0, height: 0 },
+  shadowOpacity: 0.8,
+  shadowRadius: 10,
 };
 
 const availableStyle = {
   borderWidth: 2,
   borderColor: 'green',
   borderRadius: 5,
-  borderStyle: 'dashed',
 };
 
 const ChessPieces: PieceBlueprintType[] = [

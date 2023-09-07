@@ -123,6 +123,7 @@ function Table(props: TableProps) {
                   G={props.G}
                   ctx={props.ctx}
                   moves={props.moves}
+                  plugins={props.plugins}
                   assets={props.assets}
                 />
               ))}

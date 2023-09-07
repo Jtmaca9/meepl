@@ -4,4 +4,5 @@ export type ZoneType = {
   width: number;
   height: number;
   id: string;
+  meta?: any;
 };

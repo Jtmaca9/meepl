@@ -8,16 +8,25 @@ import {
   GameViewWrapper,
 } from 'meepl';
 import assets from './Assets';
+import { isZoneAvailable } from './Logic';
 
 export default function Game(props) {
   const { G, ctx, plugins, moves } = props;
   const activePlayer = plugins.player.data.players[ctx.currentPlayer];
 
+  const availableStyle = {
+    backgroundColor: 'rgba(0, 0, 200, 0.5)',
+  };
+
   return (
     <GameViewWrapper assets={assets} {...props}>
       <Table tableWidth={400} tableHeight={400}>
         <Board height={400} width={400} asset={'Chessboard'} />
-        <ZoneRenderer devMode onHandleZonePress={(id) => moves.movePiece(id)} />
+        <ZoneRenderer
+          isZoneAvailable={isZoneAvailable}
+          availableStyle={availableStyle}
+          onHandleZonePress={(id) => moves.movePiece(id)}
+        />
         <PieceRenderer
           isActive={(id) => id === activePlayer.activePiece}
           isAvailable={(id) =>

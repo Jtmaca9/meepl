@@ -26,6 +26,10 @@ export function createGridZones({
         width: gridSize,
         height: gridSize,
         id: `${x}-${y}`,
+        meta: {
+          gridX: x,
+          gridY: y,
+        },
       });
     }
   }

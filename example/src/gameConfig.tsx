@@ -1,5 +1,6 @@
 import { createGameConfig, createGridZones, MOVE_ERROR } from 'meepl';
 import ChessPieces, { ChessPieceType } from './ChessPieces';
+import { isZoneAvailable } from './Logic';
 
 const zones = createGridZones({
   rows: 8,
@@ -21,7 +22,7 @@ const pieces = [
     id: 'white-rook-2',
     type: ChessPieceType.rook,
     name: 'White Rook 2',
-    currZoneId: '0-1',
+    currZoneId: '3-3',
     owner: '1',
   },
 ];
@@ -38,14 +39,19 @@ const moves = {
   },
   // @ts-ignore
   movePiece: ({ G, player }, zoneId) => {
+    let moveSuccessful = false;
     const currPlayer = player.get();
     const piece = G.pieces.find((p) => p.id === currPlayer.activePiece);
     if (!piece) return MOVE_ERROR.INVALID_MOVE;
-    piece.currZoneId = zoneId;
+    if (isZoneAvailable(zoneId, currPlayer, { G })) {
+      piece.currZoneId = zoneId;
+      moveSuccessful = true;
+    }
     player.set({
       ...currPlayer,
       activePiece: null,
     });
+    return moveSuccessful ? undefined : MOVE_ERROR.INVALID_MOVE;
   },
 };
 
@@ -62,7 +68,6 @@ const ChessGame = createGameConfig({
   playerSetup: (playerID) => ({
     name: `Player ${playerID}`,
     activePiece: null,
-    targetZoneId: null,
   }),
 });
 

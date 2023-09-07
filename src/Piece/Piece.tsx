@@ -15,7 +15,7 @@ const AnimatedContainer = styled(Animated.View)`
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 5;
+  z-index: 1;
   width: ${({ width }) => (width ? `${width}px` : '100px')};
   height: ${({ height }) => (height ? `${height}px` : '100px')};
 `;
@@ -100,6 +100,10 @@ function Piece(props: PieceProps) {
 
   const panRef = useRef(null);
 
+  const pieceOverStyle = {
+    zIndex: 2,
+  };
+
   useEffect(() => {
     let { x, y } = G.zones.find((zone) => zone.id === currZoneId);
 
@@ -115,12 +119,12 @@ function Piece(props: PieceProps) {
         {
           translateX: dragging.value
             ? pX.value
-            : withTiming(pX.value, { duration: 100 }),
+            : withTiming(pX.value, { duration: 200 }),
         },
         {
           translateY: dragging.value
             ? pY.value
-            : withTiming(pY.value, { duration: 100 }),
+            : withTiming(pY.value, { duration: 200 }),
         },
       ],
     }),
@@ -155,12 +159,16 @@ function Piece(props: PieceProps) {
         pX.value + width / 2,
         pY.value + height / 2
       );
+
+      function returnToCurrentPosition() {
+        pX.value = startX.value;
+        pY.value = startY.value;
+      }
+
       if (!targetZoneId || targetZoneId === currZoneId) {
-        let pos = G.zones.find((zone) => zone.id === currZoneId);
-        pX.value = pos.x;
-        pY.value = pos.y;
+        returnToCurrentPosition();
       } else {
-        movePiece(targetZoneId);
+        !movePiece(targetZoneId) && returnToCurrentPosition();
       }
       dragging.value = false;
     }
@@ -177,7 +185,7 @@ function Piece(props: PieceProps) {
         pY={pY}
         width={width}
         height={height}
-        style={animatedStyles}
+        style={[animatedStyles, active && pieceOverStyle]}
       >
         <PieceContainer style={componentStyle}>
           <PieceImage source={assets[asset]} />
@@ -190,7 +198,7 @@ function Piece(props: PieceProps) {
       pY={pY}
       width={width}
       height={height}
-      style={animatedStyles}
+      style={[animatedStyles, active && pieceOverStyle]}
     >
       <PieceContainerPressable
         style={componentStyle}
