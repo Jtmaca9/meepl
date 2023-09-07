@@ -13,7 +13,7 @@ export function isZoneAvailable(id: string, player: any, args: any): boolean {
 
   switch (activePiece.type) {
     case ChessPieceType.rook:
-      return isZoneAvailableForRook(currZone, targetZone, G);
+      return isZoneAvailableForRook(currZone, targetZone, activePlayer, G);
     default:
       return false;
   }
@@ -22,6 +22,7 @@ export function isZoneAvailable(id: string, player: any, args: any): boolean {
 function isZoneAvailableForRook(
   currZone: ZoneType,
   targetZone: ZoneType,
+  activePlayer: any,
   G: any
 ): boolean {
   const {
@@ -55,7 +56,13 @@ function isZoneAvailableForRook(
               gridX < Math.max(currX, targetX)
             );
           });
-    if (!isPieceBetween) return true;
+    if (!isPieceBetween) {
+      const pieceOnTarget = pieces.find(
+        ({ currZoneId }) => currZoneId === targetZone.id
+      );
+      if (!pieceOnTarget || pieceOnTarget.owner !== activePlayer.id)
+        return true;
+    }
   }
   return false;
 }

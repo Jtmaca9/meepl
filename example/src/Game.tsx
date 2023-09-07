@@ -8,7 +8,7 @@ import {
   GameViewWrapper,
 } from 'meepl';
 import assets from './Assets';
-import { isZoneAvailable } from './Logic';
+import { isZoneAvailable } from './gameLogic';
 
 export default function Game(props) {
   const { G, ctx, plugins, moves } = props;
