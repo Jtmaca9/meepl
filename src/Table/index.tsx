@@ -127,6 +127,7 @@ function Table(props: TableProps) {
                   plugins={props.plugins}
                   assets={props.assets}
                   tableScale={scale.value}
+                  isCurrentPlayer={props.isCurrentPlayer}
                 />
               ))}
             </Animated.View>

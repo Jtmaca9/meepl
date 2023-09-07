@@ -11,6 +11,7 @@ type PieceRendererProps = {
   setActive?: (id: string) => void;
   isActive?: (id: string) => boolean;
   isAvailable?: (id: string) => boolean;
+  isCurrentPlayer?: boolean;
 };
 
 function PieceRenderer(props: PieceRendererProps) {
@@ -19,6 +20,7 @@ function PieceRenderer(props: PieceRendererProps) {
     isAvailable = () => false,
     setActive,
     movePiece,
+    isCurrentPlayer,
     tableScale,
   } = props;
   return (
@@ -27,8 +29,8 @@ function PieceRenderer(props: PieceRendererProps) {
         const { id, type, currZoneId } = piece;
         const { asset, width, height, activeStyle, availableStyle } =
           props.G.pieceTypes.find((t) => t.id === type);
-        const active = isActive(id);
-        const available = isAvailable(id);
+        const active = isCurrentPlayer && isActive(id);
+        const available = isCurrentPlayer && isAvailable(id);
         return (
           <Piece
             key={id}
