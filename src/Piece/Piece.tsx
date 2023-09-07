@@ -33,6 +33,7 @@ const PieceContainer = styled.View`
 const PieceImage = styled.Image`
   height: 100%;
   width: 100%;
+  background-color: black;
 `;
 
 type PieceProps = PieceBlueprintType &
