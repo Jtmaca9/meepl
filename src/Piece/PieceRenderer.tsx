@@ -6,6 +6,7 @@ type PieceRendererProps = {
   ctx?: any;
   moves?: any;
   assets?: any[];
+  tableScale?: number;
   movePiece?: (id: string) => void;
   setActive?: (id: string) => void;
   isActive?: (id: string) => boolean;
@@ -18,6 +19,7 @@ function PieceRenderer(props: PieceRendererProps) {
     isAvailable = () => false,
     setActive,
     movePiece,
+    tableScale,
   } = props;
   return (
     <>
@@ -46,6 +48,7 @@ function PieceRenderer(props: PieceRendererProps) {
             ctx={props.ctx}
             moves={props.moves}
             assets={props.assets}
+            tableScale={tableScale}
           />
         );
       })}

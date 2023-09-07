@@ -117,14 +117,16 @@ function Table(props: TableProps) {
         >
           <AnimatedBox>
             <Animated.View style={[tableStyle, panStyle]}>
-              {props.children.map((child: any) => (
+              {props.children.map((child: any, i) => (
                 <child.type
+                  key={i}
                   {...child.props}
                   G={props.G}
                   ctx={props.ctx}
                   moves={props.moves}
                   plugins={props.plugins}
                   assets={props.assets}
+                  tableScale={scale.value}
                 />
               ))}
             </Animated.View>

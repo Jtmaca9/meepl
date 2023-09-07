@@ -49,6 +49,7 @@ type PieceProps = PieceBlueprintType &
     ctx: any;
     moves: any;
     assets: any[];
+    tableScale?: number;
   };
 
 enum COMPONENT_STATE {
@@ -72,6 +73,7 @@ function Piece(props: PieceProps) {
     availableStyle = {},
     asset,
     assets,
+    tableScale = 1,
   } = props;
 
   const [componentState, setComponentState] = useState(COMPONENT_STATE.default);
@@ -135,8 +137,8 @@ function Piece(props: PieceProps) {
     'worklet';
     const event = p.nativeEvent;
     if (event.state === State.ACTIVE) {
-      pX.value = event.translationX + startX.value;
-      pY.value = event.translationY + startY.value;
+      pX.value = event.translationX * (1 / tableScale) + startX.value;
+      pY.value = event.translationY * (1 / tableScale) + startY.value;
     }
   };
 
