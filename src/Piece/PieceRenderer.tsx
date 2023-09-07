@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import Piece from './Piece';
 
 type PieceRendererProps = {
@@ -23,12 +23,25 @@ function PieceRenderer(props: PieceRendererProps) {
     isCurrentPlayer,
     tableScale,
   } = props;
+
+  const [pieces, setPieces] = useState(props.G.pieces);
+
+  useEffect(() => {
+    setPieces(props.G.pieces);
+  }, [props.G.pieces]);
+
   return (
     <>
-      {props.G.pieces.map((piece) => {
+      {pieces.map((piece) => {
         const { id, type, currZoneId } = piece;
-        const { asset, width, height, activeStyle, availableStyle } =
-          props.G.pieceTypes.find((t) => t.id === type);
+        const {
+          asset,
+          width,
+          height,
+          activeStyle,
+          availableStyle,
+          defaultStyle,
+        } = props.G.pieceTypes.find((t) => t.id === type);
         const active = isCurrentPlayer && isActive(id);
         const available = isCurrentPlayer && isAvailable(id);
         return (
@@ -44,6 +57,7 @@ function PieceRenderer(props: PieceRendererProps) {
             availableStyle={availableStyle}
             active={active}
             activeStyle={activeStyle}
+            defaultStyle={defaultStyle}
             setActive={() => setActive(id)}
             movePiece={(zoneId) => movePiece(zoneId)}
             G={props.G}
@@ -58,4 +72,4 @@ function PieceRenderer(props: PieceRendererProps) {
   );
 }
 
-export default PieceRenderer;
+export default memo(PieceRenderer);

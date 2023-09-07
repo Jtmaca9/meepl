@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, memo } from 'react';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -33,13 +33,13 @@ const PieceContainer = styled.View`
 const PieceImage = styled.Image`
   height: 100%;
   width: 100%;
-  background-color: black;
 `;
 
 type PieceProps = PieceBlueprintType &
   PieceType & {
     activeStyle?: StyleProp<View>;
     availableStyle?: StyleProp<View>;
+    defaultStyle?: StyleProp<View>;
     children?: React.ReactNode | React.ReactNode[];
     setActive?: (id: string) => void;
     movePiece?: (id: string) => void;
@@ -70,8 +70,9 @@ function Piece(props: PieceProps) {
     movePiece,
     active = false,
     activeStyle = {},
-    available = false,
     availableStyle = {},
+    defaultStyle = {},
+    available = false,
     asset,
     assets,
     tableScale = 1,
@@ -83,15 +84,22 @@ function Piece(props: PieceProps) {
   useEffect(() => {
     if (active) {
       setComponentState(COMPONENT_STATE.active);
-      setComponentStyle(activeStyle);
+      setComponentStyle([defaultStyle, activeStyle]);
     } else if (available) {
       setComponentState(COMPONENT_STATE.available);
-      setComponentStyle(availableStyle);
+      setComponentStyle([defaultStyle, availableStyle]);
     } else {
       setComponentState(COMPONENT_STATE.default);
-      setComponentStyle({});
+      setComponentStyle(defaultStyle);
     }
-  }, [active, available, componentState, activeStyle, availableStyle]);
+  }, [
+    active,
+    available,
+    componentState,
+    activeStyle,
+    availableStyle,
+    defaultStyle,
+  ]);
 
   // Find and set initail piece position
   let initPos = G.zones.find((zone) => zone.id === currZoneId);
@@ -190,8 +198,8 @@ function Piece(props: PieceProps) {
         height={height}
         style={[animatedStyles, active && pieceOverStyle]}
       >
-        <PieceContainer>
-          <PieceImage style={componentStyle} source={assets[asset]} />
+        <PieceContainer style={componentStyle}>
+          <PieceImage source={assets[asset]} resizeMode="contain" />
         </PieceContainer>
       </AnimatedContainer>
     </PanGestureHandler>
@@ -203,11 +211,15 @@ function Piece(props: PieceProps) {
       height={height}
       style={[animatedStyles, active && pieceOverStyle]}
     >
-      <PieceContainerPressable disabled={!available} onPress={setActive}>
-        <PieceImage style={componentStyle} source={assets[asset]} />
+      <PieceContainerPressable
+        style={componentStyle}
+        disabled={!available}
+        onPress={setActive}
+      >
+        <PieceImage source={assets[asset]} resizeMode="contain" />
       </PieceContainerPressable>
     </AnimatedContainer>
   );
 }
 
-export default Piece;
+export default memo(Piece);

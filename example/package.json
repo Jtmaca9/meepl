@@ -6,10 +6,12 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "serve": "ts-node-esm src/server.ts"
   },
   "dependencies": {
     "boardgame.io": "^0.50.2",
+    "esm": "^3.2.25",
     "expo": "~49.0.8",
     "expo-status-bar": "~1.6.0",
     "react": "18.2.0",
@@ -17,7 +19,8 @@
     "react-native": "0.72.4",
     "react-native-reanimated": "~3.3.0",
     "react-native-web": "~0.19.6",
-    "styled-components": "~5.3.11"
+    "styled-components": "~5.3.11",
+    "ts-node": "^10.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import styled from 'styled-components/native';
 import type { ZoneType } from './types';
 import type { StyleProp, View } from 'react-native';
@@ -64,4 +64,4 @@ function Zone(props: ZoneProps) {
   );
 }
 
-export default Zone;
+export default memo(Zone);

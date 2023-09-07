@@ -7,6 +7,7 @@ export type PieceBlueprintType = {
   height?: number;
   activeStyle?: StyleProp<any>;
   availableStyle?: StyleProp<any>;
+  defaultStyle?: StyleProp<any>;
 };
 
 export type PieceType = {

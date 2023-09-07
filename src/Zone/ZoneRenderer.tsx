@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import Zone from './Zone';
 
 type ZoneRendererProps = {
@@ -21,9 +21,16 @@ function ZoneRenderer(props: ZoneRendererProps) {
     isCurrentPlayer,
     onHandleZonePress = (id) => console.log(`Zone ${id} pressed!`),
   } = props;
+
+  const [zones, setZones] = useState(props.G.zones);
+
+  useEffect(() => {
+    setZones(props.G.zones);
+  }, [props.G.zones]);
+
   return (
     <>
-      {props.G.zones.map((zone) => {
+      {zones.map((zone) => {
         const { id, x, y, width, height } = zone;
         const activePlayer =
           props.plugins.player.data.players[props.ctx.currentPlayer];
@@ -54,4 +61,4 @@ function ZoneRenderer(props: ZoneRendererProps) {
   );
 }
 
-export default ZoneRenderer;
+export default memo(ZoneRenderer);

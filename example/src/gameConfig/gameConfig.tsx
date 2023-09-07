@@ -1,6 +1,9 @@
-import { createGameConfig, createGridZones, MOVE_ERROR } from 'meepl';
-import ChessPieces, { ChessPieceType } from './ChessPieces';
-import { isZoneAvailable } from './gameLogic';
+import { createGridZones } from '../../../src/Zone/utils';
+import { MOVE_ERROR } from '../../../src/Game/actions';
+import { createGameConfig } from '../../../src/Game/gameConfig';
+import ChessPieces from '../chessPieceTypes';
+import pieces from './pieces';
+import { isZoneAvailable } from '../gameLogic';
 
 const zones = createGridZones({
   rows: 8,
@@ -9,23 +12,6 @@ const zones = createGridZones({
   offsetX: 20,
   offsetY: 20,
 });
-
-const pieces = [
-  {
-    id: 'white-rook-1',
-    type: ChessPieceType.rook,
-    name: 'White Rook 1',
-    currZoneId: '0-0',
-    owner: '0',
-  },
-  {
-    id: 'white-rook-2',
-    type: ChessPieceType.rook,
-    name: 'White Rook 2',
-    currZoneId: '3-3',
-    owner: '1',
-  },
-];
 
 const moves = {
   // @ts-ignore

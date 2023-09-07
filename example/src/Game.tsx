@@ -7,7 +7,7 @@ import {
   ZoneRenderer,
   GameViewWrapper,
 } from 'meepl';
-import assets from './Assets';
+import assets from './assets';
 import { isZoneAvailable } from './gameLogic';
 
 export default function Game(props) {
@@ -29,9 +29,11 @@ export default function Game(props) {
         />
         <PieceRenderer
           isActive={(id) => id === activePlayer.activePiece}
-          isAvailable={(id) =>
-            ctx.currentPlayer === G.pieces.find((p) => p.id === id).owner
-          }
+          isAvailable={(id) => {
+            const piece = G.pieces.find((p) => p.id === id);
+            if (!piece) return false;
+            return ctx.currentPlayer === piece.owner;
+          }}
           setActive={(id) => moves.setActivePiece(id)}
           movePiece={(id) => moves.movePiece(id)}
         />
