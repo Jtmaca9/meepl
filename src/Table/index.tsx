@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import {
