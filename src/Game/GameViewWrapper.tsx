@@ -10,14 +10,10 @@ export default function GameViewWrapper({
   const [isCurrentPlayer, setIsCurrentPlayer] = useState(false);
   const [pieces, setPieces] = useState(G.pieces);
   const [zones, setZones] = useState(G.zones);
+
   useEffect(() => {
-    // player
-    setIsCurrentPlayer(ctx.currentPlayer === playerID);
-    // zones
-    if (G.zones.length !== zones.length) {
-      setZones(G.zones);
-    }
     // pieces
+    if (!G.pieces) return;
     if (G.pieces.length !== pieces.length) {
       setPieces(G.pieces);
     } else {
@@ -28,7 +24,20 @@ export default function GameViewWrapper({
         }
       });
     }
-  }, [G, ctx, playerID, zones, pieces]);
+  }, [G, pieces]);
+
+  useEffect(() => {
+    // player
+    setIsCurrentPlayer(ctx.currentPlayer === playerID);
+  }, [ctx, playerID]);
+
+  useEffect(() => {
+    // zones
+    if (!G.zones) return;
+    if (G.zones.length !== zones.length) {
+      setZones(G.zones);
+    }
+  }, [G, zones]);
 
   return (
     <>
