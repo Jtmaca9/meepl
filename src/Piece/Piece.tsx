@@ -82,6 +82,8 @@ function Piece(props: PieceProps) {
   const [componentState, setComponentState] = useState(COMPONENT_STATE.default);
   const [componentStyle, setComponentStyle] = useState({});
 
+  const [assetCache] = useState(assets[asset]);
+
   useEffect(() => {
     if (active) {
       setComponentState(COMPONENT_STATE.active);
@@ -217,7 +219,7 @@ function Piece(props: PieceProps) {
         disabled={!available}
         onPress={setActive}
       >
-        <PieceImage source={assets[asset]} resizeMode="contain" />
+        <PieceImage source={assetCache} resizeMode="contain" />
       </PieceContainerPressable>
     </AnimatedContainer>
   );
