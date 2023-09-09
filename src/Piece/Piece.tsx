@@ -9,6 +9,7 @@ import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import type { StyleProp, View } from 'react-native';
 import { findZoneByCoords } from '../Zone/utils';
+import type { ZoneType } from '../Zone/types';
 import type { PieceType, PieceBlueprintType } from './types';
 
 const AnimatedContainer = styled(Animated.View)`
@@ -46,11 +47,11 @@ type PieceProps = PieceBlueprintType &
     draggable?: boolean;
     active?: boolean;
     available?: boolean;
-    G: any;
     ctx: any;
     moves: any;
     assets: any[];
     tableScale?: number;
+    zones: ZoneType[];
   };
 
 enum COMPONENT_STATE {
@@ -64,7 +65,6 @@ function Piece(props: PieceProps) {
     width,
     height,
     currZoneId,
-    G,
     draggable = true,
     setActive,
     movePiece,
@@ -76,6 +76,7 @@ function Piece(props: PieceProps) {
     asset,
     assets,
     tableScale = 1,
+    zones,
   } = props;
 
   const [componentState, setComponentState] = useState(COMPONENT_STATE.default);
@@ -102,7 +103,7 @@ function Piece(props: PieceProps) {
   ]);
 
   // Find and set initail piece position
-  let initPos = G.zones.find((zone) => zone.id === currZoneId);
+  let initPos = zones.find((zone) => zone.id === currZoneId);
   const pX = useSharedValue(initPos.x);
   const pY = useSharedValue(initPos.y);
   const startX = useSharedValue(initPos.x);
@@ -116,13 +117,13 @@ function Piece(props: PieceProps) {
   };
 
   useEffect(() => {
-    let { x, y } = G.zones.find((zone) => zone.id === currZoneId);
+    let { x, y } = zones.find((zone) => zone.id === currZoneId);
 
     if (x === pX.value && y === pY.value) return;
 
     pX.value = x;
     pY.value = y;
-  }, [currZoneId, G.zones, pX, pY]);
+  }, [currZoneId, zones, pX, pY]);
 
   const animatedStyles = useAnimatedStyle(
     () => ({
@@ -166,7 +167,7 @@ function Piece(props: PieceProps) {
 
     if (event.state === State.END) {
       let targetZoneId = findZoneByCoords(
-        G.zones,
+        zones,
         pX.value + width / 2,
         pY.value + height / 2
       );

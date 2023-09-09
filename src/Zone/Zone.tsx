@@ -16,7 +16,6 @@ type ZoneProps = ZoneType & {
   onPress?: () => void;
   availableStyle?: StyleProp<View>;
   available?: boolean;
-  G: any;
   ctx: any;
   moves: any;
 };

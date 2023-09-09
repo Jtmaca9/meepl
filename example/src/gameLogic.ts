@@ -1,42 +1,60 @@
-import type { ZoneType } from 'meepl';
+import type { PieceType, ZoneType } from 'meepl';
 import { ChessPieceType } from './chessPieceTypes';
 
-export function isZoneAvailable(id: string, player: any, args: any): boolean {
-  const { G } = args;
-  const activePlayer = player;
-  const activePiece = G.pieces.find((p) => p.id === activePlayer.activePiece);
+export function isZoneAvailable({
+  id,
+  activePlayer,
+  pieces,
+  zones,
+}: {
+  id: string;
+  activePlayer: any;
+  pieces: PieceType[];
+  zones: ZoneType[];
+}): boolean {
+  const activePiece = pieces.find((p) => p.id === activePlayer.activePiece);
 
   if (!activePiece) return false;
 
-  const currZone = G.zones.find((z) => z.id === activePiece.currZoneId);
-  const targetZone = G.zones.find((z) => z.id === id);
+  const currZone = zones.find((z) => z.id === activePiece.currZoneId);
+  const targetZone = zones.find((z) => z.id === id);
 
   switch (activePiece.type) {
     case ChessPieceType.w_rook:
     case ChessPieceType.b_rook:
     case ChessPieceType.w_pawn:
     case ChessPieceType.b_pawn:
-      return isZoneAvailableForRook(currZone, targetZone, activePlayer, G);
+      return isZoneAvailableForRook({
+        currZone,
+        targetZone,
+        activePlayer,
+        zones,
+        pieces,
+      });
     default:
       return false;
   }
 }
 
-function isZoneAvailableForRook(
-  currZone: ZoneType,
-  targetZone: ZoneType,
-  activePlayer: any,
-  G: any
-): boolean {
+function isZoneAvailableForRook({
+  currZone,
+  targetZone,
+  activePlayer,
+  pieces,
+  zones,
+}: {
+  currZone: ZoneType;
+  targetZone: ZoneType;
+  activePlayer: any;
+  pieces: PieceType[];
+  zones: ZoneType[];
+}): boolean {
   const {
     meta: { gridX: currX, gridY: currY },
   } = currZone;
   const {
     meta: { gridX: targetX, gridY: targetY },
   } = targetZone;
-
-  const zones = G.zones;
-  const pieces = G.pieces;
 
   if (currX === targetX || currY === targetY) {
     const isPieceBetween =

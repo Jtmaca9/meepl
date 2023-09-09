@@ -1,17 +1,22 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { memo } from 'react';
 import Piece from './Piece';
+import type { PieceBlueprintType, PieceType } from './types';
+import type { ZoneType } from '../Zone/types';
 
 type PieceRendererProps = {
-  G?: any;
+  movePiece: (id: string) => void;
+  setActive: (id: string) => void;
+  isActive: (id: string) => boolean;
+  isAvailable: (id: string) => boolean;
+  // passed by parent
   ctx?: any;
   moves?: any;
   assets?: any[];
   tableScale?: number;
-  movePiece?: (id: string) => void;
-  setActive?: (id: string) => void;
-  isActive?: (id: string) => boolean;
-  isAvailable?: (id: string) => boolean;
   isCurrentPlayer?: boolean;
+  pieces?: PieceType[];
+  zones?: ZoneType[];
+  pieceTypes?: PieceBlueprintType[];
 };
 
 function PieceRenderer(props: PieceRendererProps) {
@@ -19,16 +24,13 @@ function PieceRenderer(props: PieceRendererProps) {
     isActive = () => false,
     isAvailable = () => false,
     setActive,
+    pieceTypes,
+    pieces = [],
     movePiece,
     isCurrentPlayer,
     tableScale,
+    zones,
   } = props;
-
-  const [pieces, setPieces] = useState(props.G.pieces);
-
-  useEffect(() => {
-    setPieces(props.G.pieces);
-  }, [props.G.pieces]);
 
   return (
     <>
@@ -41,7 +43,7 @@ function PieceRenderer(props: PieceRendererProps) {
           activeStyle,
           availableStyle,
           defaultStyle,
-        } = props.G.pieceTypes.find((t) => t.id === type);
+        } = pieceTypes.find((t) => t.id === type);
         const active = isCurrentPlayer && isActive(id);
         const available = isCurrentPlayer && isAvailable(id);
         return (
@@ -60,10 +62,10 @@ function PieceRenderer(props: PieceRendererProps) {
             defaultStyle={defaultStyle}
             setActive={() => setActive(id)}
             movePiece={(zoneId) => movePiece(zoneId)}
-            G={props.G}
             ctx={props.ctx}
             moves={props.moves}
             assets={props.assets}
+            zones={zones}
             tableScale={tableScale}
           />
         );

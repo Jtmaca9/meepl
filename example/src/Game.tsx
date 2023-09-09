@@ -9,6 +9,7 @@ import {
 } from 'meepl';
 import assets from './assets';
 import { isZoneAvailable } from './gameLogic';
+import ChessPieces from './chessPieceTypes';
 
 export default function Game(props) {
   const { G, ctx, plugins, moves } = props;
@@ -19,7 +20,7 @@ export default function Game(props) {
   };
 
   return (
-    <GameViewWrapper assets={assets} {...props}>
+    <GameViewWrapper assets={assets} pieceTypes={ChessPieces} {...props}>
       <Table tableWidth={400} tableHeight={400}>
         <Board height={400} width={400} asset={'Chessboard'} />
         <ZoneRenderer

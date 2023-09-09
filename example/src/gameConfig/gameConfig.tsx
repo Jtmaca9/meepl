@@ -1,7 +1,6 @@
 import { createGridZones } from '../../../src/Zone/utils';
 import { MOVE_ERROR } from '../../../src/Game/actions';
 import { createGameConfig } from '../../../src/Game/gameConfig';
-import ChessPieces from '../chessPieceTypes';
 import pieces from './pieces';
 import { isZoneAvailable } from '../gameLogic';
 
@@ -29,7 +28,14 @@ const moves = {
     const currPlayer = player.get();
     const piece = G.pieces.find((p) => p.id === currPlayer.activePiece);
     if (!piece) return MOVE_ERROR.INVALID_MOVE;
-    if (isZoneAvailable(zoneId, currPlayer, { G })) {
+    if (
+      isZoneAvailable({
+        id: zoneId,
+        activePlayer: currPlayer,
+        pieces: G.pieces,
+        zones: G.zones,
+      })
+    ) {
       const pieceOnZone = G.pieces.find((p) => p.currZoneId === zoneId);
       // take piece
       if (pieceOnZone) {
@@ -55,7 +61,6 @@ const ChessGame = createGameConfig({
   name: 'Chess',
   zones,
   pieces,
-  pieceTypes: ChessPieces,
   moves,
   minPlayers: 1,
   maxPlayers: 2,

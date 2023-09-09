@@ -1,6 +1,6 @@
 import { PluginPlayer } from 'boardgame.io/plugins';
 import type { ZoneType } from '../../Zone/types';
-import type { PieceBlueprintType, PieceType } from '../../Piece/types';
+import type { PieceType } from '../../Piece/types';
 
 const playerViewDefault = (players, playerID) => ({
   [playerID]: players[playerID],
@@ -10,7 +10,6 @@ type CreateGameConfigArgs = {
   name: string;
   zones?: ZoneType[];
   pieces?: PieceType[];
-  pieceTypes?: PieceBlueprintType[];
   moves: any;
   minPlayers?: number;
   maxPlayers?: number;
@@ -26,7 +25,6 @@ export function createGameConfig(args: CreateGameConfigArgs): any {
     name,
     zones = [],
     pieces = [],
-    pieceTypes = [],
     moves = {},
     undoAllowed = false,
     playerView = playerViewDefault,
@@ -37,7 +35,6 @@ export function createGameConfig(args: CreateGameConfigArgs): any {
     setup: () => ({
       zones,
       pieces,
-      pieceTypes,
     }),
     moves,
     minPlayers,

@@ -1,16 +1,25 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo } from 'react';
 import Zone from './Zone';
+import type { ZoneType } from './types';
+import type { PieceType } from '../Piece/types';
 
 type ZoneRendererProps = {
+  onHandleZonePress: (id: string) => void;
+  isZoneAvailable: (args: {
+    id: string;
+    activePlayer: any;
+    pieces: PieceType[];
+    zones: ZoneType[];
+  }) => boolean;
+  // passed by parent
   devMode?: boolean;
-  G?: any;
   ctx?: any;
   moves?: any;
   plugins?: any;
-  onHandleZonePress?: (id: string) => void;
-  isZoneAvailable?: (id: string, player: any, args: any) => boolean;
   availableStyle?: any;
   isCurrentPlayer?: boolean;
+  zones?: ZoneType[];
+  pieces?: PieceType[];
 };
 
 function ZoneRenderer(props: ZoneRendererProps) {
@@ -20,24 +29,24 @@ function ZoneRenderer(props: ZoneRendererProps) {
     availableStyle = {},
     isCurrentPlayer,
     onHandleZonePress = (id) => console.log(`Zone ${id} pressed!`),
+    zones = [],
+    pieces = [],
+    ctx,
+    plugins,
   } = props;
-
-  const [zones, setZones] = useState(props.G.zones);
-
-  useEffect(() => {
-    setZones(props.G.zones);
-  }, [props.G.zones]);
 
   return (
     <>
       {zones.map((zone) => {
         const { id, x, y, width, height } = zone;
-        const activePlayer =
-          props.plugins.player.data.players[props.ctx.currentPlayer];
+        const activePlayer = plugins.player.data.players[ctx.currentPlayer];
         const available =
           isCurrentPlayer &&
-          isZoneAvailable(id, activePlayer, {
-            G: props.G,
+          isZoneAvailable({
+            id,
+            activePlayer,
+            pieces,
+            zones,
           });
         return (
           <Zone
@@ -51,7 +60,6 @@ function ZoneRenderer(props: ZoneRendererProps) {
             onPress={() => onHandleZonePress(id)}
             available={available}
             availableStyle={availableStyle}
-            G={props.G}
             ctx={props.ctx}
             moves={props.moves}
           />
