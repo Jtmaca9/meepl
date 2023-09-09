@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import {
@@ -29,6 +29,13 @@ const AnimatedBox = styled(Animated.View)`
 function Table(props: TableProps) {
   const panRef = useRef(null);
   const pinchRef = useRef(null);
+
+  const [state, setState] = useState(props);
+
+  useEffect(() => {
+    if (!props || Object.keys(state).length === 0) return;
+    setState(props);
+  }, [props, state]);
 
   // Pan Values
   const translateX = useSharedValue(
