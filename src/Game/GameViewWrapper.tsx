@@ -8,23 +8,26 @@ export default function GameViewWrapper({
   ...props
 }: { assets: any[] } & any) {
   const [isCurrentPlayer, setIsCurrentPlayer] = useState(false);
-  const [pieces, setPieces] = useState(G.pieces);
-  const [zones, setZones] = useState(G.zones);
+  const [pieces, setPieces] = useState([]);
+  const [zones, setZones] = useState([]);
 
   useEffect(() => {
     // pieces
-    if (!G.pieces) return;
+    if (!Array.isArray(G.pieces)) return;
     if (G.pieces.length !== pieces.length) {
       setPieces(G.pieces);
     } else {
+      let shouldUpdate = false;
       G.pieces.forEach((piece: any, i: number) => {
         if (piece.currZoneId !== pieces[i].currZoneId) {
-          setPieces(G.pieces);
-          return;
+          shouldUpdate = true;
         }
       });
+      if (shouldUpdate) {
+        setPieces(G.pieces);
+      }
     }
-  }, [G, pieces]);
+  }, [G.pieces, pieces]);
 
   useEffect(() => {
     // player
@@ -33,11 +36,11 @@ export default function GameViewWrapper({
 
   useEffect(() => {
     // zones
-    if (!G.zones) return;
+    if (!Array.isArray(G.zones)) return;
     if (G.zones.length !== zones.length) {
       setZones(G.zones);
     }
-  }, [G, zones]);
+  }, [G.zones, zones]);
 
   return (
     <>
