@@ -186,7 +186,7 @@ function Piece(props: PieceProps) {
     }
   };
 
-  return draggable && available ? (
+  return draggable ? (
     <PanGestureHandler
       ref={panRef}
       onGestureEvent={panGestureHandler}
@@ -200,7 +200,7 @@ function Piece(props: PieceProps) {
         style={[animatedStyles, active && pieceOverStyle]}
       >
         <PieceContainer style={componentStyle}>
-          <PieceImage source={assets[asset]} resizeMode="contain" />
+          <PieceImage source={assetCache} resizeMode="contain" />
         </PieceContainer>
       </AnimatedContainer>
     </PanGestureHandler>
