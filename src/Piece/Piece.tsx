@@ -182,7 +182,7 @@ function Piece(props: PieceProps) {
       if (!targetZoneId || targetZoneId === currZoneId) {
         returnToCurrentPosition();
       } else {
-        !movePiece(targetZoneId) && returnToCurrentPosition();
+        movePiece(targetZoneId);
       }
       dragging.value = false;
     }

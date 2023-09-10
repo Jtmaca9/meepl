@@ -24,7 +24,6 @@ const moves = {
   },
   // @ts-ignore
   movePiece: ({ G, player }, zoneId) => {
-    let moveSuccessful = false;
     const currPlayer = player.get();
     const piece = G.pieces.find((p) => p.id === currPlayer.activePiece);
     if (!piece) return MOVE_ERROR.INVALID_MOVE;
@@ -47,13 +46,11 @@ const moves = {
       }
       // move piece
       piece.currZoneId = zoneId;
-      moveSuccessful = true;
     }
     player.set({
       ...currPlayer,
       activePiece: null,
     });
-    return moveSuccessful ? undefined : MOVE_ERROR.INVALID_MOVE;
   },
 };
 
