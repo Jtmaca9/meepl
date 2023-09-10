@@ -6,12 +6,11 @@ import type { ZoneType } from '../Zone/types';
 type PieceRendererProps = {
   movePiece: (id: string) => void;
   setActive: (id: string) => void;
-  isActive: (id: string) => boolean;
-  isAvailable: (id: string) => boolean;
   // passed by parent
   assets?: any[];
   tableScale?: number;
   isCurrentPlayer?: boolean;
+  currentPlayer?: any;
   pieces?: PieceType[];
   zones?: ZoneType[];
   pieceTypes?: PieceBlueprintType[];
@@ -19,13 +18,12 @@ type PieceRendererProps = {
 
 function PieceRenderer(props: PieceRendererProps) {
   const {
-    isActive = () => false,
-    isAvailable = () => false,
     setActive,
     pieceTypes,
     pieces = [],
     movePiece,
     isCurrentPlayer,
+    currentPlayer,
     tableScale,
     zones,
   } = props;
@@ -33,36 +31,21 @@ function PieceRenderer(props: PieceRendererProps) {
   return (
     <>
       {pieces.map((piece) => {
-        const { id, type, currZoneId } = piece;
-        const {
-          asset,
-          width,
-          height,
-          activeStyle,
-          availableStyle,
-          defaultStyle,
-        } = pieceTypes.find((t) => t.id === type);
-        const active = isCurrentPlayer && isActive(id);
-        const available = isCurrentPlayer && isAvailable(id);
+        const { id, type, currZoneId, owner } = piece;
         return (
           <Piece
             key={id}
             id={id}
-            asset={asset}
-            width={width}
-            height={height}
             currZoneId={currZoneId}
             type={type}
-            available={available}
-            availableStyle={availableStyle}
-            active={active}
-            activeStyle={activeStyle}
-            defaultStyle={defaultStyle}
+            available={isCurrentPlayer && owner === currentPlayer.id}
+            active={isCurrentPlayer && currentPlayer.activePiece === id}
             setActive={() => setActive(id)}
             movePiece={(zoneId) => movePiece(zoneId)}
             assets={props.assets}
             zones={zones}
             tableScale={tableScale}
+            pieceTypes={pieceTypes}
           />
         );
       })}

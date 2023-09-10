@@ -27,7 +27,7 @@ export default function Game(props) {
       //state
       zones={zones}
       pieces={pieces}
-      currentPlayer={meta.currentPlayer}
+      currentPlayer={players[meta.currentPlayerID]}
       players={players}
       isCurrentPlayer={meta.isCurrentPlayer}
     >
@@ -39,12 +39,6 @@ export default function Game(props) {
           onHandleZonePress={(id) => handleMove(moves.movePiece, [id])}
         />
         <PieceRenderer
-          isActive={(id) => id === players[meta.currentPlayerID].activePiece}
-          isAvailable={(id) => {
-            const piece = pieces.find((p) => p.id === id);
-            if (!piece) return false;
-            return meta.currentPlayerID === piece.owner;
-          }}
           setActive={(id) => handleMove(moves.setActivePiece, [id])}
           movePiece={(id) => handleMove(moves.movePiece, [id])}
         />

@@ -36,21 +36,21 @@ const PieceImage = styled.Image`
   width: 100%;
 `;
 
-type PieceProps = PieceBlueprintType &
-  PieceType & {
-    activeStyle?: StyleProp<View>;
-    availableStyle?: StyleProp<View>;
-    defaultStyle?: StyleProp<View>;
-    children?: React.ReactNode | React.ReactNode[];
-    setActive?: (id: string) => void;
-    movePiece?: (id: string) => void;
-    draggable?: boolean;
-    active?: boolean;
-    available?: boolean;
-    assets: any[];
-    tableScale?: number;
-    zones: ZoneType[];
-  };
+type PieceProps = PieceType & {
+  activeStyle?: StyleProp<View>;
+  availableStyle?: StyleProp<View>;
+  defaultStyle?: StyleProp<View>;
+  children?: React.ReactNode | React.ReactNode[];
+  setActive?: (id: string) => void;
+  movePiece?: (id: string) => void;
+  draggable?: boolean;
+  active?: boolean;
+  available?: boolean;
+  assets: any[];
+  tableScale?: number;
+  zones: ZoneType[];
+  pieceTypes: PieceBlueprintType[];
+};
 
 enum COMPONENT_STATE {
   active = 'active',
@@ -60,22 +60,21 @@ enum COMPONENT_STATE {
 
 function Piece(props: PieceProps) {
   const {
-    width,
-    height,
     currZoneId,
     draggable = true,
     setActive,
     movePiece,
     active = false,
-    activeStyle = {},
-    availableStyle = {},
-    defaultStyle = {},
     available = false,
-    asset,
     assets,
     tableScale = 1,
     zones,
+    pieceTypes,
+    type,
   } = props;
+
+  const { asset, width, height, activeStyle, availableStyle, defaultStyle } =
+    pieceTypes.find((t) => t.id === type);
 
   const [componentState, setComponentState] = useState(COMPONENT_STATE.default);
   const [componentStyle, setComponentStyle] = useState({});
