@@ -13,8 +13,6 @@ function useGameState(props) {
   const [pieces, setPiecesLocal] = useState(G.pieces);
   const [zones] = useState(G.zones);
 
-  const [shouldUpdate, setShouldUpdate] = useState(false);
-
   useEffect(() => {
     setPlayers(plugins.player.data.players);
   }, [plugins.player]);
@@ -31,15 +29,13 @@ function useGameState(props) {
 
   useEffect(() => {
     if (!G.pieces) return;
-    if (G.pieces.length === 0 || !shouldUpdate) return;
+    if (G.pieces.length === 0) return;
     setPiecesLocal(G.pieces);
-    setShouldUpdate(false);
-  }, [G.pieces, shouldUpdate]);
+  }, [G.pieces]);
 
   const handleMove = (move, args) => {
     if (!meta.isCurrentPlayer) return;
     move(...args);
-    setShouldUpdate(true);
   };
 
   return {
