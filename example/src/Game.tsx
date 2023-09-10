@@ -39,6 +39,14 @@ export default function Game(props) {
           onHandleZonePress={(id) => handleMove(moves.movePiece, [id])}
         />
         <PieceRenderer
+          legalMoveCheck={(targetZoneID) =>
+            isZoneAvailable({
+              id: targetZoneID,
+              activePlayer: players[meta.currentPlayerID],
+              pieces,
+              zones,
+            })
+          }
           setActive={(id) => handleMove(moves.setActivePiece, [id])}
           movePiece={(id) => handleMove(moves.movePiece, [id])}
         />

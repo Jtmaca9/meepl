@@ -39,18 +39,23 @@ const moves = {
       // take piece
       if (pieceOnZone) {
         G.pieces = G.pieces.filter((p) => p.id !== pieceOnZone.id);
+        piece.currZoneId = zoneId;
         player.set({
           ...currPlayer,
+          activePiece: null,
           takenPieces: [...currPlayer.takenPieces, pieceOnZone],
         });
+      } else {
+        // move piece
+        piece.currZoneId = zoneId;
+        player.set({
+          ...currPlayer,
+          activePiece: null,
+        });
       }
-      // move piece
-      piece.currZoneId = zoneId;
+    } else {
+      return MOVE_ERROR.INVALID_MOVE;
     }
-    player.set({
-      ...currPlayer,
-      activePiece: null,
-    });
   },
 };
 

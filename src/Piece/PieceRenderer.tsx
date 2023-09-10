@@ -6,6 +6,7 @@ import type { ZoneType } from '../Zone/types';
 type PieceRendererProps = {
   movePiece: (id: string) => void;
   setActive: (id: string) => void;
+  legalMoveCheck: any;
   // passed by parent
   assets?: any[];
   tableScale?: number;
@@ -26,6 +27,7 @@ function PieceRenderer(props: PieceRendererProps) {
     currentPlayer,
     tableScale,
     zones,
+    legalMoveCheck,
   } = props;
 
   return (
@@ -46,6 +48,7 @@ function PieceRenderer(props: PieceRendererProps) {
             zones={zones}
             tableScale={tableScale}
             pieceTypes={pieceTypes}
+            legalMoveCheck={legalMoveCheck}
           />
         );
       })}

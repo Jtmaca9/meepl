@@ -50,6 +50,7 @@ type PieceProps = PieceType & {
   tableScale?: number;
   zones: ZoneType[];
   pieceTypes: PieceBlueprintType[];
+  legalMoveCheck: any;
 };
 
 enum COMPONENT_STATE {
@@ -71,6 +72,7 @@ function Piece(props: PieceProps) {
     zones,
     pieceTypes,
     type,
+    legalMoveCheck,
   } = props;
 
   const { asset, width, height, activeStyle, availableStyle, defaultStyle } =
@@ -154,10 +156,10 @@ function Piece(props: PieceProps) {
   const panGestureStateHandler = ({ nativeEvent: event }) => {
     'worklet';
     if (event.state === State.BEGAN) {
-      setActive();
       dragging.value = true;
       startX.value = pX.value;
       startY.value = pY.value;
+      setActive();
     }
 
     if (event.state === State.FAILED || event.state === State.CANCELLED) {
@@ -179,7 +181,14 @@ function Piece(props: PieceProps) {
       if (!targetZoneId || targetZoneId === currZoneId) {
         returnToCurrentPosition();
       } else {
-        movePiece(targetZoneId);
+        if (legalMoveCheck(targetZoneId)) {
+          let { x, y } = zones.find((zone) => zone.id === targetZoneId);
+          pX.value = x;
+          pY.value = y;
+          movePiece(targetZoneId);
+        } else {
+          returnToCurrentPosition();
+        }
       }
       dragging.value = false;
     }
@@ -190,6 +199,7 @@ function Piece(props: PieceProps) {
       ref={panRef}
       onGestureEvent={panGestureHandler}
       onHandlerStateChange={panGestureStateHandler}
+      enabled={available}
     >
       <AnimatedContainer
         pX={pX}
