@@ -9,8 +9,6 @@ type PieceRendererProps = {
   isActive: (id: string) => boolean;
   isAvailable: (id: string) => boolean;
   // passed by parent
-  ctx?: any;
-  moves?: any;
   assets?: any[];
   tableScale?: number;
   isCurrentPlayer?: boolean;
@@ -62,8 +60,6 @@ function PieceRenderer(props: PieceRendererProps) {
             defaultStyle={defaultStyle}
             setActive={() => setActive(id)}
             movePiece={(zoneId) => movePiece(zoneId)}
-            ctx={props.ctx}
-            moves={props.moves}
             assets={props.assets}
             zones={zones}
             tableScale={tableScale}

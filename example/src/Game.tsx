@@ -6,41 +6,52 @@ import {
   PieceRenderer,
   ZoneRenderer,
   GameViewWrapper,
+  useGameState,
 } from 'meepl';
 import assets from './assets';
 import { isZoneAvailable } from './gameLogic';
 import ChessPieces from './chessPieceTypes';
 
 export default function Game(props) {
-  const { G, ctx, plugins, moves } = props;
-  const activePlayer = plugins.player.data.players[ctx.currentPlayer];
+  const { zones, pieces, moves, handleMove, meta, players } =
+    useGameState(props);
 
   const availableStyle = {
     backgroundColor: 'rgba(0, 0, 200, 0.5)',
   };
 
   return (
-    <GameViewWrapper assets={assets} pieceTypes={ChessPieces} {...props}>
+    <GameViewWrapper
+      pieceTypes={ChessPieces}
+      assets={assets}
+      //state
+      zones={zones}
+      pieces={pieces}
+      currentPlayer={meta.currentPlayer}
+      players={players}
+      isCurrentPlayer={meta.isCurrentPlayer}
+    >
       <Table tableWidth={400} tableHeight={400}>
         <Board height={400} width={400} asset={'Chessboard'} />
         <ZoneRenderer
           isZoneAvailable={isZoneAvailable}
           availableStyle={availableStyle}
-          onHandleZonePress={(id) => moves.movePiece(id)}
+          onHandleZonePress={(id) => handleMove(moves.movePiece, [id])}
         />
         <PieceRenderer
-          isActive={(id) => id === activePlayer.activePiece}
+          isActive={(id) => id === players[meta.currentPlayerID].activePiece}
           isAvailable={(id) => {
-            const piece = G.pieces.find((p) => p.id === id);
+            const piece = pieces.find((p) => p.id === id);
             if (!piece) return false;
-            return ctx.currentPlayer === piece.owner;
+            return meta.currentPlayerID === piece.owner;
           }}
-          setActive={(id) => moves.setActivePiece(id)}
-          movePiece={(id) => moves.movePiece(id)}
+          setActive={(id) => handleMove(moves.setActivePiece, [id])}
+          movePiece={(id) => handleMove(moves.movePiece, [id])}
         />
       </Table>
       <UI>
-        {activePlayer.name}'s turn! Active Piece: {activePlayer.activePiece}
+        {players[meta.currentPlayerID].name}'s turn! Active Piece:{' '}
+        {players[meta.currentPlayerID].activePiece}
       </UI>
     </GameViewWrapper>
   );

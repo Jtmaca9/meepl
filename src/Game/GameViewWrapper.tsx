@@ -1,62 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 export default function GameViewWrapper({
   children,
-  G,
-  ctx,
   playerID,
   ...props
 }: { assets: any[] } & any) {
-  const [isCurrentPlayer, setIsCurrentPlayer] = useState(false);
-  const [pieces, setPieces] = useState([]);
-  const [zones, setZones] = useState([]);
-
-  useEffect(() => {
-    // pieces
-    if (!Array.isArray(G.pieces)) return;
-    if (G.pieces.length !== pieces.length) {
-      setPieces(G.pieces);
-    } else {
-      let shouldUpdate = false;
-      G.pieces.forEach((piece: any, i: number) => {
-        if (piece.currZoneId !== pieces[i].currZoneId) {
-          shouldUpdate = true;
-        }
-      });
-      if (shouldUpdate) {
-        setPieces(G.pieces);
-      }
-    }
-  }, [G.pieces, pieces]);
-
-  useEffect(() => {
-    // player
-    setIsCurrentPlayer(ctx.currentPlayer === playerID);
-  }, [ctx, playerID]);
-
-  useEffect(() => {
-    // zones
-    if (!Array.isArray(G.zones)) return;
-    if (G.zones.length !== zones.length) {
-      setZones(G.zones);
-    }
-  }, [G.zones, zones]);
-
   return (
     <>
       {children.map((child: any, i) => (
         <child.type
           {...child.props}
           key={`${child.type}-${i}`}
-          zones={zones}
-          pieces={pieces}
-          ctx={ctx}
+          zones={props.zones}
+          pieces={props.pieces}
           playerID={playerID}
           pieceTypes={props.pieceTypes}
-          plugins={props.plugins}
+          players={props.players}
           assets={props.assets}
           moves={props.moves}
-          isCurrentPlayer={isCurrentPlayer}
+          currentPlayer={props.currentPlayer}
+          isCurrentPlayer={props.isCurrentPlayer}
         />
       ))}
     </>

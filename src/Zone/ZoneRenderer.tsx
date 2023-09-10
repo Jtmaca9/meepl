@@ -15,7 +15,7 @@ type ZoneRendererProps = {
   devMode?: boolean;
   ctx?: any;
   moves?: any;
-  plugins?: any;
+  currentPlayer?: any;
   availableStyle?: any;
   isCurrentPlayer?: boolean;
   zones?: ZoneType[];
@@ -31,20 +31,18 @@ function ZoneRenderer(props: ZoneRendererProps) {
     onHandleZonePress = (id) => console.log(`Zone ${id} pressed!`),
     zones = [],
     pieces = [],
-    ctx,
-    plugins,
+    currentPlayer,
   } = props;
 
   return (
     <>
       {zones.map((zone) => {
         const { id, x, y, width, height } = zone;
-        const activePlayer = plugins.player.data.players[ctx.currentPlayer];
         const available =
           isCurrentPlayer &&
           isZoneAvailable({
             id,
-            activePlayer,
+            activePlayer: currentPlayer,
             pieces,
             zones,
           });

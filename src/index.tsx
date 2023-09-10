@@ -5,7 +5,8 @@ import UI from './UI';
 // Game
 import { GameWrapper, GameViewWrapper } from './Game';
 import { createGameConfig } from './Game/gameConfig';
-import { MOVE_ERROR } from './Game/actions';
+import { MOVE_ERROR } from './Game/state';
+import useGameState from './Game/state/useGameState';
 
 // Zone
 import { Zone, ZoneRenderer } from './Zone';
@@ -21,6 +22,7 @@ export {
   Board,
   UI,
   GameWrapper,
+  useGameState,
   GameViewWrapper,
   createGameConfig,
   MOVE_ERROR,

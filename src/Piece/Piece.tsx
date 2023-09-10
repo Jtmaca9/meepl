@@ -47,8 +47,6 @@ type PieceProps = PieceBlueprintType &
     draggable?: boolean;
     active?: boolean;
     available?: boolean;
-    ctx: any;
-    moves: any;
     assets: any[];
     tableScale?: number;
     zones: ZoneType[];
