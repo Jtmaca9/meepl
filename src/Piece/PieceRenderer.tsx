@@ -33,7 +33,7 @@ function PieceRenderer(props: PieceRendererProps) {
   return (
     <>
       {pieces.map((piece) => {
-        const { id, type, currZoneId, owner } = piece;
+        const { id, type, currZoneId, owner, variant } = piece;
         return (
           <Piece
             key={id}
@@ -47,6 +47,7 @@ function PieceRenderer(props: PieceRendererProps) {
             assets={props.assets}
             zones={zones}
             tableScale={tableScale}
+            variant={variant}
             pieceTypes={pieceTypes}
             legalMoveCheck={legalMoveCheck}
           />

@@ -51,6 +51,7 @@ type PieceProps = PieceType & {
   zones: ZoneType[];
   pieceTypes: PieceBlueprintType[];
   legalMoveCheck: any;
+  variant?: string;
 };
 
 enum COMPONENT_STATE {
@@ -73,10 +74,13 @@ function Piece(props: PieceProps) {
     pieceTypes,
     type,
     legalMoveCheck,
+    variant,
   } = props;
 
+  const PT = pieceTypes.find((t) => t.id === type);
+  const variantType = PT.variants && variant ? PT.variants[variant] : {};
   const { asset, width, height, activeStyle, availableStyle, defaultStyle } =
-    pieceTypes.find((t) => t.id === type);
+    Object.assign({}, PT, variantType);
 
   const [componentState, setComponentState] = useState(COMPONENT_STATE.default);
   const [componentStyle, setComponentStyle] = useState({});

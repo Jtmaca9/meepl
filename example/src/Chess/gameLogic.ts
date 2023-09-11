@@ -20,10 +20,8 @@ export function isZoneAvailable({
   const targetZone = zones.find((z) => z.id === id);
 
   switch (activePiece.type) {
-    case ChessPieceType.w_rook:
-    case ChessPieceType.b_rook:
-    case ChessPieceType.w_pawn:
-    case ChessPieceType.b_pawn:
+    case ChessPieceType.rook:
+    case ChessPieceType.pawn:
       return isZoneAvailableForRook({
         currZone,
         targetZone,
