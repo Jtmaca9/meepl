@@ -1,6 +1,6 @@
-import { createGridZones } from '../../../src/Zone/utils';
-import { MOVE_ERROR } from '../../../src/Game/state';
-import { createGameConfig } from '../../../src/Game/gameConfig';
+import { createGridZones } from '../../../../src/Zone/utils';
+import { MOVE_ERROR } from '../../../../src/Game/state';
+import { createGameConfig } from '../../../../src/Game/gameConfig';
 import pieces from './pieces';
 import { isZoneAvailable } from '../gameLogic';
 
