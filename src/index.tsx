@@ -1,6 +1,6 @@
 import Table from './Table/Table';
 import Board from './Board';
-import UI from './UI';
+import BottomPanel from './UI/BottomPanel';
 
 // Game
 import { GameWrapper, GameViewWrapper } from './Game';
@@ -22,7 +22,7 @@ import type { PieceBlueprintType, PieceType } from './Piece';
 export {
   Table,
   Board,
-  UI,
+  BottomPanel,
   GameWrapper,
   useGameState,
   GameViewWrapper,

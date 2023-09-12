@@ -21,7 +21,7 @@ const Text = styled.Text`
   color: #333;
 `;
 
-function UI({ children }) {
+function BottomPanel({ children }) {
   return (
     <Container>
       <Text>{children}</Text>
@@ -29,4 +29,4 @@ function UI({ children }) {
   );
 }
 
-export default UI;
+export default BottomPanel;

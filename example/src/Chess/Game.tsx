@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Table,
   Board,
-  UI,
+  BottomPanel,
   PieceRenderer,
   ZoneRenderer,
   GameViewWrapper,
@@ -41,7 +41,10 @@ export default function Game(props) {
         />
         <PieceRenderer
           draggable
-          legalMoveCheck={(targetZoneID) =>
+          onDragStart={(id) => moves.setActivePiece(id)}
+          onDragEnd={(id, targetZoneId) => moves.movePiece(id, targetZoneId)}
+          onSelected={(id) => moves.setActivePiece(id)}
+          legalDragCheck={(targetZoneID) =>
             isZoneAvailable({
               id: targetZoneID,
               activePlayer: players[meta.currentPlayerID],
@@ -49,14 +52,12 @@ export default function Game(props) {
               zones,
             })
           }
-          setActive={(id) => handleMove(moves.setActivePiece, [id])}
-          movePiece={(_, id) => handleMove(moves.movePiece, [id])}
         />
       </Table>
-      <UI>
+      <BottomPanel>
         {players[meta.currentPlayerID].name}'s turn! Active Piece:{' '}
         {players[meta.currentPlayerID].activePiece}
-      </UI>
+      </BottomPanel>
     </GameViewWrapper>
   );
 }

@@ -37,12 +37,13 @@ const PieceImage = styled.Image`
 `;
 
 export type PieceProps = PieceType & {
+  onSelected?: (id: string) => void;
+  onDragEnd?: (id: string) => void;
+  onDragStart?: (id: string) => void;
   activeStyle?: StyleProp<View>;
   availableStyle?: StyleProp<View>;
   defaultStyle?: StyleProp<View>;
   children?: React.ReactNode | React.ReactNode[];
-  setActive?: (id: string) => void;
-  movePiece?: (id: string) => void;
   draggable?: boolean;
   active?: boolean;
   available?: boolean;
@@ -64,8 +65,6 @@ function Piece(props: PieceProps) {
   const {
     currZoneId,
     draggable = false,
-    setActive,
-    movePiece,
     active = false,
     available = false,
     assets,
@@ -73,8 +72,11 @@ function Piece(props: PieceProps) {
     zones,
     pieceTypes,
     type,
-    legalMoveCheck,
+    legalDragCheck,
     variant,
+    onSelected = () => {},
+    onDragStart = () => {},
+    onDragEnd = () => {},
   } = props;
 
   const PT = pieceTypes.find((t) => t.id === type);
@@ -164,10 +166,10 @@ function Piece(props: PieceProps) {
   const panGestureStateHandler = ({ nativeEvent: event }) => {
     'worklet';
     if (event.state === State.BEGAN) {
+      onDragStart();
       dragging.value = true;
       startX.value = pX.value;
       startY.value = pY.value;
-      setActive();
     }
 
     if (event.state === State.FAILED || event.state === State.CANCELLED) {
@@ -189,13 +191,13 @@ function Piece(props: PieceProps) {
       if (!targetZoneId || targetZoneId === currZoneId) {
         returnToCurrentPosition();
       } else {
-        if (legalMoveCheck(targetZoneId)) {
+        if (legalDragCheck(targetZoneId)) {
           let zone = zones.find((zone) => zone.id === targetZoneId);
           let x = getZoneX(zone);
           let y = getZoneY(zone);
           pX.value = x;
           pY.value = y;
-          movePiece(targetZoneId);
+          onDragEnd(targetZoneId);
         } else {
           returnToCurrentPosition();
         }
@@ -234,7 +236,7 @@ function Piece(props: PieceProps) {
       <PieceContainerPressable
         style={componentStyle}
         disabled={!available}
-        onPress={setActive}
+        onPress={onSelected}
       >
         <PieceImage source={assetCache} resizeMode="contain" />
       </PieceContainerPressable>

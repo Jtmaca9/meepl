@@ -4,9 +4,10 @@ import type { PieceBlueprintType, PieceType } from './types';
 import type { ZoneType } from '../Zone/types';
 
 type PieceRendererProps = {
-  movePiece: any;
-  setActive: (id: string) => void;
-  legalMoveCheck: any;
+  onSelected?: (id: string) => void;
+  onDragEnd?: (id: string, targetZoneId: string) => void;
+  onDragStart?: (id: string) => void;
+  legalDragCheck: any;
   // passed by parent
   assets?: any[];
   tableScale?: number;
@@ -20,16 +21,17 @@ type PieceRendererProps = {
 
 function PieceRenderer(props: PieceRendererProps) {
   const {
-    setActive,
     pieceTypes,
     pieces = [],
-    movePiece,
     isCurrentPlayer,
     currentPlayer,
     tableScale,
     zones,
     draggable,
-    legalMoveCheck,
+    legalDragCheck,
+    onDragStart = () => {},
+    onDragEnd = () => {},
+    onSelected = () => {},
   } = props;
 
   return (
@@ -44,15 +46,16 @@ function PieceRenderer(props: PieceRendererProps) {
             type={type}
             available={isCurrentPlayer && owner === currentPlayer.id}
             active={isCurrentPlayer && currentPlayer.activePiece === id}
-            setActive={() => setActive(id)}
-            movePiece={(zoneId) => movePiece(id, zoneId)}
             assets={props.assets}
             zones={zones}
             tableScale={tableScale}
             variant={variant}
             pieceTypes={pieceTypes}
-            legalMoveCheck={legalMoveCheck}
+            legalDragCheck={legalDragCheck}
             draggable={draggable}
+            onDragStart={() => onDragStart(id)}
+            onDragEnd={(targetZoneId) => onDragEnd(id, targetZoneId)}
+            onSelected={() => onSelected(id)}
           />
         );
       })}

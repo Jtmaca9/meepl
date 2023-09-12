@@ -12,7 +12,7 @@ const Container = styled.TouchableOpacity<Partial<ZoneProps>>`
   height: ${({ height }) => height}px;
 `;
 
-type ZoneProps = ZoneType & {
+export type ZoneProps = ZoneType & {
   devMode?: boolean;
   onPress?: () => void;
   availableStyle?: StyleProp<View>;

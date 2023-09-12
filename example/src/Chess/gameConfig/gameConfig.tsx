@@ -23,7 +23,7 @@ const moves = {
     });
   },
   // @ts-ignore
-  movePiece: ({ G, player }, zoneId) => {
+  movePiece: ({ G, player }, _, zoneId) => {
     const currPlayer = player.get();
     const piece = G.pieces.find((p) => p.id === currPlayer.activePiece);
     if (!piece) return MOVE_ERROR.INVALID_MOVE;

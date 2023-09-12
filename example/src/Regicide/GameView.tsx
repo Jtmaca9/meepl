@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Table,
-  UI,
+  BottomPanel,
   GameViewWrapper,
   useGameState,
   PieceRenderer,
@@ -17,6 +17,8 @@ export default function Game(props) {
   const TableStyle = {
     width: '100%',
     height: '100%',
+    alignItems: 'center',
+    padding: 50,
   };
 
   return (
@@ -39,12 +41,13 @@ export default function Game(props) {
         />
         <PieceRenderer
           draggable
-          legalMoveCheck={() => true}
-          movePiece={(pieceId, zoneId) => moves.movePiece(pieceId, zoneId)}
-          setActive={() => {}}
+          legalDragCheck={() => true}
+          onDragEnd={(pieceId, zoneId) => moves.movePiece(pieceId, zoneId)}
+          onDragStart={() => {}}
+          onSelected={() => {}}
         />
       </Table>
-      <UI>{players[meta.currentPlayerID].name}'s turn!</UI>
+      <BottomPanel>{players[meta.currentPlayerID].name}'s turn!</BottomPanel>
     </GameViewWrapper>
   );
 }
