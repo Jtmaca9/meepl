@@ -36,7 +36,7 @@ const PieceImage = styled.Image`
   width: 100%;
 `;
 
-type PieceProps = PieceType & {
+export type PieceProps = PieceType & {
   activeStyle?: StyleProp<View>;
   availableStyle?: StyleProp<View>;
   defaultStyle?: StyleProp<View>;
@@ -63,7 +63,7 @@ enum COMPONENT_STATE {
 function Piece(props: PieceProps) {
   const {
     currZoneId,
-    draggable = true,
+    draggable = false,
     setActive,
     movePiece,
     active = false,
@@ -108,7 +108,7 @@ function Piece(props: PieceProps) {
   ]);
 
   // Find and set initail piece position
-  let initPos = zones.find((zone) => zone.id === currZoneId);
+  let initPos = zones.find((zone) => zone.id === currZoneId) || { x: 0, y: 0 };
   const pX = useSharedValue(initPos.x);
   const pY = useSharedValue(initPos.y);
   const startX = useSharedValue(initPos.x);
@@ -122,7 +122,10 @@ function Piece(props: PieceProps) {
   };
 
   useEffect(() => {
-    let { x, y } = zones.find((zone) => zone.id === currZoneId);
+    let { x, y } = zones.find((zone) => zone.id === currZoneId) || {
+      x: 0,
+      y: 0,
+    };
 
     if (x === pX.value && y === pY.value) return;
 
