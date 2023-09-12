@@ -1,4 +1,5 @@
 import type { ZoneType } from './types';
+import { ZONE_SPACING } from './zoneSpacing';
 
 export function createGridZones({
   rows,
@@ -41,10 +42,24 @@ export function findZoneByCoords(
   x: number,
   y: number
 ): string | undefined {
-  const zone = zones.find(
-    (z) => x >= z.x && x <= z.x + z.width && y >= z.y && y <= z.y + z.height
-  );
+  const zone = zones.find((z) => {
+    const zoneX = getZoneX(z);
+    const zoneY = getZoneY(z);
+    return (
+      x >= zoneX && x <= zoneX + z.width && y >= zoneY && y <= zoneY + z.height
+    );
+  });
 
   if (zone) return zone.id;
   return undefined;
+}
+
+export function getZoneX(zone: ZoneType): number {
+  if (typeof zone.x === 'number') return zone.x;
+  return ZONE_SPACING[zone.x](zone.width);
+}
+
+export function getZoneY(zone: ZoneType): number {
+  if (typeof zone.y === 'number') return zone.y;
+  return ZONE_SPACING[zone.y](zone.height);
 }

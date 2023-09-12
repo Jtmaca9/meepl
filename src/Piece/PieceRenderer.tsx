@@ -4,7 +4,7 @@ import type { PieceBlueprintType, PieceType } from './types';
 import type { ZoneType } from '../Zone/types';
 
 type PieceRendererProps = {
-  movePiece: (id: string) => void;
+  movePiece: any;
   setActive: (id: string) => void;
   legalMoveCheck: any;
   // passed by parent
@@ -14,6 +14,7 @@ type PieceRendererProps = {
   currentPlayer?: any;
   pieces?: PieceType[];
   zones?: ZoneType[];
+  draggable?: boolean;
   pieceTypes?: PieceBlueprintType[];
 };
 
@@ -27,6 +28,7 @@ function PieceRenderer(props: PieceRendererProps) {
     currentPlayer,
     tableScale,
     zones,
+    draggable,
     legalMoveCheck,
   } = props;
 
@@ -43,13 +45,14 @@ function PieceRenderer(props: PieceRendererProps) {
             available={isCurrentPlayer && owner === currentPlayer.id}
             active={isCurrentPlayer && currentPlayer.activePiece === id}
             setActive={() => setActive(id)}
-            movePiece={(zoneId) => movePiece(zoneId)}
+            movePiece={(zoneId) => movePiece(id, zoneId)}
             assets={props.assets}
             zones={zones}
             tableScale={tableScale}
             variant={variant}
             pieceTypes={pieceTypes}
             legalMoveCheck={legalMoveCheck}
+            draggable={draggable}
           />
         );
       })}

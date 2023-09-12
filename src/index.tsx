@@ -1,4 +1,4 @@
-import Table from './Table';
+import Table from './Table/Table';
 import Board from './Board';
 import UI from './UI';
 
@@ -12,6 +12,8 @@ import useGameState from './Game/state/useGameState';
 import { Zone, ZoneRenderer } from './Zone';
 import { createGridZones } from './Zone/utils';
 import type { ZoneType } from './Zone';
+import { ZONE_SPACING } from './Zone/zoneSpacing';
+import { ZONE_SPACING_OPTIONS } from './Zone/types';
 
 // Piece
 import { Piece, PieceRenderer } from './Piece';
@@ -28,6 +30,8 @@ export {
   MOVE_ERROR,
   Zone,
   ZoneRenderer,
+  ZONE_SPACING,
+  ZONE_SPACING_OPTIONS,
   createGridZones,
   Piece,
   PieceRenderer,

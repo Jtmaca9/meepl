@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import styled from 'styled-components/native';
 import {
   PanGestureHandler,
@@ -16,9 +16,11 @@ import Animated, {
 } from 'react-native-reanimated';
 
 type TableProps = {
-  tableWidth: number;
-  tableHeight: number;
+  tableWidth?: number;
+  tableHeight?: number;
   children: React.ReactNode | React.ReactNode[];
+  fixed?: boolean;
+  containerStyle?: any;
 };
 
 const AnimatedBox = styled(Animated.View)`
@@ -103,12 +105,23 @@ function Table(props: TableProps) {
   }, [translateX, translateY, scale]);
 
   const tableStyle = {
-    width: props.tableWidth,
-    height: props.tableHeight,
-    overflow: 'hidden',
+    width: props.tableWidth || '100%',
+    height: props.tableHeight || '100%',
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    ...(props.containerStyle || {}),
   };
 
-  return (
+  return props.fixed ? (
+    <View style={tableStyle}>
+      {Array.isArray(props.children) ? (
+        props.children.map((child: any, i) => (
+          <child.type key={i} {...props} {...child.props} />
+        ))
+      ) : (
+        <props.children.type {...props} {...props.children.props} />
+      )}
+    </View>
+  ) : (
     <PanGestureHandler
       ref={panRef}
       simultaneousHandlers={pinchRef}

@@ -1,7 +1,8 @@
 import React, { useEffect, useState, memo } from 'react';
 import styled from 'styled-components/native';
 import type { ZoneType } from './types';
-import type { StyleProp, View } from 'react-native';
+import { type StyleProp, type View } from 'react-native';
+import { ZONE_SPACING } from './zoneSpacing';
 
 const Container = styled.TouchableOpacity<Partial<ZoneProps>>`
   position: absolute;
@@ -29,6 +30,26 @@ function Zone(props: ZoneProps) {
   const { x, y, width, height, devMode, onPress, availableStyle, available } =
     props;
 
+  let [xCoord, setXCoord] = useState(
+    typeof x === 'number' ? x : ZONE_SPACING[x](width)
+  );
+  let [yCoord, setYCoord] = useState(
+    typeof y === 'number' ? y : ZONE_SPACING[y](height)
+  );
+
+  useEffect(() => {
+    if (typeof x === 'string') {
+      setXCoord(ZONE_SPACING[x](width));
+    } else {
+      setXCoord(x);
+    }
+    if (typeof y === 'string') {
+      setYCoord(ZONE_SPACING[y](height));
+    } else {
+      setYCoord(y);
+    }
+  }, [x, y, width, height]);
+
   const [componentState, setComponentState] = useState(COMPONENT_STATE.default);
   const [componentStyle, setComponentStyle] = useState({});
 
@@ -38,27 +59,26 @@ function Zone(props: ZoneProps) {
       setComponentStyle(availableStyle);
     } else {
       setComponentState(COMPONENT_STATE.default);
-      setComponentStyle(
-        devMode
-          ? {
-              borderWidth: 1,
-              borderColor: 'red',
-              borderRadius: 5,
-            }
-          : {}
-      );
+      setComponentStyle({});
     }
   }, [available, componentState, availableStyle, devMode]);
 
   return (
     <Container
-      x={x}
-      y={y}
+      x={xCoord}
+      y={yCoord}
       width={width}
       height={height}
       devMode={devMode}
       onPress={onPress}
-      style={componentStyle}
+      style={[
+        componentStyle,
+        devMode && {
+          borderWidth: 1,
+          borderColor: 'red',
+          borderRadius: 5,
+        },
+      ]}
     />
   );
 }

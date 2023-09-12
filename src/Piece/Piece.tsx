@@ -8,7 +8,7 @@ import Animated, {
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import type { StyleProp, View } from 'react-native';
-import { findZoneByCoords } from '../Zone/utils';
+import { findZoneByCoords, getZoneX, getZoneY } from '../Zone/utils';
 import type { ZoneType } from '../Zone/types';
 import type { PieceType, PieceBlueprintType } from './types';
 
@@ -108,11 +108,13 @@ function Piece(props: PieceProps) {
   ]);
 
   // Find and set initail piece position
-  let initPos = zones.find((zone) => zone.id === currZoneId) || { x: 0, y: 0 };
-  const pX = useSharedValue(initPos.x);
-  const pY = useSharedValue(initPos.y);
-  const startX = useSharedValue(initPos.x);
-  const startY = useSharedValue(initPos.y);
+  let initZone = zones.find((zone) => zone.id === currZoneId) || { x: 0, y: 0 };
+  const initX = getZoneX(initZone);
+  const initY = getZoneY(initZone);
+  const pX = useSharedValue(initX);
+  const pY = useSharedValue(initY);
+  const startX = useSharedValue(initX);
+  const startY = useSharedValue(initY);
   const dragging = useSharedValue(false);
 
   const panRef = useRef(null);
@@ -122,15 +124,14 @@ function Piece(props: PieceProps) {
   };
 
   useEffect(() => {
-    let { x, y } = zones.find((zone) => zone.id === currZoneId) || {
-      x: 0,
-      y: 0,
-    };
+    let zone = zones.find((zone) => zone.id === currZoneId);
+    let zoneX = getZoneX(zone) || 0;
+    let zoneY = getZoneY(zone) || 0;
 
-    if (x === pX.value && y === pY.value) return;
+    if (zoneX === pX.value && zoneY === pY.value) return;
 
-    pX.value = x;
-    pY.value = y;
+    pX.value = zoneX;
+    pY.value = zoneY;
   }, [currZoneId, zones, pX, pY]);
 
   const animatedStyles = useAnimatedStyle(
@@ -189,7 +190,9 @@ function Piece(props: PieceProps) {
         returnToCurrentPosition();
       } else {
         if (legalMoveCheck(targetZoneId)) {
-          let { x, y } = zones.find((zone) => zone.id === targetZoneId);
+          let zone = zones.find((zone) => zone.id === targetZoneId);
+          let x = getZoneX(zone);
+          let y = getZoneY(zone);
           pX.value = x;
           pY.value = y;
           movePiece(targetZoneId);

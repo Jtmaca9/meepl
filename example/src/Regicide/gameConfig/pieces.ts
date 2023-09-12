@@ -5,7 +5,7 @@ const pieces: PieceType[] = [
   {
     id: 'King',
     type: PlayingCardType.king,
-    currZoneId: null,
+    currZoneId: '1',
     owner: '0',
     variant: PlayingCardSuit.tiles,
   },

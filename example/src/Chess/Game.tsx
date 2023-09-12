@@ -34,11 +34,13 @@ export default function Game(props) {
       <Table tableWidth={400} tableHeight={400}>
         <Board height={400} width={400} asset={'Chessboard'} />
         <ZoneRenderer
+          devMode
           isZoneAvailable={isZoneAvailable}
           availableStyle={availableStyle}
           onHandleZonePress={(id) => handleMove(moves.movePiece, [id])}
         />
         <PieceRenderer
+          draggable
           legalMoveCheck={(targetZoneID) =>
             isZoneAvailable({
               id: targetZoneID,
@@ -48,7 +50,7 @@ export default function Game(props) {
             })
           }
           setActive={(id) => handleMove(moves.setActivePiece, [id])}
-          movePiece={(id) => handleMove(moves.movePiece, [id])}
+          movePiece={(_, id) => handleMove(moves.movePiece, [id])}
         />
       </Table>
       <UI>
