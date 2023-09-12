@@ -51,7 +51,7 @@ export type PieceProps = PieceType & {
   tableScale?: number;
   zones: ZoneType[];
   pieceTypes: PieceBlueprintType[];
-  legalMoveCheck: any;
+  legalDragCheck: any;
   variant?: string;
 };
 
