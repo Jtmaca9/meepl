@@ -13,7 +13,7 @@ function Card(props: CardProps) {
       assets={assets}
       zones={zones}
       pieceTypes={pieceTypes}
-      legalMoveCheck={() => true}
+      legalDragCheck={() => true}
     />
   );
 }
