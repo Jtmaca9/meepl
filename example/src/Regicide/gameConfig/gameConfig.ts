@@ -1,12 +1,11 @@
-import { createGameConfig } from 'meepl';
+import { createGameConfig, movePieceToZone } from 'meepl';
 
-import { zones, zonesPan } from './zones';
+import { zones, zonesPan, zonesUIPan } from './zones';
 import pieces from './pieces';
 
 const moves = {
   movePiece: ({ G }, pieceId, zoneId) => {
-    const piece = G.pieces.find((p) => p.id === pieceId);
-    piece.currZoneId = zoneId;
+    movePieceToZone({ G, pieceId, zoneId });
   },
 };
 
@@ -14,6 +13,7 @@ const RegicideGame = (pan) =>
   createGameConfig({
     name: 'Regicide',
     zones: pan ? zonesPan : zones,
+    zonesUI: zonesUIPan,
     pieces,
     moves,
     minPlayers: 1,

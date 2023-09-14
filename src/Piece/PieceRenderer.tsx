@@ -7,6 +7,7 @@ type PieceRendererProps = {
   onSelected?: (id: string) => void;
   onDragEnd?: (id: string, targetZoneId: string) => void;
   onDragStart?: (id: string) => void;
+  isPieceActive?: (id: string) => boolean;
   legalDragCheck: any;
   // passed by parent
   assets?: any[];
@@ -15,6 +16,7 @@ type PieceRendererProps = {
   currentPlayer?: any;
   pieces?: PieceType[];
   zones?: ZoneType[];
+  zonesUI?: ZoneType[];
   draggable?: boolean;
   pieceTypes?: PieceBlueprintType[];
 };
@@ -32,6 +34,7 @@ function PieceRenderer(props: PieceRendererProps) {
     onDragStart = () => {},
     onDragEnd = () => {},
     onSelected = () => {},
+    isPieceActive = () => false,
   } = props;
 
   return (
@@ -45,7 +48,7 @@ function PieceRenderer(props: PieceRendererProps) {
             currZoneId={currZoneId}
             type={type}
             available={isCurrentPlayer && owner === currentPlayer.id}
-            active={isCurrentPlayer && currentPlayer.activePiece === id}
+            active={isPieceActive(id)}
             assets={props.assets}
             zones={zones}
             tableScale={tableScale}

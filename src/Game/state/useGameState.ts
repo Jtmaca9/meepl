@@ -10,8 +10,9 @@ function useGameState(props) {
     currentPlayer: players[ctx.currentPlayer],
     isCurrentPlayer: playerID === ctx.currentPlayer,
   });
-  const [pieces, setPiecesLocal] = useState(G.pieces);
-  const [zones] = useState(G.zones);
+  const [pieces, setPieces] = useState(G.pieces || []);
+  const [zones, setZones] = useState(G.zones || []);
+  const [zonesUI, setZonesUI] = useState(G.zonesUI || []);
 
   useEffect(() => {
     setPlayers(plugins.player.data.players);
@@ -30,8 +31,20 @@ function useGameState(props) {
   useEffect(() => {
     if (!G.pieces) return;
     if (G.pieces.length === 0) return;
-    setPiecesLocal(G.pieces);
+    setPieces(G.pieces);
   }, [G.pieces]);
+
+  useEffect(() => {
+    if (!G.zones) return;
+    if (G.zones.length === 0) return;
+    setZones(G.zones);
+  }, [G.zones]);
+
+  useEffect(() => {
+    if (!G.zonesUI) return;
+    if (G.zonesUI.length === 0) return;
+    setZonesUI(G.zonesUI);
+  }, [G.zonesUI]);
 
   const handleMove = (move, args) => {
     if (!meta.isCurrentPlayer) return;
@@ -45,6 +58,7 @@ function useGameState(props) {
     zones,
     moves,
     handleMove,
+    zonesUI,
   };
 }
 

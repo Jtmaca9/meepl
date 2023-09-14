@@ -17,4 +17,5 @@ export type PieceType = {
   owner?: string | string[];
   id: string;
   currZoneId?: string;
+  slotId?: string;
 };

@@ -28,6 +28,7 @@ const activeStyle = {
   shadowOffset: { width: 0, height: 0 },
   shadowOpacity: 0.8,
   shadowRadius: 10,
+  zIndex: 100,
 };
 
 const availableStyle = {};

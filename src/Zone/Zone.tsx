@@ -1,6 +1,6 @@
 import React, { useEffect, useState, memo } from 'react';
 import styled from 'styled-components/native';
-import type { ZoneType } from './types';
+import { ZONE_TYPE, type ZoneType } from './types';
 import { type StyleProp, type View } from 'react-native';
 import { ZONE_SPACING } from './zoneSpacing';
 
@@ -72,7 +72,7 @@ function Zone(props: ZoneProps) {
       devMode={devMode}
       onPress={onPress}
       style={[
-        componentStyle,
+        props.zType !== ZONE_TYPE.slot && componentStyle,
         devMode && {
           borderWidth: 1,
           borderColor: 'red',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   BottomPanel,
@@ -6,13 +6,22 @@ import {
   useGameState,
   PieceRenderer,
   ZoneRenderer,
+  UiWrapper,
 } from 'meepl';
-import { Text } from 'react-native';
+import styled from 'styled-components/native';
 import assets from './gameConfig/assets';
 import pieceTypes from './gameConfig/pieceTypes';
 
+const Text = styled.Text`
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+`;
+
 export default function Game(props) {
-  const { zones, pieces, meta, players, moves } = useGameState(props);
+  const { zones, zonesUI, pieces, meta, players, moves } = useGameState(props);
+
+  const [activePiece, setActivePiece] = useState(null);
 
   return (
     <GameViewWrapper
@@ -20,6 +29,7 @@ export default function Game(props) {
       assets={assets}
       //state
       zones={zones}
+      zonesUI={zonesUI}
       pieces={pieces}
       currentPlayer={players[meta.currentPlayerID]}
       players={players}
@@ -34,13 +44,27 @@ export default function Game(props) {
         />
         <PieceRenderer
           draggable
+          isPieceActive={(id) => id === activePiece}
           legalDragCheck={() => true}
-          onDragEnd={(pieceId, zoneId) => moves.movePiece(pieceId, zoneId)}
-          onDragStart={() => {}}
-          onSelected={() => {}}
+          onDragEnd={(pieceId, zoneId) => {
+            moves.movePiece(pieceId, zoneId);
+            setActivePiece(null);
+          }}
+          onDragStart={(id) => setActivePiece(id)}
+          onSelected={(id) => setActivePiece(id)}
         />
       </Table>
-      <BottomPanel>{players[meta.currentPlayerID].name}'s turn!</BottomPanel>
+      <UiWrapper>
+        <BottomPanel height={120}>
+          <Text>{players[meta.currentPlayerID].name}'s turn!</Text>
+          <ZoneRenderer
+            devMode
+            zones={zonesUI}
+            onHandleZonePress={function (): void {}}
+            isZoneAvailable={() => true}
+          />
+        </BottomPanel>
+      </UiWrapper>
     </GameViewWrapper>
   );
 }

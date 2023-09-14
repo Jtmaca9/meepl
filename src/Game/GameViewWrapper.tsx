@@ -12,6 +12,7 @@ export default function GameViewWrapper({
           {...child.props}
           key={`${child.type}-${i}`}
           zones={props.zones}
+          zonesUI={props.zonesUI}
           pieces={props.pieces}
           playerID={playerID}
           pieceTypes={props.pieceTypes}

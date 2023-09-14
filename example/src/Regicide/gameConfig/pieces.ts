@@ -9,6 +9,13 @@ const pieces: PieceType[] = [
     owner: '0',
     variant: PlayingCardSuit.tiles,
   },
+  {
+    id: 'queen',
+    type: PlayingCardType.queen,
+    currZoneId: '2',
+    owner: '0',
+    variant: PlayingCardSuit.clovers,
+  },
 ];
 
 export default pieces;

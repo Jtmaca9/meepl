@@ -1,11 +1,36 @@
-export type ZoneType = {
-  x: number | string;
-  y: number | string;
-  width: number;
-  height: number;
+export enum ZONE_TYPE {
+  single = 'single',
+  multi = 'multi',
+  slot = 'slot',
+}
+
+export type SlotType = {
   id: string;
-  meta?: any;
+  x: number;
+  y: number;
+  pieceId: string | null;
 };
+
+export type ZoneType<zType = ZONE_TYPE> = zType extends ZONE_TYPE.single
+  ? {
+      zType: ZONE_TYPE.single | ZONE_TYPE.slot;
+      x: number | string;
+      y: number | string;
+      width: number;
+      height: number;
+      id: string;
+      meta?: any;
+    }
+  : {
+      zType: ZONE_TYPE.multi;
+      x: number | string;
+      y: number | string;
+      width: number;
+      height: number;
+      id: string;
+      meta?: any;
+      slots: SlotType[];
+    };
 
 export enum ZONE_SPACING_OPTIONS {
   centerX = 'centerX',

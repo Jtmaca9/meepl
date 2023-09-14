@@ -1,7 +1,8 @@
 import React, { memo } from 'react';
 import Zone from './Zone';
-import type { ZoneType } from './types';
+import { ZONE_TYPE, type ZoneType } from './types';
 import type { PieceType } from '../Piece/types';
+import MultiZone from './MultiZone';
 
 type ZoneRendererProps = {
   onHandleZonePress: (id: string) => void;
@@ -37,7 +38,7 @@ function ZoneRenderer(props: ZoneRendererProps) {
   return (
     <>
       {zones.map((zone) => {
-        const { id, x, y, width, height } = zone;
+        const { zType, id, x, y, width, height } = zone;
         const available =
           isCurrentPlayer &&
           isZoneAvailable({
@@ -46,8 +47,21 @@ function ZoneRenderer(props: ZoneRendererProps) {
             pieces,
             zones,
           });
-        return (
+        return zType === ZONE_TYPE.multi ? (
+          <MultiZone
+            key={id}
+            devMode={devMode}
+            onHandleZonePress={onHandleZonePress}
+            available={available}
+            availableStyle={availableStyle}
+            ctx={props.ctx}
+            moves={props.moves}
+            pieces={pieces}
+            {...zone}
+          />
+        ) : (
           <Zone
+            zType={zType}
             key={id}
             id={id}
             width={width}
@@ -60,6 +74,7 @@ function ZoneRenderer(props: ZoneRendererProps) {
             availableStyle={availableStyle}
             ctx={props.ctx}
             moves={props.moves}
+            {...zone}
           />
         );
       })}

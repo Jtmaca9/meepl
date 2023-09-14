@@ -9,7 +9,7 @@ import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import type { StyleProp, View } from 'react-native';
 import { findZoneByCoords, getZoneX, getZoneY } from '../Zone/utils';
-import type { ZoneType } from '../Zone/types';
+import { ZONE_TYPE, type ZoneType } from '../Zone/types';
 import type { PieceType, PieceBlueprintType } from './types';
 
 const AnimatedContainer = styled(Animated.View)`
@@ -64,6 +64,7 @@ enum COMPONENT_STATE {
 function Piece(props: PieceProps) {
   const {
     currZoneId,
+    id,
     draggable = false,
     active = false,
     available = false,
@@ -122,19 +123,29 @@ function Piece(props: PieceProps) {
   const panRef = useRef(null);
 
   const pieceOverStyle = {
-    zIndex: 2,
+    zIndex: 999,
   };
 
   useEffect(() => {
     let zone = zones.find((zone) => zone.id === currZoneId);
-    let zoneX = getZoneX(zone) || 0;
-    let zoneY = getZoneY(zone) || 0;
+
+    let zoneX, zoneY;
+
+    if (zone.zType === ZONE_TYPE.multi) {
+      let slot = zone.slots.find((slot) => slot.pieceId === id);
+      if (!slot) return;
+      zoneX = getZoneX(zone) + slot.x || 0;
+      zoneY = getZoneY(zone) + slot.y || 0;
+    } else {
+      zoneX = getZoneX(zone) || 0;
+      zoneY = getZoneY(zone) || 0;
+    }
 
     if (zoneX === pX.value && zoneY === pY.value) return;
 
     pX.value = zoneX;
     pY.value = zoneY;
-  }, [currZoneId, zones, pX, pY]);
+  }, [currZoneId, zones, pX, pY, id]);
 
   const animatedStyles = useAnimatedStyle(
     () => ({
@@ -191,8 +202,8 @@ function Piece(props: PieceProps) {
       if (!targetZoneId || targetZoneId === currZoneId) {
         returnToCurrentPosition();
       } else {
-        if (legalDragCheck(targetZoneId)) {
-          let zone = zones.find((zone) => zone.id === targetZoneId);
+        let zone = zones.find((zone) => zone.id === targetZoneId);
+        if (zone.zType !== ZONE_TYPE.slot && legalDragCheck(targetZoneId)) {
           let x = getZoneX(zone);
           let y = getZoneY(zone);
           pX.value = x;
