@@ -40,11 +40,13 @@ export default function Game(props) {
           onHandleZonePress={(id) => handleMove(moves.movePiece, [id])}
         />
         <PieceRenderer
-          draggable
-          onDragStart={(id) => moves.setActivePiece(id)}
-          onDragEnd={(id, targetZoneId) => moves.movePiece(id, targetZoneId)}
-          onSelected={(id) => moves.setActivePiece(id)}
-          legalDragCheck={(targetZoneID) =>
+          isPieceDraggable={() => true}
+          onDragPieceStart={(id) => moves.setActivePiece(id)}
+          onDragPieceEnd={(id, targetZoneId) =>
+            moves.movePiece(id, targetZoneId)
+          }
+          onSelectedPiece={(id) => moves.setActivePiece(id)}
+          legalPieceDragCheck={(targetZoneID) =>
             isZoneAvailable({
               id: targetZoneID,
               activePlayer: players[meta.currentPlayerID],

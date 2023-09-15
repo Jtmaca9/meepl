@@ -48,11 +48,12 @@ export type PieceProps = PieceType & {
   active?: boolean;
   available?: boolean;
   assets: any[];
-  tableScale?: number;
   zones: ZoneType[];
   pieceTypes: PieceBlueprintType[];
   legalDragCheck: any;
   variant?: string;
+  UI: boolean;
+  tableTransform: { x: number; y: number; scale: number };
 };
 
 enum COMPONENT_STATE {
@@ -69,12 +70,13 @@ function Piece(props: PieceProps) {
     active = false,
     available = false,
     assets,
-    tableScale = 1,
     zones,
     pieceTypes,
     type,
     legalDragCheck,
     variant,
+    tableTransform,
+    UI,
     onSelected = () => {},
     onDragStart = () => {},
     onDragEnd = () => {},
@@ -169,8 +171,13 @@ function Piece(props: PieceProps) {
     'worklet';
     const event = p.nativeEvent;
     if (event.state === State.ACTIVE) {
-      pX.value = event.translationX * (1 / tableScale) + startX.value;
-      pY.value = event.translationY * (1 / tableScale) + startY.value;
+      if (UI) {
+        pX.value = event.translationX + startX.value;
+        pY.value = event.translationY + startY.value;
+      } else {
+        pX.value = event.translationX / tableTransform.scale + startX.value;
+        pY.value = event.translationY / tableTransform.scale + startY.value;
+      }
     }
   };
 
@@ -188,11 +195,29 @@ function Piece(props: PieceProps) {
     }
 
     if (event.state === State.END) {
-      let targetZoneId = findZoneByCoords(
-        zones,
-        pX.value + width / 2,
-        pY.value + height / 2
-      );
+      let targetZoneId = null;
+      if (UI) {
+        const offsetX =
+          tableTransform.x -
+          (tableTransform.width * tableTransform.scale - tableTransform.width) /
+            2;
+        const offsetY =
+          tableTransform.y -
+          (tableTransform.height * tableTransform.scale -
+            tableTransform.height) /
+            2;
+        targetZoneId = findZoneByCoords(
+          zones,
+          (event.absoluteX - offsetX) / tableTransform.scale,
+          (event.absoluteY - offsetY) / tableTransform.scale
+        );
+      } else {
+        targetZoneId = findZoneByCoords(
+          zones,
+          pX.value + width / 2,
+          pY.value + height / 2
+        );
+      }
 
       function returnToCurrentPosition() {
         pX.value = startX.value;
@@ -203,7 +228,11 @@ function Piece(props: PieceProps) {
         returnToCurrentPosition();
       } else {
         let zone = zones.find((zone) => zone.id === targetZoneId);
-        if (zone.zType !== ZONE_TYPE.slot && legalDragCheck(targetZoneId)) {
+        if (
+          zone.zType !== ZONE_TYPE.slot &&
+          legalDragCheck(targetZoneId) &&
+          !zone.UI
+        ) {
           let x = getZoneX(zone);
           let y = getZoneY(zone);
           pX.value = x;

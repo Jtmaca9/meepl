@@ -3,12 +3,13 @@ import Piece from './Piece';
 import type { PieceBlueprintType, PieceType } from './types';
 import type { ZoneType } from '../Zone/types';
 
-type PieceRendererProps = {
-  onSelected?: (id: string) => void;
-  onDragEnd?: (id: string, targetZoneId: string) => void;
-  onDragStart?: (id: string) => void;
+export type PieceRendererProps = {
+  onSelectedPiece?: (id: string) => void;
+  onDragPieceEnd?: (id: string, targetZoneId: string) => void;
+  onDragPieceStart?: (id: string) => void;
   isPieceActive?: (id: string) => boolean;
-  legalDragCheck: any;
+  legalPieceDragCheck: any;
+  UI?: boolean;
   // passed by parent
   assets?: any[];
   tableScale?: number;
@@ -16,9 +17,9 @@ type PieceRendererProps = {
   currentPlayer?: any;
   pieces?: PieceType[];
   zones?: ZoneType[];
-  zonesUI?: ZoneType[];
-  draggable?: boolean;
+  isPieceDraggable?: (id: string) => boolean;
   pieceTypes?: PieceBlueprintType[];
+  tableTransform?: { x: number; y: number; scale: number };
 };
 
 function PieceRenderer(props: PieceRendererProps) {
@@ -27,20 +28,22 @@ function PieceRenderer(props: PieceRendererProps) {
     pieces = [],
     isCurrentPlayer,
     currentPlayer,
-    tableScale,
     zones,
-    draggable,
-    legalDragCheck,
-    onDragStart = () => {},
-    onDragEnd = () => {},
-    onSelected = () => {},
+    legalPieceDragCheck,
+    onDragPieceStart = () => {},
+    onDragPieceEnd = () => {},
+    onSelectedPiece = () => {},
     isPieceActive = () => false,
+    isPieceDraggable = () => false,
+    UI = false,
+    tableTransform = { x: 0, y: 0, scale: 1 },
   } = props;
 
   return (
     <>
       {pieces.map((piece) => {
-        const { id, type, currZoneId, owner, variant } = piece;
+        const { id, type, currZoneId, owner, variant, UI: pUI = false } = piece;
+        if (UI !== pUI) return null;
         return (
           <Piece
             key={id}
@@ -51,14 +54,15 @@ function PieceRenderer(props: PieceRendererProps) {
             active={isPieceActive(id)}
             assets={props.assets}
             zones={zones}
-            tableScale={tableScale}
-            variant={variant}
             pieceTypes={pieceTypes}
-            legalDragCheck={legalDragCheck}
-            draggable={draggable}
-            onDragStart={() => onDragStart(id)}
-            onDragEnd={(targetZoneId) => onDragEnd(id, targetZoneId)}
-            onSelected={() => onSelected(id)}
+            variant={variant}
+            legalDragCheck={legalPieceDragCheck}
+            draggable={isPieceDraggable(id)}
+            onDragStart={() => onDragPieceStart(id)}
+            onDragEnd={(targetZoneId) => onDragPieceEnd(id, targetZoneId)}
+            onSelected={() => onSelectedPiece(id)}
+            tableTransform={tableTransform}
+            UI={pUI}
           />
         );
       })}

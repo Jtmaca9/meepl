@@ -12,7 +12,14 @@ function useGameState(props) {
   });
   const [pieces, setPieces] = useState(G.pieces || []);
   const [zones, setZones] = useState(G.zones || []);
-  const [zonesUI, setZonesUI] = useState(G.zonesUI || []);
+
+  const [tableTransform, setTableTransform] = useState({
+    x: 0,
+    y: 0,
+    scale: 1,
+    width: 1,
+    height: 1,
+  });
 
   useEffect(() => {
     setPlayers(plugins.player.data.players);
@@ -40,12 +47,6 @@ function useGameState(props) {
     setZones(G.zones);
   }, [G.zones]);
 
-  useEffect(() => {
-    if (!G.zonesUI) return;
-    if (G.zonesUI.length === 0) return;
-    setZonesUI(G.zonesUI);
-  }, [G.zonesUI]);
-
   const handleMove = (move, args) => {
     if (!meta.isCurrentPlayer) return;
     move(...args);
@@ -58,7 +59,8 @@ function useGameState(props) {
     zones,
     moves,
     handleMove,
-    zonesUI,
+    tableTransform,
+    setTableTransform,
   };
 }
 

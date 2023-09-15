@@ -19,7 +19,7 @@ type GameWrapperProps = {
   gameView: React.ReactNode | React.ReactNode[];
 };
 
-function GameViewWrapper({
+function GameWrapper({
   gameConfig,
   gameView,
   player,
@@ -36,4 +36,4 @@ function GameViewWrapper({
   );
 }
 
-export default GameViewWrapper;
+export default GameWrapper;

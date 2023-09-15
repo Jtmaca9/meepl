@@ -19,14 +19,17 @@ import { Piece, PieceRenderer } from './Piece';
 import type { PieceBlueprintType, PieceType } from './Piece';
 
 // UI
-import UiWrapper from './UI/UiWrapper';
+import UI from './UI/UI';
 import BottomPanel from './UI/BottomPanel';
+
+//ZoneAndPieceRenderer
+import ZoneAndPieceRenderer from './ZoneAndPieceRenderer/ZoneAndPieceRenderer';
 
 export {
   Table,
   Board,
   BottomPanel,
-  UiWrapper,
+  UI,
   GameWrapper,
   useGameState,
   GameViewWrapper,
@@ -42,5 +45,6 @@ export {
   movePieceToZone,
   Piece,
   PieceRenderer,
+  ZoneAndPieceRenderer,
 };
 export type { PieceBlueprintType, PieceType, ZoneType };

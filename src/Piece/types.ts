@@ -18,4 +18,10 @@ export type PieceType = {
   id: string;
   currZoneId?: string;
   slotId?: string;
+  UI?: boolean;
+  tableTransform?: {
+    x: number;
+    y: number;
+    scale: number;
+  };
 };

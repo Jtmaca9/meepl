@@ -1,6 +1,6 @@
 import { createGameConfig, movePieceToZone } from 'meepl';
 
-import { zones, zonesPan, zonesUIPan } from './zones';
+import { zones, zonesPan } from './zones';
 import pieces from './pieces';
 
 const moves = {
@@ -13,7 +13,6 @@ const RegicideGame = (pan) =>
   createGameConfig({
     name: 'Regicide',
     zones: pan ? zonesPan : zones,
-    zonesUI: zonesUIPan,
     pieces,
     moves,
     minPlayers: 1,

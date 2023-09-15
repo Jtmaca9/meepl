@@ -100,6 +100,9 @@ export function movePieceToZone({
   let targetZone = G.zones.find((z) => z.id === zoneId);
 
   function removePieceFromCurrZone() {
+    if (piece.UI !== targetZone.UI) {
+      piece.UI = targetZone.UI;
+    }
     if (currZone.zType === ZONE_TYPE.multi) {
       const slot = currZone.slots.find((s) => s.pieceId === pieceId);
       if (!slot) return;
@@ -112,9 +115,7 @@ export function movePieceToZone({
         moveCount++
       ) {
         for (let i = 0; i < currZone.slots.length; i++) {
-          if (currZone.slots[i].pieceId) {
-            return;
-          } else if (i + 1 < currZone.slots.length) {
+          if (!currZone.slots[i].pieceId && i + 1 < currZone.slots.length) {
             if (currZone.slots[i + 1].pieceId) {
               currZone.slots[i].pieceId = currZone.slots[i + 1].pieceId;
               currZone.slots[i + 1].pieceId = null;

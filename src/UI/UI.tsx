@@ -1,6 +1,6 @@
 import React from 'react';
 
-function UiWrapper(props: any) {
+function UI(props: any) {
   return (
     <>
       {Array.isArray(props.children) ? (
@@ -14,4 +14,4 @@ function UiWrapper(props: any) {
   );
 }
 
-export default UiWrapper;
+export default UI;

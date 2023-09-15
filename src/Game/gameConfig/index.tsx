@@ -9,7 +9,6 @@ const playerViewDefault = (players, playerID) => ({
 type CreateGameConfigArgs = {
   name: string;
   zones?: ZoneType[];
-  zonesUI?: ZoneType[];
   pieces?: PieceType[];
   moves: any;
   minPlayers?: number;
@@ -25,7 +24,6 @@ export function createGameConfig(args: CreateGameConfigArgs): any {
     maxPlayers = 2,
     name,
     zones = [],
-    zonesUI = [],
     pieces = [],
     moves = {},
     undoAllowed = false,
@@ -36,7 +34,6 @@ export function createGameConfig(args: CreateGameConfigArgs): any {
     name,
     setup: () => ({
       zones,
-      zonesUI,
       pieces,
     }),
     moves,

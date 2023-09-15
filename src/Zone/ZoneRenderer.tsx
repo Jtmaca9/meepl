@@ -4,7 +4,7 @@ import { ZONE_TYPE, type ZoneType } from './types';
 import type { PieceType } from '../Piece/types';
 import MultiZone from './MultiZone';
 
-type ZoneRendererProps = {
+export type ZoneRendererProps = {
   onHandleZonePress: (id: string) => void;
   isZoneAvailable: (args: {
     id: string;
@@ -12,6 +12,7 @@ type ZoneRendererProps = {
     pieces: PieceType[];
     zones: ZoneType[];
   }) => boolean;
+  UI?: boolean;
   // passed by parent
   devMode?: boolean;
   ctx?: any;
@@ -33,12 +34,14 @@ function ZoneRenderer(props: ZoneRendererProps) {
     zones = [],
     pieces = [],
     currentPlayer,
+    UI = false,
   } = props;
 
   return (
     <>
       {zones.map((zone) => {
-        const { zType, id, x, y, width, height } = zone;
+        const { zType, id, x, y, width, height, UI: zUI = false } = zone;
+        if (UI !== zUI) return null;
         const available =
           isCurrentPlayer &&
           isZoneAvailable({

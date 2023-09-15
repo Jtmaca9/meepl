@@ -16,6 +16,14 @@ const pieces: PieceType[] = [
     owner: '0',
     variant: PlayingCardSuit.clovers,
   },
+  {
+    id: 'handcard',
+    UI: true,
+    type: PlayingCardType.ace,
+    currZoneId: 'hand',
+    owner: '0',
+    variant: PlayingCardSuit.clovers,
+  },
 ];
 
 export default pieces;

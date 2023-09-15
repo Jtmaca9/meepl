@@ -40,11 +40,11 @@ export default function Game(props) {
           isZoneAvailable={() => true}
         />
         <PieceRenderer
-          draggable
-          legalDragCheck={() => true}
-          onDragEnd={(pieceId, zoneId) => moves.movePiece(pieceId, zoneId)}
-          onDragStart={() => {}}
-          onSelected={() => {}}
+          isPieceDraggable={() => true}
+          legalPieceDragCheck={() => true}
+          onDragPieceEnd={(pieceId, zoneId) => moves.movePiece(pieceId, zoneId)}
+          onDragPieceStart={() => {}}
+          onSelectedPiece={() => {}}
         />
       </Table>
       <BottomPanel>{players[meta.currentPlayerID].name}'s turn!</BottomPanel>

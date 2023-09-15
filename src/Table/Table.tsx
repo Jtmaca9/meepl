@@ -21,6 +21,19 @@ type TableProps = {
   children: React.ReactNode | React.ReactNode[];
   fixed?: boolean;
   containerStyle?: any;
+  setTableTransform?: ({
+    x,
+    y,
+    scale,
+    width,
+    height,
+  }: {
+    x: number;
+    y: number;
+    scale: number;
+    width: number;
+    height: number;
+  }) => void;
 };
 
 const AnimatedBox = styled(Animated.View)`
@@ -46,12 +59,32 @@ function Table(props: TableProps) {
   const translateY = useSharedValue(
     Dimensions.get('window').height / 2 - props.tableHeight / 2
   );
-  const startX = useSharedValue(0);
-  const startY = useSharedValue(0);
-
   //Pinch Values
   const startScale = useSharedValue(1);
   const scale = useSharedValue(1);
+
+  function setTableTransform({ x, y, scale }) {
+    if (!props.setTableTransform) return;
+    props.setTableTransform({
+      x,
+      y,
+      scale,
+      width: props.tableWidth,
+      height: props.tableHeight,
+    });
+  }
+
+  useEffect(() => {
+    setTableTransform({
+      x: Dimensions.get('window').width / 2 - props.tableWidth / 2,
+      y: Dimensions.get('window').height / 2 - props.tableHeight / 2,
+      scale: scale.value,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const startX = useSharedValue(0);
+  const startY = useSharedValue(0);
 
   const panGestureHandler = (p) => {
     'worklet';
@@ -72,6 +105,11 @@ function Table(props: TableProps) {
     if (event.state === State.END) {
       translateX.value = withSpring(translateX.value, { damping: 20 });
       translateY.value = withSpring(translateY.value, { damping: 20 });
+      setTableTransform({
+        x: translateX.value,
+        y: translateY.value,
+        scale: scale.value,
+      });
     }
   };
 
@@ -91,6 +129,11 @@ function Table(props: TableProps) {
 
     if (event.state === State.END) {
       scale.value = withTiming(scale.value, { duration: 250 });
+      setTableTransform({
+        x: translateX.value,
+        y: translateY.value,
+        scale: scale.value,
+      });
     }
   };
 
@@ -139,10 +182,23 @@ function Table(props: TableProps) {
             <Animated.View style={[tableStyle, panStyle]}>
               {Array.isArray(props.children) ? (
                 props.children.map((child: any, i) => (
-                  <child.type key={i} {...props} {...child.props} />
+                  <child.type
+                    key={i}
+                    {...props}
+                    {...child.props}
+                    tableTranslateX={translateX.value}
+                    tableTranslateY={translateY.value}
+                    tableScale={scale.value}
+                  />
                 ))
               ) : (
-                <props.children.type {...props} {...props.children.props} />
+                <props.children.type
+                  {...props}
+                  {...props.children.props}
+                  tableTranslateX={translateX.value}
+                  tableTranslateY={translateY.value}
+                  tableScale={scale.value}
+                />
               )}
             </Animated.View>
           </AnimatedBox>

@@ -20,6 +20,7 @@ export type ZoneType<zType = ZONE_TYPE> = zType extends ZONE_TYPE.single
       height: number;
       id: string;
       meta?: any;
+      UI?: boolean;
     }
   : {
       zType: ZONE_TYPE.multi;
@@ -30,6 +31,7 @@ export type ZoneType<zType = ZONE_TYPE> = zType extends ZONE_TYPE.single
       id: string;
       meta?: any;
       slots: SlotType[];
+      UI?: boolean;
     };
 
 export enum ZONE_SPACING_OPTIONS {

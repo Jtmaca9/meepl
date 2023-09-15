@@ -12,7 +12,6 @@ const Container = styled.View<{ height: number }>`
   border-top-width: 1px;
   border-top-color: #ccc;
   align-items: center;
-  z-index: 10;
 `;
 
 function BottomPanel({ children, height = 0 }) {
