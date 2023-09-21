@@ -16,7 +16,7 @@ type GameWrapperProps = {
   gameConfig: any;
   player: string;
   multiplayer?: any;
-  gameView: React.ReactNode | React.ReactNode[];
+  gameView: any;
 };
 
 function GameWrapper({
