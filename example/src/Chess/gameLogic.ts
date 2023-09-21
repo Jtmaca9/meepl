@@ -1,19 +1,22 @@
 import type { PieceType, ZoneType } from 'meepl';
 import { ChessPieceType } from './chessPieceTypes';
+import type { AnimatableStringValue } from 'react-native';
 
-export function isZoneAvailable({
-  id,
-  activePlayer,
-  pieces,
-  zones,
-}: {
-  id: string;
-  activePlayer: any;
-  pieces: PieceType[];
-  zones: ZoneType[];
-}): boolean {
-  const activePiece = pieces.find((p) => p.id === activePlayer.activePiece);
-
+export function isZoneAvailable(
+  activePieceID: AnimatableStringValue | null,
+  {
+    id,
+    activePlayer,
+    pieces,
+    zones,
+  }: {
+    id: string;
+    activePlayer: any;
+    pieces: PieceType[];
+    zones: ZoneType[];
+  }
+): boolean {
+  const activePiece = pieces.find(({ id }) => id === activePieceID);
   if (!activePiece) return false;
 
   const currZone = zones.find((z) => z.id === activePiece.currZoneId);

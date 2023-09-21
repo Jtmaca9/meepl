@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 
 // Chess
 import ChessGame from './Chess/gameConfig/gameConfig';
-import ChessGameView from './Chess/Game';
+import ChessGameView from './Chess/GameView';
 
 // Regicide
 import RegicideGame from './Regicide/gameConfig/gameConfig';

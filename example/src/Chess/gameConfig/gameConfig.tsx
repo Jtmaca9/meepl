@@ -23,12 +23,12 @@ const moves = {
     });
   },
   // @ts-ignore
-  movePiece: ({ G, player }, _, zoneId) => {
+  movePiece: ({ G, player }, activePieceID, zoneId) => {
     const currPlayer = player.get();
-    const piece = G.pieces.find((p) => p.id === currPlayer.activePiece);
-    if (!piece) return MOVE_ERROR.INVALID_MOVE;
+    const activePiece = G.pieces.find((p) => p.id === activePieceID);
+    if (!activePiece) return MOVE_ERROR.INVALID_MOVE;
     if (
-      isZoneAvailable({
+      isZoneAvailable(activePieceID, {
         id: zoneId,
         activePlayer: currPlayer,
         pieces: G.pieces,
@@ -39,7 +39,7 @@ const moves = {
       // take piece
       if (pieceOnZone) {
         G.pieces = G.pieces.filter((p) => p.id !== pieceOnZone.id);
-        piece.currZoneId = zoneId;
+        activePiece.currZoneId = zoneId;
         player.set({
           ...currPlayer,
           activePiece: null,
@@ -47,7 +47,7 @@ const moves = {
         });
       } else {
         // move piece
-        piece.currZoneId = zoneId;
+        activePiece.currZoneId = zoneId;
         player.set({
           ...currPlayer,
           activePiece: null,

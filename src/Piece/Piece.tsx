@@ -5,6 +5,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import _ from 'lodash';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import type { StyleProp, View } from 'react-native';
@@ -177,17 +178,21 @@ function Piece(props: PieceProps) {
     [pX, pY, dragging]
   );
 
+  const updatePiecePosition = _.throttle((event) => {
+    if (UI) {
+      pX.value = event.translationX + startX.value;
+      pY.value = event.translationY + startY.value;
+    } else {
+      pX.value = event.translationX / tableTransform.scale + startX.value;
+      pY.value = event.translationY / tableTransform.scale + startY.value;
+    }
+  }, 10);
+
   const panGestureHandler = (p) => {
     'worklet';
     const event = p.nativeEvent;
     if (event.state === State.ACTIVE) {
-      if (UI) {
-        pX.value = event.translationX + startX.value;
-        pY.value = event.translationY + startY.value;
-      } else {
-        pX.value = event.translationX / tableTransform.scale + startX.value;
-        pY.value = event.translationY / tableTransform.scale + startY.value;
-      }
+      updatePiecePosition(event);
     }
   };
 

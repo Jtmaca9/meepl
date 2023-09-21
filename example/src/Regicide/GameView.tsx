@@ -49,7 +49,7 @@ export default function Game(props) {
         <Text>Regicide</Text>
         <ZoneAndPieceRenderer
           devMode
-          onHandleZonePress={function (): void {}}
+          onHandleZonePress={() => {}}
           isZoneAvailable={() => true}
           isPieceDraggable={() => true}
           isPieceActive={(id) => id === activePiece}
