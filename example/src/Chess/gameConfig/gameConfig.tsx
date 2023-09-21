@@ -14,15 +14,6 @@ const zones = createGridZones({
 
 const moves = {
   // @ts-ignore
-  setActivePiece: ({ G, ctx, player }, pieceId) => {
-    if (G.pieces.find((p) => p.id === pieceId).owner !== ctx.currentPlayer)
-      return MOVE_ERROR.INVALID_MOVE;
-    player.set({
-      ...player.get(),
-      activePiece: pieceId,
-    });
-  },
-  // @ts-ignore
   movePiece: ({ G, player }, activePieceID, zoneId) => {
     const currPlayer = player.get();
     const activePiece = G.pieces.find((p) => p.id === activePieceID);

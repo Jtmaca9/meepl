@@ -1,9 +1,8 @@
 import type { PieceType, ZoneType } from 'meepl';
 import { ChessPieceType } from './chessPieceTypes';
-import type { AnimatableStringValue } from 'react-native';
 
 export function isZoneAvailable(
-  activePieceID: AnimatableStringValue | null,
+  activePieceID: string | null,
   {
     id,
     activePlayer,
