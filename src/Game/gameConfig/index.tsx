@@ -1,5 +1,5 @@
 import { PluginPlayer } from 'boardgame.io/plugins';
-import type { ZoneType } from '../../Zone/types';
+import { ZONE_TYPE, type ZoneType } from '../../Zone/types';
 import type { PieceType } from '../../Piece/types';
 
 const playerViewDefault = (players, playerID) => ({
@@ -11,6 +11,7 @@ type CreateGameConfigArgs = {
   zones?: ZoneType[];
   pieces?: PieceType[];
   moves: any;
+  meta?: any;
   minPlayers?: number;
   maxPlayers?: number;
   undoAllowed?: boolean;
@@ -26,15 +27,33 @@ export function createGameConfig(args: CreateGameConfigArgs): any {
     zones = [],
     pieces = [],
     moves = {},
+    meta = {},
     undoAllowed = false,
     playerView = playerViewDefault,
     playerSetup = () => ({}),
   } = args;
+
+  // slot any pieces in multi zones
+  pieces.forEach((piece) => {
+    if (piece.currZoneId) {
+      let zone = zones.find((zone) => zone.id === piece.currZoneId);
+      if (zone && zone.zType === ZONE_TYPE.multi) {
+        let slot = zone.slots.find((slot) => slot.pieceId === null);
+        if (!slot) {
+          console.error("Bad config: can't find empty slot in zone");
+          return;
+        }
+        slot.pieceId = piece.id;
+      }
+    }
+  });
+
   return {
     name,
     setup: () => ({
       zones,
       pieces,
+      meta,
     }),
     moves,
     minPlayers,

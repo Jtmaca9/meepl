@@ -18,9 +18,8 @@ const pieces: PieceType[] = [
   },
   {
     id: 'handcard',
-    UI: true,
     type: PlayingCardType.ace,
-    currZoneId: 'hand',
+    currZoneId: '3',
     owner: '0',
     variant: PlayingCardSuit.clovers,
   },

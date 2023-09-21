@@ -9,7 +9,6 @@ import ChessGameView from './Chess/Game';
 // Regicide
 import RegicideGame from './Regicide/gameConfig/gameConfig';
 import RegicideGameView from './Regicide/GameView';
-import RegicideGameViewPan from './Regicide/GameViewPan';
 
 const SelectorContainer = styled.View`
   flex: 1;
@@ -45,9 +44,6 @@ export default function App() {
         <SelectorButton onPress={() => setSelectedGame('regicide')}>
           <SelectorText>Regicide</SelectorText>
         </SelectorButton>
-        <SelectorButton onPress={() => setSelectedGame('regicidePan')}>
-          <SelectorText>Regicide pan</SelectorText>
-        </SelectorButton>
       </SelectorContainer>
     );
   } else {
@@ -63,16 +59,8 @@ export default function App() {
       case 'regicide':
         return (
           <GameWrapper
-            gameConfig={RegicideGame(false)}
+            gameConfig={RegicideGame}
             gameView={RegicideGameView}
-            player={'0'}
-          />
-        );
-      case 'regicidePan':
-        return (
-          <GameWrapper
-            gameConfig={RegicideGame(true)}
-            gameView={RegicideGameViewPan}
             player={'0'}
           />
         );

@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import Piece from './Piece';
-import type { PieceBlueprintType, PieceType } from './types';
+import type { PieceType } from './types';
 import type { ZoneType } from '../Zone/types';
 
 export type PieceRendererProps = {
@@ -11,15 +11,21 @@ export type PieceRendererProps = {
   legalPieceDragCheck: any;
   UI?: boolean;
   // passed by parent
-  assets?: any[];
+  assets?: any;
   tableScale?: number;
   isCurrentPlayer?: boolean;
   currentPlayer?: any;
   pieces?: PieceType[];
   zones?: ZoneType[];
   isPieceDraggable?: (id: string) => boolean;
-  pieceTypes?: PieceBlueprintType[];
-  tableTransform?: { x: number; y: number; scale: number };
+  pieceTypes?: any;
+  tableTransform?: {
+    x: number;
+    y: number;
+    scale: number;
+    width: number;
+    height: number;
+  };
 };
 
 function PieceRenderer(props: PieceRendererProps) {
@@ -36,14 +42,13 @@ function PieceRenderer(props: PieceRendererProps) {
     isPieceActive = () => false,
     isPieceDraggable = () => false,
     UI = false,
-    tableTransform = { x: 0, y: 0, scale: 1 },
+    tableTransform = { x: 0, y: 0, scale: 1, width: 0, height: 0 },
   } = props;
 
   return (
     <>
       {pieces.map((piece) => {
-        const { id, type, currZoneId, owner, variant, UI: pUI = false } = piece;
-        if (UI !== pUI) return null;
+        const { id, type, currZoneId, owner, variant } = piece;
         return (
           <Piece
             key={id}
@@ -62,7 +67,7 @@ function PieceRenderer(props: PieceRendererProps) {
             onDragEnd={(targetZoneId) => onDragPieceEnd(id, targetZoneId)}
             onSelected={() => onSelectedPiece(id)}
             tableTransform={tableTransform}
-            UI={pUI}
+            UI={UI}
           />
         );
       })}

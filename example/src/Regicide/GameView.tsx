@@ -1,25 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   BottomPanel,
   GameViewWrapper,
   useGameState,
+  UI,
+  ZoneAndPieceRenderer,
   PieceRenderer,
-  ZoneRenderer,
 } from 'meepl';
-import { Text } from 'react-native';
+import { View } from 'react-native';
+import styled from 'styled-components/native';
 import assets from './gameConfig/assets';
 import pieceTypes from './gameConfig/pieceTypes';
 
-export default function Game(props) {
-  const { zones, pieces, meta, players, moves } = useGameState(props);
+const Text = styled.Text`
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+`;
 
-  const TableStyle = {
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    padding: 50,
-  };
+export default function Game(props) {
+  const {
+    zones,
+    pieces,
+    meta,
+    players,
+    moves,
+    tableTransform,
+    setTableTransform,
+  } = useGameState(props);
+
+  const [activePiece, setActivePiece] = useState(null);
 
   return (
     <GameViewWrapper
@@ -30,24 +41,56 @@ export default function Game(props) {
       pieces={pieces}
       currentPlayer={players[meta.currentPlayerID]}
       players={players}
+      tableTransform={tableTransform}
       isCurrentPlayer={meta.isCurrentPlayer}
+      setTableTransform={setTableTransform}
     >
-      <Table fixed containerStyle={TableStyle}>
+      <Table tableWidth={350} tableHeight={350}>
         <Text>Regicide</Text>
-        <ZoneRenderer
+        <ZoneAndPieceRenderer
           devMode
           onHandleZonePress={function (): void {}}
           isZoneAvailable={() => true}
-        />
-        <PieceRenderer
           isPieceDraggable={() => true}
+          isPieceActive={(id) => id === activePiece}
           legalPieceDragCheck={() => true}
-          onDragPieceEnd={(pieceId, zoneId) => moves.movePiece(pieceId, zoneId)}
-          onDragPieceStart={() => {}}
-          onSelectedPiece={() => {}}
+          onDragPieceEnd={(pieceId, zoneId) => {
+            moves.movePiece(pieceId, zoneId);
+            setActivePiece(null);
+          }}
+          onDragPieceStart={(id) => setActivePiece(id)}
+          onSelectedPiece={(id) => setActivePiece(id)}
         />
       </Table>
-      <BottomPanel>{players[meta.currentPlayerID].name}'s turn!</BottomPanel>
+      <UI>
+        <BottomPanel height={120}>
+          <Text>{players[meta.currentPlayerID].name}'s turn!</Text>
+          <View style={{ flexDirection: 'row' }}>
+            <PieceRenderer
+              UI={true}
+              assets={assets}
+              pieceTypes={pieceTypes}
+              tableTransform={tableTransform}
+              zones={zones}
+              isPieceActive={(id) => id === activePiece}
+              isPieceDraggable={() => true}
+              onDragPieceEnd={(id, targetZoneID) => {
+                moves.movePieceFromUIToZone({
+                  pieceID: id,
+                  uiLocation: 'hand',
+                  targetZoneID,
+                });
+              }}
+              isCurrentPlayer={meta.isCurrentPlayer}
+              currentPlayer={players[meta.currentPlayerID]}
+              onDragPieceStart={(id) => setActivePiece(id)}
+              onSelectedPiece={(id) => setActivePiece(id)}
+              pieces={players[meta.currentPlayerID].hand}
+              legalPieceDragCheck={() => true}
+            />
+          </View>
+        </BottomPanel>
+      </UI>
     </GameViewWrapper>
   );
 }

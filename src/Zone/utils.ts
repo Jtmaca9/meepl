@@ -130,9 +130,11 @@ export function movePieceToZone({
     removePieceFromCurrZone();
     piece.currZoneId = zoneId;
   } else if (targetZone.zType === ZONE_TYPE.multi) {
-    removePieceFromCurrZone();
     const emptySlot = targetZone.slots.find((s) => s.pieceId === null);
+    if (!emptySlot) return { status: 'failed' };
+    removePieceFromCurrZone();
     piece.currZoneId = zoneId;
     emptySlot.pieceId = pieceId;
   }
+  return { status: 'OK' };
 }

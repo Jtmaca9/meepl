@@ -8,27 +8,33 @@ import Animated, {
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import type { StyleProp, View } from 'react-native';
-import { findZoneByCoords, getZoneX, getZoneY } from '../Zone/utils';
+import { getZoneX, getZoneY } from '../Zone/utils';
 import { ZONE_TYPE, type ZoneType } from '../Zone/types';
 import type { PieceType, PieceBlueprintType } from './types';
+import { getPieceStartingCoords, getTargetZoneID } from './utils';
 
-const AnimatedContainer = styled(Animated.View)`
+const AnimatedContainer = styled(Animated.View)<{ UI: boolean }>`
+  ${({ UI }) =>
+    !UI &&
+    `
   position: absolute;
   top: 0;
   left: 0;
+`}
   z-index: 1;
+`;
+
+const PieceContainer = styled.View<{ width: number; height: number }>`
   width: ${({ width }) => (width ? `${width}px` : '100px')};
   height: ${({ height }) => (height ? `${height}px` : '100px')};
 `;
 
-const PieceContainerPressable = styled.TouchableOpacity`
-  width: 100%;
-  height: 100%;
-`;
-
-const PieceContainer = styled.View`
-  width: 100%;
-  height: 100%;
+const PieceContainerPressable = styled.TouchableOpacity<{
+  width: number;
+  height: number;
+}>`
+  width: ${({ width }) => (width ? `${width}px` : '100px')};
+  height: ${({ height }) => (height ? `${height}px` : '100px')};
 `;
 
 const PieceImage = styled.Image`
@@ -112,10 +118,12 @@ function Piece(props: PieceProps) {
     defaultStyle,
   ]);
 
-  // Find and set initail piece position
-  let initZone = zones.find((zone) => zone.id === currZoneId) || { x: 0, y: 0 };
-  const initX = getZoneX(initZone);
-  const initY = getZoneY(initZone);
+  const { x: initX, y: initY } = getPieceStartingCoords({
+    zones,
+    currZoneId,
+    UI,
+  });
+
   const pX = useSharedValue(initX);
   const pY = useSharedValue(initY);
   const startX = useSharedValue(initX);
@@ -125,11 +133,13 @@ function Piece(props: PieceProps) {
   const panRef = useRef(null);
 
   const pieceOverStyle = {
-    zIndex: 999,
+    zIndex: 99,
   };
 
   useEffect(() => {
     let zone = zones.find((zone) => zone.id === currZoneId);
+
+    if (!zone) return;
 
     let zoneX, zoneY;
 
@@ -155,12 +165,12 @@ function Piece(props: PieceProps) {
         {
           translateX: dragging.value
             ? pX.value
-            : withTiming(pX.value, { duration: 200 }),
+            : withTiming(pX.value, { duration: 150 }),
         },
         {
           translateY: dragging.value
             ? pY.value
-            : withTiming(pY.value, { duration: 200 }),
+            : withTiming(pY.value, { duration: 150 }),
         },
       ],
     }),
@@ -195,52 +205,35 @@ function Piece(props: PieceProps) {
     }
 
     if (event.state === State.END) {
-      let targetZoneId = null;
-      if (UI) {
-        const offsetX =
-          tableTransform.x -
-          (tableTransform.width * tableTransform.scale - tableTransform.width) /
-            2;
-        const offsetY =
-          tableTransform.y -
-          (tableTransform.height * tableTransform.scale -
-            tableTransform.height) /
-            2;
-        targetZoneId = findZoneByCoords(
-          zones,
-          (event.absoluteX - offsetX) / tableTransform.scale,
-          (event.absoluteY - offsetY) / tableTransform.scale
-        );
-      } else {
-        targetZoneId = findZoneByCoords(
-          zones,
-          pX.value + width / 2,
-          pY.value + height / 2
-        );
-      }
+      let targetZoneID = getTargetZoneID({
+        tableTransform,
+        zones,
+        event,
+        UI,
+        pX,
+        pY,
+        width,
+        height,
+      });
 
       function returnToCurrentPosition() {
         pX.value = startX.value;
         pY.value = startY.value;
       }
 
-      if (!targetZoneId || targetZoneId === currZoneId) {
+      // TODO - clean this up (helper function in utils?)
+      if (!targetZoneID || targetZoneID === currZoneId) {
         returnToCurrentPosition();
       } else {
-        let zone = zones.find((zone) => zone.id === targetZoneId);
+        let zone = zones.find((zone) => zone.id === targetZoneID);
         if (
           zone.zType !== ZONE_TYPE.slot &&
-          legalDragCheck(targetZoneId) &&
+          legalDragCheck(targetZoneID) &&
           !zone.UI
         ) {
-          let x = getZoneX(zone);
-          let y = getZoneY(zone);
-          pX.value = x;
-          pY.value = y;
-          onDragEnd(targetZoneId);
-        } else {
-          returnToCurrentPosition();
+          onDragEnd(targetZoneID);
         }
+        returnToCurrentPosition();
       }
       dragging.value = false;
     }
@@ -254,26 +247,22 @@ function Piece(props: PieceProps) {
       enabled={available}
     >
       <AnimatedContainer
-        pX={pX}
-        pY={pY}
-        width={width}
-        height={height}
+        UI={UI}
         style={[animatedStyles, active && pieceOverStyle]}
       >
-        <PieceContainer style={componentStyle}>
+        <PieceContainer width={width} height={height} style={componentStyle}>
           <PieceImage source={assetCache} resizeMode="contain" />
         </PieceContainer>
       </AnimatedContainer>
     </PanGestureHandler>
   ) : (
     <AnimatedContainer
-      pX={pX}
-      pY={pY}
-      width={width}
-      height={height}
+      UI={UI}
       style={[animatedStyles, active && pieceOverStyle]}
     >
       <PieceContainerPressable
+        width={width}
+        height={height}
         style={componentStyle}
         disabled={!available}
         onPress={onSelected}

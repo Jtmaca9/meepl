@@ -16,6 +16,7 @@ import { ZONE_SPACING_OPTIONS, ZONE_TYPE } from './Zone/types';
 
 // Piece
 import { Piece, PieceRenderer } from './Piece';
+import { createPieceOnTable } from './Piece/utils';
 import type { PieceBlueprintType, PieceType } from './Piece';
 
 // UI
@@ -45,6 +46,7 @@ export {
   movePieceToZone,
   Piece,
   PieceRenderer,
+  createPieceOnTable,
   ZoneAndPieceRenderer,
 };
 export type { PieceBlueprintType, PieceType, ZoneType };
