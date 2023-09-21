@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import Piece from './Piece';
-import type { PieceType } from './types';
+import Card from '../Card/Card';
+import { PieceEnityTypes, type PieceType } from './types';
 import type { ZoneType } from '../Zone/types';
 
 export type PieceRendererProps = {
@@ -48,7 +49,34 @@ function PieceRenderer(props: PieceRendererProps) {
   return (
     <>
       {pieces.map((piece) => {
-        const { id, type, currZoneId, owner, variant } = piece;
+        const { id, type, currZoneId, owner, variant, pieceEntity } = piece;
+
+        if (pieceEntity === PieceEnityTypes.card)
+          return (
+            <Card
+              key={id}
+              id={id}
+              currZoneId={currZoneId}
+              type={type}
+              available={isCurrentPlayer && owner === currentPlayer.id}
+              active={isPieceActive(id)}
+              assets={props.assets}
+              zones={zones}
+              pieceTypes={pieceTypes}
+              variant={variant}
+              legalDragCheck={legalPieceDragCheck}
+              draggable={isPieceDraggable(id)}
+              onDragStart={() => onDragPieceStart(id)}
+              onDragEnd={(targetZoneId) => onDragPieceEnd(id, targetZoneId)}
+              onSelected={() => onSelectedPiece(id)}
+              tableTransform={tableTransform}
+              UI={UI}
+              // card specific
+              cardBackAsset={piece.cardBackAsset}
+              flipped={piece.flipped}
+            />
+          );
+
         return (
           <Piece
             key={id}

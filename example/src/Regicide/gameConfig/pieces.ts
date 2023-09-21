@@ -1,4 +1,5 @@
 import type { PieceType } from 'meepl';
+import { PieceEnityTypes } from 'meepl';
 import { PlayingCardSuit, PlayingCardType } from './pieceTypes';
 
 const pieces: PieceType[] = [
@@ -17,11 +18,13 @@ const pieces: PieceType[] = [
     variant: PlayingCardSuit.clovers,
   },
   {
-    id: 'handcard',
+    id: 'flipme',
     type: PlayingCardType.ace,
     currZoneId: '3',
     owner: '0',
     variant: PlayingCardSuit.clovers,
+    pieceEntity: PieceEnityTypes.card,
+    flipped: true,
   },
 ];
 

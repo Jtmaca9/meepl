@@ -19,6 +19,11 @@ import { ZONE_SPACING_OPTIONS, ZONE_TYPE } from './Zone/types';
 import { Piece, PieceRenderer } from './Piece';
 import { createPieceOnTable } from './Piece/utils';
 import type { PieceBlueprintType, PieceType } from './Piece';
+import { PieceEnityTypes } from './Piece/types';
+
+// Card
+
+import Card from './Card/Card';
 
 // UI
 import UI from './UI/UI';
@@ -49,5 +54,7 @@ export {
   PieceRenderer,
   createPieceOnTable,
   ZoneAndPieceRenderer,
+  Card,
+  PieceEnityTypes,
 };
 export type { PieceBlueprintType, PieceType, ZoneType };
