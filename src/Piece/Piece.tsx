@@ -237,8 +237,10 @@ function Piece(props: PieceProps) {
           !zone.UI
         ) {
           onDragEnd(targetZoneID);
+          if (UI) {
+            returnToCurrentPosition();
+          }
         }
-        returnToCurrentPosition();
       }
       dragging.value = false;
     }
