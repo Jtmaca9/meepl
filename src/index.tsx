@@ -9,7 +9,8 @@ import useGameState from './Game/state/useGameState';
 
 // Zone
 import { Zone, ZoneRenderer } from './Zone';
-import { createGridZones, movePieceToZone, createSlotsRow } from './Zone/utils';
+import { movePieceToZone, createSlotsRow } from './Zone/utils';
+import { createGridZones } from './Zone/createGridZones';
 import type { ZoneType } from './Zone';
 import { ZONE_SPACING } from './Zone/zoneSpacing';
 import { ZONE_SPACING_OPTIONS, ZONE_TYPE } from './Zone/types';

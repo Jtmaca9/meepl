@@ -1,13 +1,11 @@
-import type { StyleProp } from 'react-native';
-
 export type PieceBlueprintType = {
   id: string;
   asset: string;
   width?: number;
   height?: number;
-  activeStyle?: StyleProp<any>;
-  availableStyle?: StyleProp<any>;
-  defaultStyle?: StyleProp<any>;
+  activeStyle?: any;
+  availableStyle?: any;
+  defaultStyle?: any;
   variants: { [key: string]: Partial<PieceBlueprintType> };
 };
 

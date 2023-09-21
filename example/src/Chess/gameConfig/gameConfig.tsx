@@ -1,4 +1,4 @@
-import { createGridZones } from '../../../../src/Zone/utils';
+import { createGridZones } from '../../../../src/Zone/createGridZones';
 import { MOVE_ERROR } from '../../../../src/Game/state';
 import { createGameConfig } from '../../../../src/Game/gameConfig';
 import pieces from './pieces';
