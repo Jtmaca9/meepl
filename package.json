@@ -1,6 +1,6 @@
 {
   "name": "meepl",
-  "version": "0.6.3",
+  "version": "0.7.0",
   "description": "Cross platform components for board and card games",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
