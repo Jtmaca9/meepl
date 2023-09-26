@@ -2,7 +2,7 @@ import Table from './Table/Table';
 import Board from './Board';
 
 // Game
-import { GameWrapper, GameViewWrapper } from './Game';
+import { GameWrapper } from './Game';
 import { createGameConfig } from './Game/gameConfig';
 import { MOVE_ERROR } from './Game/state';
 import useGameState from './Game/state/useGameState';
@@ -34,7 +34,6 @@ export {
   UI,
   GameWrapper,
   useGameState,
-  GameViewWrapper,
   createGameConfig,
   MOVE_ERROR,
   Zone,

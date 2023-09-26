@@ -73,7 +73,7 @@ function MultiZone(props: MultiZoneProps) {
             height={25}
             x={xCoord + x}
             y={yCoord + y}
-            devMode={true}
+            devMode={devMode}
             onPress={() => {}}
             available={available}
             availableStyle={availableStyle}

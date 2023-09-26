@@ -3,8 +3,8 @@ import { GameWrapper } from 'meepl';
 import styled from 'styled-components/native';
 
 // Chess
-import ChessGame from './Chess/gameConfig/gameConfig';
-import ChessGameView from './Chess/GameView';
+// import ChessGame from './Chess/gameConfig/gameConfig';
+// import ChessGameView from './Chess/GameView';
 
 // Regicide
 import RegicideGame from './Regicide/gameConfig/gameConfig';
@@ -38,9 +38,9 @@ export default function App() {
   if (!selectedGame) {
     return (
       <SelectorContainer>
-        <SelectorButton onPress={() => setSelectedGame('chess')}>
+        {/* <SelectorButton onPress={() => setSelectedGame('chess')}>
           <SelectorText>Chess</SelectorText>
-        </SelectorButton>
+        </SelectorButton> */}
         <SelectorButton onPress={() => setSelectedGame('regicide')}>
           <SelectorText>Regicide</SelectorText>
         </SelectorButton>
@@ -48,20 +48,23 @@ export default function App() {
     );
   } else {
     switch (selectedGame) {
-      case 'chess':
-        return (
-          <GameWrapper
-            gameConfig={ChessGame}
-            gameView={ChessGameView}
-            player={'0'}
-          />
-        );
+      // case 'chess':
+      //   return (
+      //     <GameWrapper
+      //       gameConfig={ChessGame}
+      //       gameView={ChessGameView}
+      //       player={'0'}
+      //     />
+      //   );
       case 'regicide':
         return (
           <GameWrapper
             gameConfig={RegicideGame}
             gameView={RegicideGameView}
             player={'0'}
+            containerStyle={{
+              backgroundColor: '#000',
+            }}
           />
         );
       default:

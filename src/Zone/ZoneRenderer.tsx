@@ -13,15 +13,14 @@ export type ZoneRendererProps = {
     zones: ZoneType[];
   }) => boolean;
   UI?: boolean;
-  // passed by parent
   devMode?: boolean;
-  ctx?: any;
-  moves?: any;
-  currentPlayer?: any;
-  availableStyle?: any;
-  isCurrentPlayer?: boolean;
-  zones?: ZoneType[];
-  pieces?: PieceType[];
+  ctx: any;
+  moves: any;
+  currentPlayer: any;
+  availableStyle: any;
+  isCurrentPlayer: boolean;
+  zones: ZoneType[];
+  pieces: PieceType[];
 };
 
 function ZoneRenderer(props: ZoneRendererProps) {

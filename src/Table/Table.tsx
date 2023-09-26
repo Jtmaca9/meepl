@@ -21,6 +21,8 @@ type TableProps = {
   children: React.ReactNode | React.ReactNode[];
   fixed?: boolean;
   containerStyle?: any;
+  backgroundImageSource?: any;
+  backgroundImageProps?: any;
   setTableTransform?: ({
     x,
     y,
@@ -37,6 +39,20 @@ type TableProps = {
 };
 
 const AnimatedBox = styled(Animated.View)`
+  width: 100%;
+  height: 100%;
+`;
+
+const BgImageContainer = styled.View`
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -10;
+`;
+
+const BgImage = styled.Image`
   width: 100%;
   height: 100%;
 `;
@@ -181,24 +197,44 @@ function Table(props: TableProps) {
           <AnimatedBox>
             <Animated.View style={[tableStyle, panStyle]}>
               {Array.isArray(props.children) ? (
-                props.children.map((child: any, i) => (
-                  <child.type
-                    key={i}
+                <>
+                  {props.backgroundImageSource && (
+                    <BgImageContainer>
+                      <BgImage
+                        source={props.backgroundImageSource}
+                        {...props.backgroundImageProps}
+                      />
+                    </BgImageContainer>
+                  )}
+                  {props.children.map((child: any, i) => (
+                    <child.type
+                      key={i}
+                      {...props}
+                      {...child.props}
+                      tableTranslateX={translateX.value}
+                      tableTranslateY={translateY.value}
+                      tableScale={scale.value}
+                    />
+                  ))}
+                </>
+              ) : (
+                <>
+                  {props.backgroundImageSource && (
+                    <BgImageContainer>
+                      <BgImage
+                        source={props.backgroundImageSource}
+                        {...props.backgroundImageProps}
+                      />
+                    </BgImageContainer>
+                  )}
+                  <props.children.type
                     {...props}
-                    {...child.props}
+                    {...props.children.props}
                     tableTranslateX={translateX.value}
                     tableTranslateY={translateY.value}
                     tableScale={scale.value}
                   />
-                ))
-              ) : (
-                <props.children.type
-                  {...props}
-                  {...props.children.props}
-                  tableTranslateX={translateX.value}
-                  tableTranslateY={translateY.value}
-                  tableScale={scale.value}
-                />
+                </>
               )}
             </Animated.View>
           </AnimatedBox>

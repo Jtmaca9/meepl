@@ -10,15 +10,14 @@ export type PieceRendererProps = {
   isPieceActive?: (id: string) => boolean;
   legalPieceDragCheck: any;
   UI?: boolean;
-  // passed by parent
-  assets?: any;
-  tableScale?: number;
-  isCurrentPlayer?: boolean;
-  currentPlayer?: any;
-  pieces?: PieceType[];
-  zones?: ZoneType[];
+  assets: any;
+  tableScale: number;
+  isCurrentPlayer: boolean;
+  currentPlayer: any;
+  pieces: PieceType[];
+  zones: ZoneType[];
   isPieceDraggable?: (id: string) => boolean;
-  pieceTypes?: any;
+  pieceTypes: any;
   tableTransform?: {
     x: number;
     y: number;
