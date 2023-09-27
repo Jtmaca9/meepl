@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useEffect, useRef, useState, memo } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -280,4 +280,4 @@ function Piece(props: PieceProps) {
   );
 }
 
-export default memo(Piece);
+export default Piece;

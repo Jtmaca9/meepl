@@ -1,7 +1,8 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { useEffect, useState } from 'react';
+import { type StyleProp, type View, Image } from 'react-native';
 import styled from 'styled-components/native';
+
 import { ZONE_TYPE, type ZoneType } from './types';
-import { type StyleProp, type View } from 'react-native';
 import { ZONE_SPACING } from './zoneSpacing';
 
 const Container = styled.TouchableOpacity<Partial<ZoneProps>>`
@@ -19,6 +20,8 @@ export type ZoneProps = ZoneType & {
   available?: boolean;
   ctx: any;
   moves: any;
+  zoneImageSource?: any;
+  zoneImageProps?: any;
 };
 
 enum COMPONENT_STATE {
@@ -27,8 +30,18 @@ enum COMPONENT_STATE {
 }
 
 function Zone(props: ZoneProps) {
-  const { x, y, width, height, devMode, onPress, availableStyle, available } =
-    props;
+  const {
+    x,
+    y,
+    width,
+    height,
+    devMode,
+    onPress,
+    availableStyle,
+    available,
+    zoneImageSource,
+    zoneImageProps,
+  } = props;
 
   let [xCoord, setXCoord] = useState(
     typeof x === 'number' ? x : ZONE_SPACING[x](width)
@@ -79,8 +92,12 @@ function Zone(props: ZoneProps) {
           borderRadius: 5,
         },
       ]}
-    />
+    >
+      {zoneImageSource ?? (
+        <Image source={zoneImageSource} {...zoneImageProps} />
+      )}
+    </Container>
   );
 }
 
-export default memo(Zone);
+export default Zone;

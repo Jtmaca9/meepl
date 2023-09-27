@@ -7,9 +7,11 @@ export function createGridZones({
   offsetY = 0,
   gapX = 0,
   gapY = 0,
-  gridSize,
+  gridSizeX,
+  gridSizeY,
 }: {
-  gridSize: number;
+  gridSizeX: number;
+  gridSizeY: number;
   rows: number;
   columns: number;
   offsetX?: number;
@@ -22,10 +24,10 @@ export function createGridZones({
     for (let y = 0; y < columns; y++) {
       zones.push({
         zType: ZONE_TYPE.single,
-        x: x * gridSize + offsetX + x * gapX,
-        y: y * gridSize + offsetY + y * gapY,
-        width: gridSize,
-        height: gridSize,
+        x: x * gridSizeX + offsetX + x * gapX,
+        y: y * gridSizeY + offsetY + y * gapY,
+        width: gridSizeX,
+        height: gridSizeY,
         id: `${x}-${y}`,
         meta: {
           gridX: x,

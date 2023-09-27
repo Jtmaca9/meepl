@@ -7,7 +7,8 @@ import { isZoneAvailable } from '../gameLogic';
 const zones = createGridZones({
   rows: 8,
   columns: 8,
-  gridSize: 45,
+  gridSizeX: 45,
+  gridSizeY: 45,
   offsetX: 20,
   offsetY: 20,
 });
