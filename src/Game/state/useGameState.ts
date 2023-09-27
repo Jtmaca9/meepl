@@ -30,18 +30,14 @@ function useGameState(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playerID, plugins.player, ctx.currentPlayer]);
 
-  const handleMove = (move, args) => {
-    if (!meta.isCurrentPlayer) return;
-    move(...args);
-  };
-
   return {
     players,
     meta,
     pieces: G.pieces,
     zones: G.zones,
+    G,
+    ctx,
     moves,
-    handleMove,
     tableTransform,
     setTableTransform,
   };
