@@ -5,6 +5,7 @@ export type PieceBlueprintType = {
   height?: number;
   activeStyle?: any;
   availableStyle?: any;
+  pieceImageProps?: any;
   defaultStyle?: any;
   variants: { [key: string]: Partial<PieceBlueprintType> };
 };

@@ -91,8 +91,15 @@ function Piece(props: PieceProps) {
 
   const PT = pieceTypes.find((t) => t.id === type);
   const variantType = PT.variants && variant ? PT.variants[variant] : {};
-  const { asset, width, height, activeStyle, availableStyle, defaultStyle } =
-    Object.assign({}, PT, variantType);
+  const {
+    asset,
+    width,
+    height,
+    activeStyle,
+    availableStyle,
+    defaultStyle,
+    pieceImageProps = {},
+  } = Object.assign({}, PT, variantType);
 
   const [componentState, setComponentState] = useState(COMPONENT_STATE.default);
   const [componentStyle, setComponentStyle] = useState({});
@@ -258,7 +265,7 @@ function Piece(props: PieceProps) {
         style={[animatedStyles, active && pieceOverStyle]}
       >
         <PieceContainer width={width} height={height} style={componentStyle}>
-          <PieceImage source={assetCache} resizeMode="contain" />
+          <PieceImage source={assetCache} {...pieceImageProps} />
         </PieceContainer>
       </AnimatedContainer>
     </PanGestureHandler>
@@ -274,7 +281,7 @@ function Piece(props: PieceProps) {
         disabled={!available}
         onPress={onSelected}
       >
-        <PieceImage source={assetCache} resizeMode="contain" />
+        <PieceImage source={assetCache} {...pieceImageProps} />
       </PieceContainerPressable>
     </AnimatedContainer>
   );
