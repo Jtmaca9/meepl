@@ -3,8 +3,7 @@ import type { StyleProp } from 'react-native';
 import styled from 'styled-components/native';
 
 interface BoardProps {
-  asset: string;
-  assets?: any[];
+  assetSource: string;
   width?: number;
   height?: number;
   x?: number;
@@ -28,8 +27,7 @@ const BoardImage = styled.Image`
 
 function Board(props: BoardProps) {
   const {
-    asset,
-    assets = null,
+    assetSource,
     width,
     height,
     children,
@@ -45,7 +43,7 @@ function Board(props: BoardProps) {
       x={x}
       y={y}
     >
-      {assets && assets[asset] && <BoardImage source={props.assets[asset]} />}
+      {assetSource && <BoardImage source={assetSource} />}
       {children}
     </BoardContainer>
   );
