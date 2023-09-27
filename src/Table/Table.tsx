@@ -91,6 +91,11 @@ function Table(props: TableProps) {
   }
 
   useEffect(() => {
+    scale.value = Math.min(
+      Dimensions.get('window').width / props.tableWidth,
+      Dimensions.get('window').height / props.tableHeight
+    );
+    startScale.value = scale.value;
     setTableTransform({
       x: Dimensions.get('window').width / 2 - props.tableWidth / 2,
       y: Dimensions.get('window').height / 2 - props.tableHeight / 2,
