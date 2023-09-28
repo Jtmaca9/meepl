@@ -4,7 +4,6 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import _ from 'lodash';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import LottieView from 'lottie-react-native';
 import styled from 'styled-components/native';
@@ -150,7 +149,7 @@ function Piece(props: PieceProps) {
     [pX, pY, dragging]
   );
 
-  const updatePiecePosition = _.throttle((event) => {
+  const updatePiecePosition = (event) => {
     if (UI) {
       pX.value = event.translationX + startX.value;
       pY.value = event.translationY + startY.value;
@@ -158,7 +157,7 @@ function Piece(props: PieceProps) {
       pX.value = event.translationX / tableTransform.scale + startX.value;
       pY.value = event.translationY / tableTransform.scale + startY.value;
     }
-  }, 10);
+  };
 
   const panGestureHandler = (p) => {
     'worklet';
