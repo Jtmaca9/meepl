@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useEffect, useRef, useState } from 'react';
 import Animated, {
   useAnimatedStyle,
@@ -7,8 +6,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import _ from 'lodash';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
+import LottieView from 'lottie-react-native';
 import styled from 'styled-components/native';
-import type { StyleProp, View } from 'react-native';
+
 import { getZoneX, getZoneY } from '../Zone/utils';
 import { ZONE_TYPE, type ZoneType } from '../Zone/types';
 import type { PieceType, PieceBlueprintType } from './types';
@@ -47,34 +47,24 @@ export type PieceProps = PieceType & {
   onSelected?: (id: string) => void;
   onDragEnd?: (id: string) => void;
   onDragStart?: (id: string) => void;
-  activeStyle?: StyleProp<View>;
-  availableStyle?: StyleProp<View>;
-  defaultStyle?: StyleProp<View>;
   children?: React.ReactNode | React.ReactNode[];
   draggable?: boolean;
-  active?: boolean;
   available?: boolean;
   assets: any[];
   zones: ZoneType[];
   pieceTypes: PieceBlueprintType[];
   legalDragCheck: any;
   variant?: string;
+  state: string;
   UI: boolean;
   tableTransform: { x: number; y: number; scale: number };
 };
-
-enum COMPONENT_STATE {
-  active = 'active',
-  available = 'available',
-  default = 'default',
-}
 
 function Piece(props: PieceProps) {
   const {
     currZoneId,
     id,
     draggable = false,
-    active = false,
     available = false,
     assets,
     zones,
@@ -84,6 +74,7 @@ function Piece(props: PieceProps) {
     variant,
     tableTransform,
     UI,
+    state,
     onSelected = () => {},
     onDragStart = () => {},
     onDragEnd = () => {},
@@ -91,40 +82,14 @@ function Piece(props: PieceProps) {
 
   const PT = pieceTypes.find((t) => t.id === type);
   const variantType = PT.variants && variant ? PT.variants[variant] : {};
-  const {
-    asset,
-    width,
-    height,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
-    pieceImageProps = {},
-  } = Object.assign({}, PT, variantType);
+  const pieceData = Object.assign({}, PT, variantType);
 
-  const [componentState, setComponentState] = useState(COMPONENT_STATE.default);
-  const [componentStyle, setComponentStyle] = useState({});
-
-  const [assetCache] = useState(assets[asset]);
+  const [pieceState, setPieceState] = useState(pieceData.defaultState || null);
 
   useEffect(() => {
-    if (active) {
-      setComponentState(COMPONENT_STATE.active);
-      setComponentStyle([defaultStyle, activeStyle]);
-    } else if (available) {
-      setComponentState(COMPONENT_STATE.available);
-      setComponentStyle([defaultStyle, availableStyle]);
-    } else {
-      setComponentState(COMPONENT_STATE.default);
-      setComponentStyle(defaultStyle);
-    }
-  }, [
-    active,
-    available,
-    componentState,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
-  ]);
+    if (!state) return;
+    setPieceState(state);
+  }, [state]);
 
   const { x: initX, y: initY } = getPieceStartingCoords({
     zones,
@@ -206,7 +171,7 @@ function Piece(props: PieceProps) {
   const panGestureStateHandler = ({ nativeEvent: event }) => {
     'worklet';
     if (event.state === State.BEGAN) {
-      onDragStart();
+      onDragStart(id);
       dragging.value = true;
       startX.value = pX.value;
       startY.value = pY.value;
@@ -224,8 +189,8 @@ function Piece(props: PieceProps) {
         UI,
         pX,
         pY,
-        width,
-        height,
+        width: pieceData.width,
+        height: pieceData.height,
       });
 
       function returnToCurrentPosition() {
@@ -253,6 +218,28 @@ function Piece(props: PieceProps) {
     }
   };
 
+  function RenderAsset() {
+    const currAsset = pieceData.states?.[pieceState]?.asset || pieceData.asset;
+    if (!currAsset) return null;
+    const currAssetObj = assets[currAsset];
+    if (currAssetObj.type === 'img') {
+      return (
+        <PieceImage source={currAssetObj.source} {...pieceData.assetProps} />
+      );
+    }
+    if (currAssetObj.type === 'lottie') {
+      return (
+        <LottieView
+          source={currAssetObj.source}
+          autoPlay
+          loop
+          {...pieceData.assetProps}
+        />
+      );
+    }
+    return null;
+  }
+
   return draggable ? (
     <PanGestureHandler
       ref={panRef}
@@ -262,26 +249,30 @@ function Piece(props: PieceProps) {
     >
       <AnimatedContainer
         UI={UI}
-        style={[animatedStyles, active && pieceOverStyle]}
+        style={[animatedStyles, state === 'active' && pieceOverStyle]}
       >
-        <PieceContainer width={width} height={height} style={componentStyle}>
-          <PieceImage source={assetCache} {...pieceImageProps} />
+        <PieceContainer
+          width={pieceData.width}
+          height={pieceData.height}
+          style={pieceData?.states?.[pieceState]?.containerStyle || {}}
+        >
+          <RenderAsset />
         </PieceContainer>
       </AnimatedContainer>
     </PanGestureHandler>
   ) : (
     <AnimatedContainer
       UI={UI}
-      style={[animatedStyles, active && pieceOverStyle]}
+      style={[animatedStyles, state === 'active' && pieceOverStyle]}
     >
       <PieceContainerPressable
-        width={width}
-        height={height}
-        style={componentStyle}
+        width={pieceData.width}
+        height={pieceData.height}
+        style={pieceData?.states?.[pieceState]?.containerStyle || {}}
         disabled={!available}
         onPress={onSelected}
       >
-        <PieceImage source={assetCache} {...pieceImageProps} />
+        <RenderAsset />
       </PieceContainerPressable>
     </AnimatedContainer>
   );

@@ -40,6 +40,7 @@ function useGameState(props) {
     moves,
     tableTransform,
     setTableTransform,
+    ...props,
   };
 }
 

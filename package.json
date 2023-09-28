@@ -164,6 +164,7 @@
     "boardgame.io": "^0.50.2",
     "esm": "^3.2.25",
     "lodash": "^4.17.21",
+    "lottie-react-native": "^6.3.1",
     "react-native-gesture-handler": "^2.12.1",
     "react-native-reanimated-zoom": "^0.3.3",
     "ts-node": "^10.9.1"

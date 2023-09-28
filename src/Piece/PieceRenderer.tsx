@@ -7,11 +7,9 @@ export type PieceRendererProps = {
   onSelectedPiece?: (id: string) => void;
   onDragPieceEnd?: (id: string, targetZoneId: string) => void;
   onDragPieceStart?: (id: string) => void;
-  isPieceActive?: (id: string) => boolean;
   legalPieceDragCheck: any;
   UI?: boolean;
   assets: any;
-  tableScale: number;
   isCurrentPlayer: boolean;
   currentPlayer: any;
   pieces: PieceType[];
@@ -38,7 +36,6 @@ function PieceRenderer(props: PieceRendererProps) {
     onDragPieceStart = () => {},
     onDragPieceEnd = () => {},
     onSelectedPiece = () => {},
-    isPieceActive = () => false,
     isPieceDraggable = () => false,
     UI = false,
     tableTransform = { x: 0, y: 0, scale: 1, width: 0, height: 0 },
@@ -47,15 +44,15 @@ function PieceRenderer(props: PieceRendererProps) {
   return (
     <>
       {pieces.map((piece) => {
-        const { id, type, currZoneId, owner, variant } = piece;
+        const { id, type, currZoneId, owner, variant, state } = piece;
         return (
           <Piece
             key={id}
             id={id}
+            state={state}
             currZoneId={currZoneId}
             type={type}
             available={isCurrentPlayer && owner === currentPlayer.id}
-            active={isPieceActive(id)}
             assets={props.assets}
             zones={zones}
             pieceTypes={pieceTypes}

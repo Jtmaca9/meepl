@@ -9,6 +9,8 @@ import styled from 'styled-components/native';
 // Regicide
 import RegicideGame from './Regicide/gameConfig/gameConfig';
 import RegicideGameView from './Regicide/GameView';
+import LottieGameView from './LottieExample/GameView';
+import LottieGame from './LottieExample/gameConfig/gameConfig';
 
 const SelectorContainer = styled.View`
   flex: 1;
@@ -44,6 +46,9 @@ export default function App() {
         <SelectorButton onPress={() => setSelectedGame('regicide')}>
           <SelectorText>Regicide</SelectorText>
         </SelectorButton>
+        <SelectorButton onPress={() => setSelectedGame('lottie')}>
+          <SelectorText>Lottie</SelectorText>
+        </SelectorButton>
       </SelectorContainer>
     );
   } else {
@@ -61,6 +66,17 @@ export default function App() {
           <GameWrapper
             gameConfig={RegicideGame}
             gameView={RegicideGameView}
+            player={'0'}
+            containerStyle={{
+              backgroundColor: '#000',
+            }}
+          />
+        );
+      case 'lottie':
+        return (
+          <GameWrapper
+            gameConfig={LottieGame}
+            gameView={LottieGameView}
             player={'0'}
             containerStyle={{
               backgroundColor: '#000',

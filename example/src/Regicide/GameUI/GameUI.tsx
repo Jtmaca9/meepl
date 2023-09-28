@@ -15,7 +15,6 @@ const Text = styled.Text`
 function GameUI(props) {
   const {
     gameState: { players, moves, meta, tableTransform },
-    activePiece,
     setActivePiece,
   } = props;
   return (
@@ -29,7 +28,6 @@ function GameUI(props) {
             pieceTypes={pieceTypes}
             tableTransform={tableTransform}
             zones={zones}
-            isPieceActive={(id) => id === activePiece}
             isPieceDraggable={() => true}
             onDragPieceEnd={(id, targetZoneID) => {
               moves.movePieceFromUIToZone({
@@ -44,7 +42,6 @@ function GameUI(props) {
             onSelectedPiece={(id) => setActivePiece(id)}
             pieces={players[meta.currentPlayerID].hand}
             legalPieceDragCheck={() => true}
-            tableScale={tableTransform.scale}
           />
         </View>
       </BottomPanel>

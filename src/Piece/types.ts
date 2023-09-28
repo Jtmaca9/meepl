@@ -1,13 +1,12 @@
 export type PieceBlueprintType = {
   id: string;
-  asset: string;
+  asset?: string;
+  assetProps?: any;
   width?: number;
   height?: number;
-  activeStyle?: any;
-  availableStyle?: any;
-  pieceImageProps?: any;
-  defaultStyle?: any;
-  variants: { [key: string]: Partial<PieceBlueprintType> };
+  defaultState?: string;
+  states?: any;
+  variants?: { [key: string]: Partial<PieceBlueprintType> };
 };
 
 export type PieceType = {
@@ -17,6 +16,7 @@ export type PieceType = {
   id: string;
   currZoneId?: string;
   slotId?: string;
+  state?: string;
   UI?: boolean;
   tableTransform?: {
     x: number;

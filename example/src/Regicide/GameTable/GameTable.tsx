@@ -4,7 +4,7 @@ import assets from '../gameConfig/assets';
 import PlayingCards from '../gameConfig/pieceTypes';
 
 function GameTable(props) {
-  const { gameState, activePiece, setActivePiece } = props;
+  const { gameState, setActivePiece } = props;
   return (
     <Table
       tableWidth={350}
@@ -16,7 +16,6 @@ function GameTable(props) {
         onHandleZonePress={() => {}}
         isZoneAvailable={() => true}
         isPieceDraggable={() => true}
-        isPieceActive={(id) => id === activePiece}
         legalPieceDragCheck={() => true}
         onDragPieceEnd={(pieceId, zoneId) => {
           gameState.moves.movePiece(pieceId, zoneId);
@@ -32,7 +31,6 @@ function GameTable(props) {
         moves={gameState.moves}
         availableStyle={{}}
         assets={assets}
-        tableScale={gameState.tableTransform.scale}
         pieceTypes={PlayingCards}
       />
     </Table>

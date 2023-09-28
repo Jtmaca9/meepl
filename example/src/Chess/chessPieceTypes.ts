@@ -14,73 +14,42 @@ export enum ChessPieceVariant {
   black = 'black',
 }
 
-const activeStyle = {
-  shadowColor: 'black',
-  shadowOffset: { width: 0, height: 0 },
-  shadowOpacity: 0.8,
-  shadowRadius: 10,
-};
-
-const availableStyle = {};
-
-const defaultStyle = {
-  padding: 4,
-};
-
 const baseChessPieces: Partial<PieceBlueprintType>[] = [
   {
     id: ChessPieceType.rook,
     asset: ChessPieceType.rook,
     width: 45,
     height: 45,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
   {
     id: ChessPieceType.pawn,
     asset: ChessPieceType.pawn,
     width: 45,
     height: 45,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
   {
     id: ChessPieceType.knight,
     asset: ChessPieceType.knight,
     width: 45,
     height: 45,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
   {
     id: ChessPieceType.bishop,
     asset: ChessPieceType.bishop,
     width: 45,
     height: 45,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
   {
     id: ChessPieceType.queen,
     asset: ChessPieceType.queen,
     width: 45,
     height: 45,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
   {
     id: ChessPieceType.king,
     asset: ChessPieceType.king,
     width: 45,
     height: 45,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
 ];
 

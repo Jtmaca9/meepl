@@ -23,122 +23,71 @@ export enum PlayingCardSuit {
   pikes = 'pikes',
 }
 
-const activeStyle = {
-  shadowColor: 'black',
-  shadowOffset: { width: 0, height: 0 },
-  shadowOpacity: 0.8,
-  shadowRadius: 10,
-  zIndex: 100,
-};
-
-const availableStyle = {};
-
-const defaultStyle = {};
-
 const basePlayingCards: Partial<PieceBlueprintType>[] = [
   {
     id: PlayingCardType.two,
     width: 65,
     height: 93,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
   {
     id: PlayingCardType.three,
     width: 65,
     height: 93,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
   {
     id: PlayingCardType.four,
     width: 65,
     height: 93,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
   {
     id: PlayingCardType.five,
     width: 65,
     height: 93,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
   {
     id: PlayingCardType.six,
     width: 65,
     height: 93,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
   {
     id: PlayingCardType.seven,
     width: 65,
     height: 93,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
   {
     id: PlayingCardType.eight,
     width: 65,
     height: 93,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
   {
     id: PlayingCardType.nine,
     width: 65,
     height: 93,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
   {
     id: PlayingCardType.ten,
     width: 65,
     height: 93,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
   {
     id: PlayingCardType.jack,
     width: 65,
     height: 93,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
   {
     id: PlayingCardType.queen,
     width: 65,
     height: 93,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
   {
     id: PlayingCardType.king,
     width: 65,
     height: 93,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
   {
     id: PlayingCardType.ace,
     width: 65,
     height: 93,
-    activeStyle,
-    availableStyle,
-    defaultStyle,
   },
 ];
 
