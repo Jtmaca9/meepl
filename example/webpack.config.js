@@ -14,6 +14,9 @@ module.exports = async function (env, argv) {
     use: 'babel-loader',
   });
 
+  // config.resolve.alias['lottie-react-native'] = 'react-native-web-lottie';
+  // config.resolve.alias['react-native'] = 'react-native-web';
+
   // We need to make sure that only one version is loaded for peerDependencies
   // So we alias them to the versions in example's node_modules
   Object.assign(config.resolve.alias, {
