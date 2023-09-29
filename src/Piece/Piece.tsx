@@ -134,7 +134,8 @@ function Piece(props: PieceProps) {
 
     pX.value = zoneX;
     pY.value = zoneY;
-  }, [currZoneId, zones, pX, pY, id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currZoneId]);
 
   const animatedStyles = useAnimatedStyle(
     () => ({
