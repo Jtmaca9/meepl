@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import Piece from './Piece';
+import PieceDraggable from './PieceDraggable';
 import type { PieceType } from './types';
 import type { ZoneType } from '../Zone/types';
 
@@ -45,8 +46,9 @@ function PieceRenderer(props: PieceRendererProps) {
     <>
       {pieces.map((piece) => {
         const { id, type, currZoneId, owner, variant, state } = piece;
-        return (
-          <Piece
+        const draggable = isPieceDraggable(id);
+        return draggable ? (
+          <PieceDraggable
             key={id}
             id={id}
             state={state}
@@ -58,9 +60,23 @@ function PieceRenderer(props: PieceRendererProps) {
             pieceTypes={pieceTypes}
             variant={variant}
             legalDragCheck={legalPieceDragCheck}
-            draggable={isPieceDraggable(id)}
             onDragStart={() => onDragPieceStart(id)}
             onDragEnd={(targetZoneId) => onDragPieceEnd(id, targetZoneId)}
+            tableTransform={tableTransform}
+            UI={UI}
+          />
+        ) : (
+          <Piece
+            key={id}
+            id={id}
+            state={state}
+            currZoneId={currZoneId}
+            type={type}
+            available={isCurrentPlayer && owner === currentPlayer.id}
+            assets={props.assets}
+            zones={zones}
+            pieceTypes={pieceTypes}
+            variant={variant}
             onSelected={() => onSelectedPiece(id)}
             tableTransform={tableTransform}
             UI={UI}
