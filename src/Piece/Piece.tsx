@@ -91,7 +91,6 @@ function Piece(props: PieceProps) {
 
   useEffect(() => {
     if (!state) return;
-    console.log('!!!', pieceData.states?.[state]?.asset);
     setPieceCurrAsset(getCurrrPieceAsset());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
