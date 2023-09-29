@@ -5,13 +5,14 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
-import LottieView from 'lottie-react-native';
+
 import styled from 'styled-components/native';
 
 import { getZoneX, getZoneY } from '../Zone/utils';
 import { ZONE_TYPE, type ZoneType } from '../Zone/types';
 import type { PieceType, PieceBlueprintType } from './types';
 import { getPieceStartingCoords, getTargetZoneID } from './utils';
+import PieceAsset from './PieceAsset';
 
 const AnimatedContainer = styled(Animated.View)<{ UI: boolean }>`
   ${({ UI }) =>
@@ -35,11 +36,6 @@ const PieceContainerPressable = styled.TouchableOpacity<{
 }>`
   width: ${({ width }) => (width ? `${width}px` : '100px')};
   height: ${({ height }) => (height ? `${height}px` : '100px')};
-`;
-
-const PieceImage = styled.Image`
-  height: 100%;
-  width: 100%;
 `;
 
 export type PieceProps = PieceType & {
@@ -83,11 +79,21 @@ function Piece(props: PieceProps) {
   const variantType = PT.variants && variant ? PT.variants[variant] : {};
   const pieceData = Object.assign({}, PT, variantType);
 
-  const [pieceState, setPieceState] = useState(pieceData.defaultState || null);
+  function getCurrrPieceAsset() {
+    return (
+      assets[pieceData.states?.[state]?.asset] ||
+      assets[pieceData.asset] ||
+      null
+    );
+  }
+
+  const [pieceCurrAsset, setPieceCurrAsset] = useState(getCurrrPieceAsset());
 
   useEffect(() => {
     if (!state) return;
-    setPieceState(state);
+    console.log('!!!', pieceData.states?.[state]?.asset);
+    setPieceCurrAsset(getCurrrPieceAsset());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   const { x: initX, y: initY } = getPieceStartingCoords({
@@ -217,28 +223,6 @@ function Piece(props: PieceProps) {
     }
   };
 
-  function RenderAsset() {
-    const currAsset = pieceData.states?.[pieceState]?.asset || pieceData.asset;
-    if (!currAsset) return null;
-    const currAssetObj = assets[currAsset];
-    if (currAssetObj.type === 'img') {
-      return (
-        <PieceImage source={currAssetObj.source} {...pieceData.assetProps} />
-      );
-    }
-    if (currAssetObj.type === 'lottie') {
-      return (
-        <LottieView
-          source={currAssetObj.source}
-          autoPlay
-          loop
-          {...pieceData.assetProps}
-        />
-      );
-    }
-    return null;
-  }
-
   return draggable ? (
     <PanGestureHandler
       ref={panRef}
@@ -253,9 +237,9 @@ function Piece(props: PieceProps) {
         <PieceContainer
           width={pieceData.width}
           height={pieceData.height}
-          style={pieceData?.states?.[pieceState]?.containerStyle || {}}
+          style={pieceData?.states?.[state]?.containerStyle || {}}
         >
-          <RenderAsset />
+          <PieceAsset pieceCurrAsset={pieceCurrAsset} pieceData={pieceData} />
         </PieceContainer>
       </AnimatedContainer>
     </PanGestureHandler>
@@ -267,11 +251,11 @@ function Piece(props: PieceProps) {
       <PieceContainerPressable
         width={pieceData.width}
         height={pieceData.height}
-        style={pieceData?.states?.[pieceState]?.containerStyle || {}}
+        style={pieceData?.states?.[state]?.containerStyle || {}}
         disabled={!available}
         onPress={onSelected}
       >
-        <RenderAsset />
+        <PieceAsset pieceCurrAsset={pieceCurrAsset} pieceData={pieceData} />
       </PieceContainerPressable>
     </AnimatedContainer>
   );
