@@ -1,3 +1,3 @@
-export function multiply(a: number, b: number): number {
-  return a * b;
-}
+import { GameWrapper, useGameState, createGameConfig } from './Game';
+
+export { GameWrapper, useGameState, createGameConfig };
