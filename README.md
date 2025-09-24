@@ -12,14 +12,7 @@ npm install meepl
 
 ## Usage
 
-
-```js
-import { multiply } from 'meepl';
-
-// ...
-
-const result = await multiply(3, 7);
-```
+Coming soon..
 
 
 ## Contributing
